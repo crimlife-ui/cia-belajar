@@ -1,0 +1,76 @@
+import type { AccessoryItem } from '../types';
+
+export const PET_ACCESSORIES: AccessoryItem[] = [
+  {
+    id: 'hat-topi-koki',
+    name: 'Topi Koki',
+    type: 'hat',
+    price: 0, // Free default
+    icon: '👨‍🍳',
+    description: 'Bikin Mimi jago masak angka lezat!',
+  },
+  {
+    id: 'hat-topi-koboi',
+    name: 'Topi Koboi',
+    type: 'hat',
+    price: 30,
+    icon: '🤠',
+    description: 'Gaya petualang pemberani di padang sabana.',
+  },
+  {
+    id: 'hat-mahkota',
+    name: 'Mahkota Emas',
+    type: 'hat',
+    price: 60,
+    icon: '👑',
+    description: 'Mahkota untuk sang juara matematika!',
+  },
+  {
+    id: 'hat-pita-pink',
+    name: 'Pita Cantik',
+    type: 'hat',
+    price: 25,
+    icon: '🎀',
+    description: 'Pita merah muda yang manis dan ceria.',
+  },
+  {
+    id: 'glasses-kacamata-keren',
+    name: 'Kacamata Hitam',
+    type: 'glasses',
+    price: 35,
+    icon: '🕶️',
+    description: 'Tampil keren dan percaya diri.',
+  },
+  {
+    id: 'glasses-kacamata-bintang',
+    name: 'Kacamata Bintang',
+    type: 'glasses',
+    price: 45,
+    icon: '⭐',
+    description: 'Kacamata unik berbentuk bintang gemerlap.',
+  },
+  {
+    id: 'snack-ikan',
+    name: 'Ikan Lezat',
+    type: 'snack',
+    price: 15,
+    icon: '🐟',
+    description: 'Camilan favorit Mimi setelah belajar giat!',
+  },
+  {
+    id: 'snack-donat',
+    name: 'Donat Cokelat',
+    type: 'snack',
+    price: 20,
+    icon: '🍩',
+    description: 'Donat manis bertabur meses warna-warni.',
+  },
+  {
+    id: 'snack-es-krim',
+    name: 'Es Krim Pelangi',
+    type: 'snack',
+    price: 25,
+    icon: '🍦',
+    description: 'Segar dan bikin semangat belajar bertambah.',
+  },
+];
