@@ -10,6 +10,7 @@ import {
   Flame,
   Clock,
   BookOpen,
+  Zap,
 } from 'lucide-react';
 
 interface ChapterListProps {
@@ -18,6 +19,7 @@ interface ChapterListProps {
   onOpenPetRoom: () => void;
   onOpenParentPortal: () => void;
   onOpenBimbelModule: () => void;
+  onOpenSpeedMath: () => void;
   playClick: () => void;
   equipped: { hat?: string; glasses?: string; snack?: string };
   screenTimeRemaining?: number;
@@ -29,6 +31,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   onOpenPetRoom,
   onOpenParentPortal,
   onOpenBimbelModule,
+  onOpenSpeedMath,
   playClick,
   equipped,
   screenTimeRemaining,
@@ -81,6 +84,18 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <button
             onClick={() => {
               playClick();
+              onOpenSpeedMath();
+            }}
+            title="Arena Hitung Cepat (+, -, ×, ÷)"
+            className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
+          >
+            <Zap className="w-3.5 h-3.5 fill-amber-950" />
+            <span>Hitung Cepat</span>
+          </button>
+
+          <button
+            onClick={() => {
+              playClick();
               onOpenBimbelModule();
             }}
             title="Buku Pembahasan Materi Bimbel"
@@ -116,7 +131,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
       </header>
 
       {/* Hero Mascot Welcome Greeting */}
-      <div className="bg-gradient-to-r from-amber-200 via-orange-200 to-amber-100 rounded-3xl p-5 border-4 border-amber-300 shadow-md mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-amber-200 via-orange-200 to-amber-100 rounded-3xl p-5 border-4 border-amber-300 shadow-md mb-5 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
             Halo Cia! Selamat Datang Kembali 👋
@@ -127,7 +142,17 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <p className="text-xs text-amber-900 font-semibold mt-1">
             Kumpulkan bintang dan koin emas untuk mendandani Mimi si Kucing Cerdas!
           </p>
-          <div className="mt-3">
+          <div className="flex flex-wrap gap-2 mt-3">
+            <button
+              onClick={() => {
+                playClick();
+                onOpenSpeedMath();
+              }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 rounded-xl text-xs font-black shadow-sm btn-tactile border border-amber-500"
+            >
+              <Zap className="w-4 h-4 fill-amber-950" />
+              <span>Arena Hitung Cepat (+, -, ×, ÷) ⚡</span>
+            </button>
             <button
               onClick={() => {
                 playClick();
@@ -136,7 +161,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/95 hover:bg-white text-indigo-900 rounded-xl text-xs font-black shadow-sm btn-tactile border border-amber-300"
             >
               <BookOpen className="w-4 h-4 text-indigo-600" />
-              <span>Buka Pembahasan Lengkap Modul Bimbel ➔</span>
+              <span>Modul Bimbel Lengkap ➔</span>
             </button>
           </div>
         </div>
@@ -149,6 +174,39 @@ export const ChapterList: React.FC<ChapterListProps> = ({
             equipped={equipped}
           />
         </div>
+      </div>
+
+      {/* Speed Math Highlight Banner */}
+      <div className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 rounded-3xl p-4 sm:p-5 border-4 border-amber-300 shadow-md mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-950">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl p-2.5 bg-white/90 rounded-2xl shadow-sm animate-bounce">
+            ⚡
+          </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-black">
+                Arena Hitung Cepat: Tambah, Kurang, Kali, Bagi!
+              </h3>
+              <span className="text-[10px] font-black uppercase bg-slate-900 text-amber-300 px-2 py-0.5 rounded-full">
+                10 Soal Kuis
+              </span>
+            </div>
+            <p className="text-xs font-bold text-amber-950/80 mt-0.5">
+              Pelajari trik mental math teman 10, lompat katak, perkalian 9 & 5, lalu uji kecepatanmu!
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenSpeedMath();
+          }}
+          className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs font-black shadow-md btn-tactile flex items-center justify-center gap-1.5 flex-shrink-0"
+        >
+          <Zap className="w-4 h-4 fill-amber-400 text-amber-400" />
+          <span>Mulai Tantangan ⚡</span>
+        </button>
       </div>
 
       {/* Chapter Selection Horizontal Scroller / Pills */}
