@@ -89,25 +89,25 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Sama seperti dua tangan kita (5 jari kiri + 5 jari kanan = 10 jari). Angka 7 sahabat sejatinya adalah 3, angka 8 sahabatnya adalah 2. Kalau ketemu sahabatnya, langsung jadi 10!',
         kikoHint:
           'Kiko selalu mencari angka yang pasangannya jadi 10 dulu! (1 pasang 9, 2 pasang 8, 3 pasang 7, 4 pasang 6, 5 pasang 5).',
-        formula: '1+9=10 | 2+8=10 | 3+7=10 | 4+6=10 | 5+5=10',
+        formula: '✨ Mantra Teman 10: (1+9=10) • (2+8=10) • (3+7=10) • (4+6=10) • (5+5=10)',
         explanation:
           'Otak kita paling cepat menjumlahkan angka bulat berakhiran nol. Saat melihat deretan penjumlahan yang panjang, jangan hitung urut dari kiri ke kanan. Lompat dan pasangkan sahabatnya dulu!',
         visualHelperType: 'friends-table',
         exampleProblem: {
-          question: 'Berapakah 7 + 8 + 3 + 2?',
-          normalWay: '7 + 8 = 15, lalu 15 + 3 = 18, lalu 18 + 2 = 20 (Lama & melelahkan)',
-          speedTrickWay: '(7 + 3) + (8 + 2) = 10 + 10 = 20 (Selesai 2 detik!)',
+          question: 'Hitung Cepat: 7 + 8 + 3 + 2 = ... ?',
+          normalWay: 'Menghitung urut dari kiri: 7 + 8 = 15, lalu 15 + 3 = 18, lalu 18 + 2 = 20. (Lama, melelahkan, dan mudah lupa angka di tengah jalan!)',
+          speedTrickWay: 'Lompat pasangkan sahabatnya: (7 + 3 = 10) dan (8 + 2 = 10). Hasilnya 10 + 10 = 20! (Selesai dalam 2 detik!)',
           visualSteps: [
             {
-              title: 'Langkah 1: Temukan Pasangan Sahabat 10',
-              explanation: 'Lihat angka 7 dan 3 berteman menghasilkan 10. Angka 8 dan 2 juga berteman menghasilkan 10.',
+              title: 'Temukan Pasangan Sahabat 10',
+              explanation: 'Lihat angka 7 berteman dengan 3 jadi 10. Angka 8 berteman dengan 2 jadi 10.',
               mathVisual: '✨ (7 + 3 = 10) dan (8 + 2 = 10)',
               badgeColor: 'bg-emerald-100 text-emerald-800',
             },
             {
-              title: 'Langkah 2: Gabungkan Dua Kantong 10',
+              title: 'Gabungkan Dua Kantong 10',
               explanation: 'Tinggal jumlahkan dua angka bulat yang sudah didapat.',
-              mathVisual: '✨ 10 + 10 = 20',
+              mathVisual: '✨ 10 + 10 = 20 (Selesai!)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],
@@ -130,28 +130,28 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Bayangkan kamu punya 29 kelereng. Tinggal pinjam 1 kelereng dari temanmu, jadilah 30 kelereng bulat! Setelah selesai dihitung, kembalikan 1 kelereng tadi.',
         kikoHint:
           'Menjumlahkan dengan angka 30 jauh lebih santai daripada angka 29. Anggap 30 dulu, nanti di ujung tinggal dikurang 1!',
-        formula: 'N + 29 = (N + 30) - 1   |   N + 19 = (N + 20) - 1',
+        formula: '✨ Mantra Pinjam 1: Ubah 29 jadi 30 (+1) ➔ Jumlahkan di kepala ➔ Kurangi 1 (-1)',
         explanation:
           'Menghitung 47 + 30 sangat gampang di kepala (yaitu 77). Karena angka aslinya 29 (kurang 1 dari 30), maka hasil 77 tinggal dikurangi 1 menjadi 76.',
         exampleProblem: {
-          question: 'Hitung cepat di kepala: 47 + 29 = ...',
-          normalWay: '47 + 29 susun ke bawah: 7 + 9 = 16, tulis 6 simpan 1, 1+4+2=7 (Butuh coret kertas)',
-          speedTrickWay: 'Ubah 29 jadi 30: 47 + 30 = 77, lalu 77 - 1 = 76!',
+          question: 'Hitung Cepat di Kepala: 47 + 29 = ... ?',
+          normalWay: 'Susun ke bawah di kertas: 7 + 9 = 16 (tulis 6 simpan 1), lalu 1 + 4 + 2 = 7. (Butuh pensil kertas, rawan salah hitung simpanan)',
+          speedTrickWay: 'Pinjam 1 dulu: 29 kita anggap 30 ➔ 47 + 30 = 77 ➔ lalu kembalikan 1: 77 - 1 = 76! (Cukup bayangkan di kepala!)',
           visualSteps: [
             {
-              title: 'Langkah 1: Genapkan Angka 29 Jadi 30',
+              title: 'Genapkan Angka 29 Jadi 30 (Pinjam 1)',
               explanation: 'Angka 29 butuh 1 agar jadi 30 yang bulat.',
-              mathVisual: '29 ➔ diubah sementara jadi (+ 30)',
+              mathVisual: '29 + 1 ➔ diubah sementara jadi (+ 30)',
               badgeColor: 'bg-amber-100 text-amber-900',
             },
             {
-              title: 'Langkah 2: Jumlahkan ke Angka Puluhan',
-              explanation: '47 ditambah 30 sangat mudah karena hanya puluhan yang bertambah (40+30=70).',
+              title: 'Jumlahkan ke Angka Puluhan yang Bulat',
+              explanation: '47 ditambah 30 sangat mudah karena hanya puluhan yang bertambah (40 + 30 = 70).',
               mathVisual: '47 + 30 = 77',
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
-              title: 'Langkah 3: Kembalikan 1 yang Dipinjam',
+              title: 'Kembalikan 1 yang Tadi Dipinjam',
               explanation: 'Karena tadi melebihkan 1, sekarang kurangi 1 dari 77.',
               mathVisual: '77 - 1 = 76 (Hasil Akhir)',
               badgeColor: 'bg-emerald-500 text-white',
@@ -176,13 +176,13 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Bayangkan koper besar isi uang ratusan dan kantong kecil isi uang receh. Kamu pasti menghitung koper uang besar dulu baru recehnya!',
         kikoHint:
           'Di sekolah diajarkan hitung dari kanan (satuan dulu). Tapi di kepala tanpa kertas, hitung puluhan di kiri jauh lebih mudah diingat!',
-        formula: '(Puluhan + Puluhan) + (Satuan + Satuan)',
+        formula: '✨ Mantra Kiri ke Kanan: Hitung Puluhannya dulu ➔ Hitung Satuannya ➔ Satukan!',
         explanation:
           'Ketika kamu menghitung 53 + 34, pecah menjadi (50 + 30) dan (3 + 4). Otakmu menyimpan angka 80, lalu tinggal tempel angka 7 jadi 87!',
         exampleProblem: {
-          question: 'Hitung cepat di kepala: 63 + 25 = ...',
-          normalWay: 'Membayangkan susun ke bawah 3+5=8, lalu 6+2=8',
-          speedTrickWay: '(60 + 20 = 80) ditambah (3 + 5 = 8) ➔ 88!',
+          question: 'Hitung Cepat di Kepala: 63 + 25 = ... ?',
+          normalWay: 'Membayangkan susun ke bawah dari kanan (satuan 3+5=8, lalu puluhan 6+2=8). Mudah terbalik saat mengingatnya di kepala.',
+          speedTrickWay: 'Pecah di kepala: Puluhannya (60 + 20 = 80), Satuannya (3 + 5 = 8). Gabung jadi 88!',
           visualSteps: [
             {
               title: 'Langkah 1: Gabungkan Nilai Puluhan (Kiri)',
@@ -244,30 +244,30 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Katak Kiko berdiri di batu angka 48 dan ingin ke batu angka 73. Katak melompat dulu 2 langkah ke batu 50, lalu melompat 23 langkah ke batu 73. Total lompatan = 25 langkah!',
         kikoHint:
           'Daripada 73 - 48 pusing pinjam 1, hitung saja: dari 48 butuh berapa langkah ke 50? (2 langkah). Dari 50 ke 73 berapa? (23 langkah). 2 + 23 = 25!',
-        formula: 'A - B = (B ke Puluhan) + (Puluhan ke A)',
+        formula: '✨ Mantra Lompat Katak: Dari angka kecil lompat ke puluhan terdekat ➔ lalu lompat ke angka tujuan!',
         explanation:
           'Pengurangan adalah selisih jarak. Berangkat dari angka pengurang, lompat ke puluhan terdekat, lalu lompat ke angka tujuan. Jumlahkan lompatannya!',
         visualHelperType: 'number-line-jump',
         exampleProblem: {
-          question: 'Berapakah selisih: 73 - 48?',
-          normalWay: '3 kurangi 8 tidak bisa, pinjam 1 dari 7 jadi 13 - 8 = 5, sisa 6 - 4 = 2 (Mudah salah)',
-          speedTrickWay: '48 lompat ke 50 (+2). Lalu 50 lompat ke 73 (+23). Hasilnya 2 + 23 = 25!',
+          question: 'Berapakah selisih dari: 73 - 48 = ... ?',
+          normalWay: 'Susun ke bawah di kertas: 3 kurangi 8 tidak bisa, pinjam 1 dari 7 jadi 13 - 8 = 5, sisa 6 - 4 = 2. (Rentan keliru karena lupa angka 7 sudah dipinjam)',
+          speedTrickWay: 'Katak melompat maju: dari 48 lompat ke 50 (+2 langkah), lalu dari 50 ke 73 (+23 langkah). Total lompatan: 2 + 23 = 25!',
           visualSteps: [
             {
-              title: 'Lompatan 1: Dari 48 ke Puluhan Terdekat (50)',
-              explanation: 'Dari 48 menuju batu 50 butuh 2 langkah kecil.',
+              title: 'Lompatan 1: Dari 48 ke Puluhan Terdekat (Batu 50)',
+              explanation: 'Dari batu 48 menuju batu bulat 50 butuh 2 langkah kecil.',
               mathVisual: '🐸 48 ➔ 50 (+2 langkah)',
               badgeColor: 'bg-amber-100 text-amber-900',
             },
             {
-              title: 'Lompatan 2: Dari 50 ke Angka Tujuan (73)',
-              explanation: 'Dari 50 menuju batu tujuan 73 butuh 23 langkah besar.',
+              title: 'Lompatan 2: Dari 50 ke Angka Tujuan (Batu 73)',
+              explanation: 'Dari batu 50 menuju batu tujuan 73 butuh 23 langkah besar.',
               mathVisual: '🐸 50 ➔ 73 (+23 langkah)',
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
               title: 'Lompatan Total: Gabungkan Jarak',
-              explanation: 'Jumlahkan kedua lompatan si katak.',
+              explanation: 'Jumlahkan kedua langkah lompatan katak.',
               mathVisual: '✨ 2 + 23 = 25 (Jarak / Selisih)',
               badgeColor: 'bg-emerald-500 text-white',
             },
@@ -291,30 +291,30 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Bayangkan mantra ajaib pembuka brankas: Semua angka di depan kamu kurangkan dari 9, dan HANYA angka paling ekor (belakang) yang kamu kurangkan dari 10!',
         kikoHint:
           'Angka nol beruntun di 1.000 sering bikin coretan jadi kotor. Pakai mantra Kiko: 9, 9, 10! Kurangkan tiap angka dengan mantra itu!',
-        formula: '1.000 - ABC ➔ (9 - A) (9 - B) (10 - C)',
+        formula: '✨ Mantra 9-9-10: Semua angka depan dikurang 9, HANYA angka paling ekor dikurang 10!',
         explanation:
-          'Saat mengurangi 1.000 dengan angka 3 digit (misal 364), kurangi ratusan dari 9 (9-3=6), puluhan dari 9 (9-6=3), dan satuan dari 10 (10-4=6). Hasilnya langsung 636!',
+          'Saat mengurangi 1.000 dengan angka 3 digit (misal 468), kurangi ratusan dari 9 (9-4=5), puluhan dari 9 (9-6=3), dan satuan dari 10 (10-8=2). Hasilnya langsung 532!',
         exampleProblem: {
-          question: 'Hitung kilat: 1.000 - 468 = ...',
-          normalWay: 'Pinjam berantai: 1.000 coret jadi 990 jadi 999...',
-          speedTrickWay: '(9 - 4 = 5), (9 - 6 = 3), (10 - 8 = 2) ➔ Langsung tulis 532!',
+          question: 'Hitung Kilat tanpa Coret Nol: 1.000 - 468 = ... ?',
+          normalWay: 'Pinjam berantai di kertas: 1.000 dicoret jadi 9, 0 jadi 9, 0 jadi 10... (Kertas jadi kotor penuh coretan nol!)',
+          speedTrickWay: 'Gunakan mantra 9-9-10: (9 - 4 = 5), (9 - 6 = 3), (10 - 8 = 2). Langsung tulis berjejer: 532!',
           visualSteps: [
             {
               title: 'Digit Ratusan: Kurangkan dari 9',
               explanation: 'Angka pertama 4 dikurangkan dari 9.',
-              mathVisual: '9 - 4 = 5',
+              mathVisual: '9 - 4 = 5 (Digit Ratusan)',
               badgeColor: 'bg-rose-100 text-rose-900',
             },
             {
               title: 'Digit Puluhan: Kurangkan dari 9',
               explanation: 'Angka kedua 6 dikurangkan dari 9.',
-              mathVisual: '9 - 6 = 3',
+              mathVisual: '9 - 6 = 3 (Digit Puluhan)',
               badgeColor: 'bg-amber-100 text-amber-900',
             },
             {
               title: 'Digit Terakhir: Kurangkan dari 10',
               explanation: 'Khusus angka paling belakang 8, kurangkan dari 10.',
-              mathVisual: '10 - 8 = 2',
+              mathVisual: '10 - 8 = 2 (Digit Satuan)',
               badgeColor: 'bg-emerald-100 text-emerald-900',
             },
             {
@@ -343,13 +343,13 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Seperti bermain jungkat-jungkit bersama teman. Kalau kamu naikkan berat badanmu 1 kg dan temanmu juga naik 1 kg, selisih berat kalian tetap sama persis!',
         kikoHint:
           'Kalau melihat angka 29 atau 38 di bagian belakang, tambahkan 1 atau 2 biar jadi puluhan genap 30 atau 40. Tapi ingat, angka depan juga harus ditambah yang sama ya!',
-        formula: 'A - B = (A + K) - (B + K)',
+        formula: '✨ Mantra Timbangan: Tambahkan angka yang sama ke dua-duanya biar pengurangnya jadi angka bulat!',
         explanation:
-          'Daripada menghitung 83 - 29 (angka 29 tidak bulat), tambahkan 1 ke kedua bilangan: (83+1) - (29+1) = 84 - 30. Mengurangi 30 sangat mudah: hasilnya 54!',
+          'Daripada menghitung 83 - 39 (angka 39 tidak bulat), tambahkan 1 ke kedua bilangan: (83+1) - (39+1) = 84 - 40. Mengurangi 40 bulat sangat mudah: hasilnya 44!',
         exampleProblem: {
-          question: 'Hitung di kepala: 83 - 39 = ...',
-          normalWay: '3 kurangi 9 pinjam 1... (Rentan keliru)',
-          speedTrickWay: 'Tambah 1 ke dua-duanya: (83 + 1) - (39 + 1) = 84 - 40 = 44!',
+          question: 'Hitung Cepat di Kepala: 83 - 39 = ... ?',
+          normalWay: 'Susun ke bawah: 3 kurangi 9 tidak bisa, harus pinjam 1 dari 8 jadi 13 - 9 = 4, 7 - 3 = 4... (Rentan keliru simpanan)',
+          speedTrickWay: 'Tambah 1 ke dua-duanya agar 39 jadi 40 bulat: (83 + 1) - (39 + 1) = 84 - 40 = 44!',
           visualSteps: [
             {
               title: 'Langkah 1: Tambahkan 1 ke Pengurang (39 + 1 = 40)',
@@ -364,7 +364,7 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
-              title: 'Langkah 3: Kurangkan dengan Mudah',
+              title: 'Langkah 3: Kurangkan Puluhan yang Sudah Bulat',
               explanation: '84 dikurangi 40 tinggal kurangi puluhannya: 80 - 40 = 40, tempel 4 = 44.',
               mathVisual: '84 - 40 = 44',
               badgeColor: 'bg-emerald-500 text-white',
@@ -412,30 +412,30 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
         kikoHint:
           'Setiap hasil kali 9 pasti kalau digitnya dijumlahkan hasilnya 9! Contoh: 9×2=18 (1+8=9), 9×5=45 (4+5=9), 9×7=63 (6+3=9). Keren kan?',
         visualHelperType: 'finger-trick-9',
-        formula: '9 × N ➔ Digit Puluhan = (N - 1), Digit Satuan = (9 - Puluhan)',
+        formula: '✨ Mantra Jari 9: Digit Depan = (Angka - 1) • Digit Belakang = (Teman ke 9)',
         explanation:
           'Untuk 9 × 7: kurangi 7 dengan 1 menjadi 6 (ini puluhan). Lalu cari berapa yang dibutuhkan angka 6 agar jadi 9? Jawabannya 3 (ini satuan). Gabung jadi 63!',
         exampleProblem: {
-          question: 'Berapakah hasil dari: 9 × 7?',
-          normalWay: 'Menjumlahkan 7 sebanyak 9 kali (7+7+7+7+7+7+7+7+7) yang memakan waktu',
-          speedTrickWay: '7 dikurang 1 = 6. Pasangan 6 agar jadi 9 adalah 3. Hasilnya = 63!',
+          question: 'Berapakah hasil perkalian: 9 × 7 = ... ?',
+          normalWay: 'Menjumlahkan 7 sebanyak 9 kali (7+7+7+7+7+7+7+7+7) yang memakan waktu dan melelahkan.',
+          speedTrickWay: '7 dikurang 1 = 6 (puluhan). Pasangan 6 agar jadi 9 adalah 3 (satuan). Hasilnya = 63!',
           visualSteps: [
             {
-              title: 'Langkah 1: Kurangi Angka Pengali dengan 1',
+              title: 'Digit Depan: Kurangi Angka Pengali dengan 1',
               explanation: 'Ambil angka 7, lalu kurangkan 1 untuk mendapatkan digit kepala (puluhan).',
               mathVisual: '7 - 1 = 6 (Digit Puluhan)',
               badgeColor: 'bg-amber-100 text-amber-900',
             },
             {
-              title: 'Langkah 2: Cari Teman 9 untuk Digit Ekor',
+              title: 'Digit Belakang: Cari Teman 9 untuk Digit Ekor',
               explanation: 'Hitung berapa kekurangan dari angka 6 agar genap bernilai 9.',
               mathVisual: '9 - 6 = 3 (Digit Satuan)',
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
-              title: 'Langkah 3: Tempelkan Kedua Digit',
+              title: 'Tempelkan Kedua Digit Menjadi Jawaban',
               explanation: 'Satukan angka kepala 6 dan ekor 3.',
-              mathVisual: '✨ 63 (Selesai dalam 1 detik)',
+              mathVisual: '✨ 63 (Selesai dalam 1 detik!)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],
@@ -458,24 +458,24 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Bayangkan kamu punya uang Rp 500. Angka 5 itu kan separuh dari 10. Jadi kalau ada angka dikali 5, belah saja angkanya jadi dua (separuh), lalu beri nol di belakangnya!',
         kikoHint:
           'Jika angkanya genap, belah jadi dua! Contoh 24 × 5: separuh dari 24 adalah 12, lalu tempel 0 jadi 120. Cepat banget kan?',
-        formula: 'N × 5 = (N ÷ 2) × 10',
+        formula: '✨ Mantra Perkalian 5: Cari Separuhnya (Bagi 2) ➔ Tempelkan Angka 0 di Belakang!',
         explanation:
           'Karena 5 = 10 ÷ 2, maka perkalian dengan angka genap cukup dibagi 2 terlebih dahulu, baru dikalikan 10 (cukup tempel angka nol).',
         exampleProblem: {
-          question: 'Hitung cepat di kepala: 18 × 5 = ...',
-          normalWay: 'Susun ke bawah: 8 × 5 = 40 simpan 4, 1 × 5 + 4 = 9 ➔ 90',
-          speedTrickWay: 'Setengah dari 18 adalah 9. Tempelkan angka nol ➔ 90!',
+          question: 'Hitung Cepat di Kepala: 18 × 5 = ... ?',
+          normalWay: 'Susun ke bawah di kertas: 8 × 5 = 40 (tulis 0 simpan 4), 1 × 5 + 4 = 9 ➔ 90.',
+          speedTrickWay: 'Setengah dari 18 adalah 9. Lalu tempelkan angka 0 di belakangnya ➔ 90!',
           visualSteps: [
             {
-              title: 'Langkah 1: Cari Setengah dari Angka (Bagi 2)',
+              title: 'Cari Setengah dari Angka (Bagi 2)',
               explanation: 'Ambil angka 18 lalu cari separuhnya.',
               mathVisual: '18 ÷ 2 = 9',
               badgeColor: 'bg-blue-100 text-blue-900',
             },
             {
-              title: 'Langkah 2: Kalikan 10 (Tempelkan Nol)',
+              title: 'Kalikan 10 (Tempelkan Nol)',
               explanation: 'Beri angka 0 di sebelah angka 9.',
-              mathVisual: '9 ➔ tempel 0 ➔ 90',
+              mathVisual: '9 ➔ tempel 0 ➔ 90 (Selesai!)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],
@@ -498,30 +498,30 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Sulap matematika! Ada dua kotak kelereng. Kamu ambil setengah dari kotak kiri, lalu gandakan isi kotak kanan. Jumlah keseluruhannya tetap sama, tapi sekarang jauh lebih mudah dihitung!',
         kikoHint:
           'Kalau ketemu angka belasan ketemu angka 5 atau 15 (seperti 16 × 15), langsung belah 16 jadi 8, dan gandakan 15 jadi 30. Tinggal hitung 8 × 30 = 240!',
-        formula: 'A × B = (A ÷ 2) × (B × 2)',
+        formula: '✨ Mantra Sulap: Belah Dua Angka Genap (÷ 2) ➔ Gandakan Angka 15 (× 2)!',
         explanation:
           'Saat salah satu angka genap dan angka lainnya kelipatan 5, bagi dua angka genap tersebut dan kalikan dua angka yang lain sehingga menghasilkan angka bulat puluhan.',
         exampleProblem: {
-          question: 'Hitung cepat: 14 × 15 = ...',
-          normalWay: 'Perkalian bersusun dua tingkat yang panjang di kertas',
+          question: 'Hitung Cepat di Kepala: 14 × 15 = ... ?',
+          normalWay: 'Perkalian bersusun dua tingkat yang panjang di kertas (14 × 5 lalu 14 × 10).',
           speedTrickWay: 'Bagi dua 14 jadi 7. Gandakan 15 jadi 30. Hitung 7 × 30 = 210!',
           visualSteps: [
             {
-              title: 'Langkah 1: Bagi Dua Angka Genap',
+              title: 'Bagi Dua Angka Genap (14 ÷ 2)',
               explanation: 'Ambil angka 14 lalu bagi 2.',
               mathVisual: '14 ÷ 2 = 7',
               badgeColor: 'bg-amber-100 text-amber-900',
             },
             {
-              title: 'Langkah 2: Kalikan Dua Angka Lainnya',
+              title: 'Gandakan Angka Kelipatan 5 (15 × 2)',
               explanation: 'Ambil angka 15 lalu kali 2 agar menjadi puluhan bulat.',
-              mathVisual: '15 × 2 = 30',
+              mathVisual: '15 × 2 = 30 (Angka bulat!)',
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
-              title: 'Langkah 3: Kalikan Hasil Barunya',
+              title: 'Kalikan Hasil Barunya',
               explanation: 'Sekarang tinggal hitung 7 dikali 30 (7 × 3 = 21 lalu beri nol).',
-              mathVisual: '7 × 30 = 210',
+              mathVisual: '7 × 30 = 210 (Hasil Akhir)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],
@@ -544,14 +544,14 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Formasi 5 Jurus Bintang Ninja: 1. Lurus Kanan (|) ➔ 2. Silang Kecil Kanan (X) ➔ 3. Bintang Besar 6 Arah (*) ➔ 4. Silang Kecil Kiri (X) ➔ 5. Lurus Kiri (|)! Sekali jalan langsung dapat jawabannya!',
         kikoHint:
           'Kuncinya: hafalkan bentuk polanya (| ➔ X ➔ * ➔ X ➔ |). Hitung dari kanan ke kiri. Tulis digit satuannya, lalu simpan puluhannya untuk langkah berikutnya!',
-        formula: 'Pola 5 Langkah: (|) Satuan | (X) Puluhan-Satuan | (*) Bintang 3 Digit | (X) Ratusan-Puluhan | (|) Ratusan',
+        formula: '✨ Mantra 5 Bintang Ninja: (|) Satuan ➔ (X) Silang Belakang ➔ (*) Bintang 6 ➔ (X) Silang Depan ➔ (|) Ratusan',
         explanation:
           'Metode perkalian silang (Vedic Math) dari Edu-Vid untuk mengalikan dua bilangan 3 digit tanpa membuat susun 3 baris yang panjang. Cukup kerjakan 5 langkah dari kanan ke kiri.',
         visualHelperType: 'cross-star-3digit',
         exampleProblem: {
-          question: 'Berapakah hasil dari: 213 × 124?',
-          normalWay: 'Perkalian susun 3 tingkat yang panjang (213×4, lalu 213×20, lalu 213×100, dijumlahkan bertumpuk-tumpuk)',
-          speedTrickWay: 'Pola (| X * X |): 3×4=12 (tulis 2 simpan 1) ➔ (1×4)+(3×2)+1=11 (tulis 1 simpan 1) ➔ (2×4)+(3×1)+(1×2)+1=14 (tulis 4 simpan 1) ➔ (2×2)+(1×1)+1=6 ➔ 2×1=2. Hasil: 26.412!',
+          question: 'Berapakah hasil perkalian: 213 × 124 = ... ?',
+          normalWay: 'Perkalian susun 3 tingkat yang panjang (213×4, lalu 213×20, lalu 213×100, dijumlahkan bertumpuk 3 baris di kertas cakar).',
+          speedTrickWay: 'Pola (| X * X |) dari kanan ke kiri: 3×4=12 (tulis 2 simpan 1) ➔ 11 (tulis 1 simpan 1) ➔ 14 (tulis 4 simpan 1) ➔ 6 ➔ 2. Langsung tersusun: 26.412!',
           visualSteps: [
             {
               title: 'Jurus 1: (|) Lurus Kanan (Satuan × Satuan)',
@@ -626,30 +626,30 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
         kikoHint:
           'Daripada porogapit bersusun panjang dibagi 4, bagi 2 dulu angkanya di kepala, lalu hasilnya bagi 2 sekali lagi!',
         visualHelperType: 'split-watermelon',
-        formula: 'N ÷ 4 = (N ÷ 2) ÷ 2',
+        formula: '✨ Mantra Bagi 4: Bagi 2 dulu (separuh) ➔ Hasilnya bagi 2 sekali lagi!',
         explanation:
           'Membagi 4 adalah melakukan pembagian dua sebanyak dua tahap. Otak kita sangat lincah membagi angka genap dengan dua.',
         exampleProblem: {
-          question: 'Berapakah 92 ÷ 4 di kepala?',
-          normalWay: 'Porogapit bersusun 92 dibagi 4: 9 bagi 4 dapat 2 sisa 1 turunkan 2 jadi 12...',
-          speedTrickWay: 'Setengah dari 92 adalah 46. Setengah dari 46 adalah 23. Selesai!',
+          question: 'Berapakah hasil pembagian: 92 ÷ 4 = ... ?',
+          normalWay: 'Porogapit bersusun 92 dibagi 4 di kertas: 9 bagi 4 dapat 2 sisa 1, turunkan 2 jadi 12, 12 bagi 4 dapat 3...',
+          speedTrickWay: 'Setengah dari 92 adalah 46. Setengah dari 46 adalah 23. Selesai dalam 3 detik!',
           visualSteps: [
             {
-              title: 'Langkah 1: Bagi 2 Tahap Pertama (Belahan Pertama)',
+              title: 'Belahan Pertama: Bagi 2 Angka 92',
               explanation: 'Cari separuh dari angka 92 (pecah: 90 jadi 45, 2 jadi 1 ➔ 46).',
               mathVisual: '92 ÷ 2 = 46',
               badgeColor: 'bg-amber-100 text-amber-900',
             },
             {
-              title: 'Langkah 2: Bagi 2 Tahap Kedua (Belahan Kedua)',
+              title: 'Belahan Kedua: Bagi 2 Angka 46',
               explanation: 'Cari separuh dari angka 46 (40 jadi 20, 6 jadi 3 ➔ 23).',
               mathVisual: '46 ÷ 2 = 23',
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
               title: 'Hasil Akhir',
-              explanation: 'Kamu sudah membagi dua kali, artinya sudah dibagi 4!',
-              mathVisual: '✨ 23',
+              explanation: 'Kamu sudah membagi dua kali berturut-turut, artinya sudah dibagi 4!',
+              mathVisual: '✨ 23 (Selesai!)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],
@@ -673,24 +673,24 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
         kikoHint:
           'Kuncinya: harus adil! Kalau tebas 1 nol di kiri, tebas 1 nol juga di kanan. Jangan tebas lebih ya!',
         visualHelperType: 'zero-cutter',
-        formula: 'A00 ÷ B0 = A0 ÷ B   |   A0 ÷ B0 = A ÷ B',
+        formula: '✨ Mantra Tebas Nol: Coret jumlah angka 0 yang sama di bilangan kiri dan kanan!',
         explanation:
           'Ketika angka yang dibagi dan angka pembagi sama-sama memiliki angka 0 di belakangnya, kita bisa menyederhanakannya dengan menghilangkan nol dalam jumlah yang sama.',
         exampleProblem: {
-          question: 'Berapakah 450 ÷ 50?',
-          normalWay: 'Menghitung 450 dibagi 50 dengan porogapit besar',
-          speedTrickWay: 'Coret 1 nol di 450 dan 50 ➔ Tersisa 45 ÷ 5 = 9!',
+          question: 'Berapakah hasil pembagian: 450 ÷ 50 = ... ?',
+          normalWay: 'Menghitung 450 dibagi 50 dengan porogapit angka besar yang membingungkan.',
+          speedTrickWay: 'Coret 1 nol di 450 dan 1 nol di 50 ➔ Tersisa 45 ÷ 5 = 9!',
           visualSteps: [
             {
-              title: 'Langkah 1: Tebas Nol Kembar di Kiri dan Kanan',
+              title: 'Tebas Nol Kembar di Kiri dan Kanan',
               explanation: 'Angka 450 punya satu 0 di ekor, angka 50 juga punya satu 0 di ekor. Coret keduanya!',
               mathVisual: '450 ÷ 50 ➔ Coret 0 jadi 45 ÷ 5',
               badgeColor: 'bg-rose-100 text-rose-900',
             },
             {
-              title: 'Langkah 2: Bagi Angka Kecil yang Tersisa',
+              title: 'Bagi Angka Kecil yang Tersisa',
               explanation: 'Sekarang soalnya menjadi sangat sederhana, cukup hafalan dasar perkalian 5.',
-              mathVisual: '45 ÷ 5 = 9',
+              mathVisual: '45 ÷ 5 = 9 (Selesai!)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],
@@ -713,24 +713,24 @@ export const SPEED_MATH_MODULES: SpeedOperationModule[] = [
           'Membagi 5 itu seperti membagi kado ke 5 teman. Sulapnya: gandakan dulu kadonya jadi dua kali lipat, lalu tinggal geser atau buang angka nolnya!',
         kikoHint:
           'Karena membagi 10 itu sangat gampang (tinggal buang nol), kita kalikan dua dulu angkanya! Contoh: 140 dikali 2 jadi 280, buang nolnya jadi 28!',
-        formula: 'N ÷ 5 = (N × 2) ÷ 10',
+        formula: '✨ Mantra Bagi 5: Lipatkan dua (kali 2) ➔ Lalu buang satu angka 0 di belakangnya!',
         explanation:
           'Membagi dengan 5 sama dengan mengalikan dengan 2 lalu membaginya dengan 10. Menghitung dua kali lipat suatu angka di kepala jauh lebih mudah daripada membaginya dengan 5.',
         exampleProblem: {
-          question: 'Hitung cepat: 130 ÷ 5 = ...',
-          normalWay: 'Porogapit bersusun 130 dibagi 5',
-          speedTrickWay: '130 dikali 2 = 260. Buang angka nol di belakang ➔ 26!',
+          question: 'Hitung Cepat di Kepala: 130 ÷ 5 = ... ?',
+          normalWay: 'Porogapit bersusun: 13 dibagi 5 dapat 2 sisa 3, turunkan 0 jadi 30, 30 bagi 5 dapat 6 ➔ 26.',
+          speedTrickWay: 'Gandakan 130 menjadi 260. Lalu buang angka nol di belakang ➔ 26!',
           visualSteps: [
             {
-              title: 'Langkah 1: Gandakan Angka (Kali 2)',
+              title: 'Gandakan Angka (Kalikan 2)',
               explanation: 'Ambil angka 130 lalu lipatkan dua (100 jadi 200, 30 jadi 60 ➔ 260).',
               mathVisual: '130 × 2 = 260',
               badgeColor: 'bg-sky-100 text-sky-900',
             },
             {
-              title: 'Langkah 2: Bagi 10 (Buang Nol Terakhir)',
+              title: 'Buang Satu Angka Nol di Belakang (Bagi 10)',
               explanation: 'Hilangkan satu angka nol di paling belakang dari 260.',
-              mathVisual: '260 buang nol ➔ 26',
+              mathVisual: '260 buang nol ➔ 26 (Selesai!)',
               badgeColor: 'bg-emerald-500 text-white',
             },
           ],

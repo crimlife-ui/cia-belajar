@@ -60,6 +60,9 @@ export const SpeedMathView: React.FC<SpeedMathViewProps> = ({
   // Active step tab per trick ID (defaults to step 0 if not clicked)
   const [activeStepIndex, setActiveStepIndex] = useState<Record<string, number>>({});
 
+  // View mode for steps: 'all' (default sequential cards) or 'interactive' (stepper)
+  const [stepViewMode, setStepViewMode] = useState<Record<string, 'all' | 'interactive'>>({});
+
   // Quiz Mode State
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | number | null>(null);
@@ -294,6 +297,8 @@ export const SpeedMathView: React.FC<SpeedMathViewProps> = ({
           <div className="space-y-6">
             {activeModule.tricks.map((trick, tIdx) => {
               const currentStep = activeStepIndex[trick.id] ?? 0;
+              const currentViewMode = stepViewMode[trick.id] ?? 'all';
+              const activeStep = trick.exampleProblem.visualSteps[currentStep];
               const userMiniAnswer = miniAnswers[trick.id];
               const isMiniDone = miniSubmitted[trick.id] ?? false;
               const isMiniCorrect =
@@ -539,79 +544,289 @@ export const SpeedMathView: React.FC<SpeedMathViewProps> = ({
                     </div>
                   )}
 
-                  {/* Cara Biasa vs Cara Cepat (Perbandingan Nyata) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200">
-                      <span className="text-[11px] font-black uppercase text-rose-700 block mb-1">
-                        🐢 Cara Biasa (Lama & Bikin Lelah):
-                      </span>
-                      <p className="text-xs text-rose-950 font-bold leading-relaxed">
-                        {trick.exampleProblem.normalWay}
-                      </p>
-                    </div>
-
-                    <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-300">
-                      <span className="text-[11px] font-black uppercase text-emerald-700 block mb-1">
-                        ⚡ Trik Kilat Cia (Dalam 2-3 Detik):
-                      </span>
-                      <p className="text-xs text-emerald-950 font-black leading-relaxed">
-                        {trick.exampleProblem.speedTrickWay}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Interactive Step-by-Step Playground */}
-                  <div className="p-4 bg-slate-50 rounded-2xl border-2 border-slate-200 space-y-3">
+                  {/* ========================================================= */}
+                  {/* KARTU CONTOH SOAL & PEMBAHASAN LENGKAP (SUPER JELAS)      */}
+                  {/* ========================================================= */}
+                  <div className="bg-gradient-to-br from-amber-100/90 via-orange-50 to-amber-50 rounded-3xl p-5 sm:p-6 border-3 border-amber-300 shadow-md space-y-4">
+                    {/* Header Contoh Soal */}
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h4 className="text-xs font-black uppercase text-slate-800 tracking-wider flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                        <span>Langkah Berpikir di Kepala (Klik Langkahnya):</span>
-                      </h4>
-                      <div className="flex items-center gap-1">
-                        {trick.exampleProblem.visualSteps.map((_, sIdx) => (
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-1 bg-amber-500 text-amber-950 font-black text-xs rounded-xl shadow-sm flex items-center gap-1.5">
+                          <span>📝 CONTOH SOAL NYATA</span>
+                        </span>
+                        <span className="text-xs font-bold text-amber-900">
+                          Ayo kita pecahkan soal ini bersama-sama!
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          playClick();
+                          speak(`Contoh soal: ${trick.exampleProblem.question}. Mari kita selesaikan dengan ${trick.title}.`);
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-amber-100 text-amber-900 rounded-xl text-xs font-black border border-amber-300 shadow-sm transition-all btn-tactile"
+                      >
+                        <Volume2 className="w-3.5 h-3.5 text-amber-700" />
+                        <span>Dengarkan Soal 🔊</span>
+                      </button>
+                    </div>
+
+                    {/* Banner Kotak Soal Utama (Besar & Terang) */}
+                    <div className="bg-white p-4 sm:p-5 rounded-2xl border-2 border-amber-300 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="text-center sm:text-left flex items-center gap-3.5">
+                        <span className="text-4xl p-2 bg-amber-100 rounded-2xl shadow-sm">🎯</span>
+                        <div>
+                          <span className="text-[11px] font-black uppercase text-amber-800 tracking-wider block">
+                            Soal yang Mau Dihitung:
+                          </span>
+                          <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-0.5 font-mono">
+                            {trick.exampleProblem.question}
+                          </h4>
+                          <span className="text-xs text-slate-600 font-bold mt-0.5 block">
+                            🎯 Tantangan: Bisakah Cia menghitungnya di kepala dalam 3 detik tanpa coret kertas?
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="bg-emerald-50 border-2 border-emerald-300 px-5 py-3 rounded-2xl text-center flex-shrink-0 shadow-sm">
+                        <span className="text-[10px] font-black uppercase text-emerald-800 tracking-wider block">
+                          Jawaban Akhir:
+                        </span>
+                        <span className="text-2xl font-black text-emerald-600 font-mono">
+                          {trick.exampleProblem.result}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Perbandingan: Cara Biasa di Kertas vs Trik Kilat di Kepala */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="p-4 bg-rose-50/90 rounded-2xl border-2 border-rose-200 shadow-sm flex flex-col justify-between space-y-2">
+                        <div>
+                          <div className="flex items-center gap-1.5 mb-1.5">
+                            <span className="text-base">🐢</span>
+                            <span className="text-xs font-black uppercase text-rose-800">
+                              Cara Biasa di Kertas (Lama & Melelahkan):
+                            </span>
+                          </div>
+                          <p className="text-xs text-rose-950 font-bold leading-relaxed">
+                            {trick.exampleProblem.normalWay}
+                          </p>
+                        </div>
+                        <span className="text-[10px] font-extrabold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-xl w-fit">
+                          ⏳ Butuh coret-coret di kertas ±20 detik
+                        </span>
+                      </div>
+
+                      <div className="p-4 bg-emerald-50/90 rounded-2xl border-2 border-emerald-300 shadow-sm flex flex-col justify-between space-y-2">
+                        <div>
+                          <div className="flex items-center gap-1.5 mb-1.5">
+                            <span className="text-base">⚡</span>
+                            <span className="text-xs font-black uppercase text-emerald-800">
+                              Trik Kilat Cia di Kepala (Mental Math):
+                            </span>
+                          </div>
+                          <p className="text-xs text-emerald-950 font-black leading-relaxed">
+                            {trick.exampleProblem.speedTrickWay}
+                          </p>
+                        </div>
+                        <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-xl w-fit">
+                          ⏱️ Selesai dalam 2-3 detik tanpa pensil!
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Alur Langkah Berpikir di Kepala (Step-by-Step Flow) */}
+                    <div className="p-4 sm:p-5 bg-white rounded-2xl border-2 border-amber-200 shadow-sm space-y-4">
+                      {/* Sub-header Alur & Mode Switcher */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="p-1.5 bg-amber-400 text-amber-950 rounded-xl">
+                            <Sparkles className="w-4 h-4" />
+                          </span>
+                          <div>
+                            <h4 className="text-xs sm:text-sm font-black text-slate-900">
+                              Alur Berpikir Langkah demi Langkah:
+                            </h4>
+                            <span className="text-[11px] font-bold text-slate-500">
+                              Lihat bagaimana angka-angka ini disederhanakan di dalam otak!
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Switcher: Semua Langkah vs Interaktif */}
+                        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-[11px] font-bold">
                           <button
-                            key={sIdx}
                             onClick={() => {
                               playClick();
-                              setActiveStepIndex(prev => ({ ...prev, [trick.id]: sIdx }));
+                              setStepViewMode(prev => ({ ...prev, [trick.id]: 'all' }));
                             }}
-                            className={`px-3 py-1 rounded-xl text-xs font-black transition-all btn-tactile ${
-                              currentStep === sIdx
-                                ? 'bg-amber-400 text-amber-950 shadow-sm'
-                                : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-100'
+                            className={`px-3 py-1 rounded-lg transition-all ${
+                              currentViewMode === 'all'
+                                ? 'bg-white text-slate-900 font-black shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
                             }`}
                           >
-                            Langkah {sIdx + 1}
+                            📜 Semua Langkah
                           </button>
-                        ))}
+                          <button
+                            onClick={() => {
+                              playClick();
+                              setStepViewMode(prev => ({ ...prev, [trick.id]: 'interactive' }));
+                            }}
+                            className={`px-3 py-1 rounded-lg transition-all ${
+                              currentViewMode === 'interactive'
+                                ? 'bg-white text-slate-900 font-black shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                          >
+                            ⏯️ Langkah Interaktif
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* MODE A: SEMUA LANGKAH TAMPIL SEKUANSIAL (SUPER JELAS) */}
+                      {currentViewMode === 'all' && (
+                        <div className="space-y-3">
+                          {trick.exampleProblem.visualSteps.map((step, sIdx) => (
+                            <div
+                              key={sIdx}
+                              className="p-4 rounded-2xl border-2 border-amber-200 bg-amber-50/40 hover:bg-amber-50/80 transition-all space-y-2"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span
+                                  className={`text-xs font-black px-3 py-1 rounded-xl ${
+                                    step.badgeColor ?? 'bg-amber-200 text-amber-950'
+                                  }`}
+                                >
+                                  Langkah {sIdx + 1}: {step.title}
+                                </span>
+                                <button
+                                  onClick={() => {
+                                    playClick();
+                                    speak(`${step.title}. ${step.explanation}. Hasil langkah: ${step.mathVisual}`);
+                                  }}
+                                  className="flex items-center gap-1 text-[11px] font-bold text-amber-900 hover:text-amber-950 p-1 rounded-lg hover:bg-amber-200/60 transition-all"
+                                  title="Dengarkan langkah ini"
+                                >
+                                  <Volume2 className="w-3.5 h-3.5" />
+                                  <span>Baca</span>
+                                </button>
+                              </div>
+
+                              <p className="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed">
+                                {step.explanation}
+                              </p>
+
+                              <div className="p-3 bg-slate-900 text-amber-300 rounded-xl font-mono text-sm sm:text-base font-black text-center shadow-inner tracking-wide">
+                                {step.mathVisual}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* MODE B: LANGKAH INTERAKTIF DENGAN TOMBOL TAB & NEXT */}
+                      {currentViewMode === 'interactive' && (
+                        <div className="space-y-3">
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            {trick.exampleProblem.visualSteps.map((_, sIdx) => (
+                              <button
+                                key={sIdx}
+                                onClick={() => {
+                                  playClick();
+                                  setActiveStepIndex(prev => ({ ...prev, [trick.id]: sIdx }));
+                                }}
+                                className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all btn-tactile ${
+                                  currentStep === sIdx
+                                    ? 'bg-amber-400 text-amber-950 shadow-sm ring-2 ring-amber-300'
+                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                }`}
+                              >
+                                Langkah {sIdx + 1}
+                              </button>
+                            ))}
+                          </div>
+
+                          {activeStep && (
+                            <div className="p-4 bg-amber-50/60 rounded-2xl border-2 border-amber-300 shadow-sm space-y-3 animate-pop">
+                              <div className="flex items-center justify-between">
+                                <span
+                                  className={`text-xs font-black px-3 py-1 rounded-xl ${
+                                    activeStep.badgeColor ?? 'bg-amber-200 text-amber-950'
+                                  }`}
+                                >
+                                  Langkah {currentStep + 1}: {activeStep.title}
+                                </span>
+                                <span className="text-xs font-bold text-slate-500">
+                                  {currentStep + 1} dari {trick.exampleProblem.visualSteps.length}
+                                </span>
+                              </div>
+
+                              <p className="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed">
+                                {activeStep.explanation}
+                              </p>
+
+                              <div className="p-3.5 bg-slate-900 text-amber-300 rounded-xl font-mono text-sm sm:text-base font-black text-center shadow-inner tracking-wide">
+                                {activeStep.mathVisual}
+                              </div>
+
+                              <div className="flex items-center justify-between pt-2">
+                                <button
+                                  disabled={currentStep === 0}
+                                  onClick={() => {
+                                    playClick();
+                                    setActiveStepIndex(prev => ({
+                                      ...prev,
+                                      [trick.id]: Math.max(0, currentStep - 1),
+                                    }));
+                                  }}
+                                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 rounded-xl text-xs font-black text-slate-700 btn-tactile"
+                                >
+                                  ⬅️ Langkah Sebelumnya
+                                </button>
+
+                                {currentStep < trick.exampleProblem.visualSteps.length - 1 ? (
+                                  <button
+                                    onClick={() => {
+                                      playClick();
+                                      setActiveStepIndex(prev => ({
+                                        ...prev,
+                                        [trick.id]: currentStep + 1,
+                                      }));
+                                    }}
+                                    className="px-4 py-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 rounded-xl text-xs font-black shadow-sm btn-tactile flex items-center gap-1"
+                                  >
+                                    <span>Langkah Berikutnya ➔</span>
+                                  </button>
+                                ) : (
+                                  <span className="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-xl">
+                                    Semua Langkah Selesai! 🎉
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Kotak Kesimpulan Hasil Akhir */}
+                      <div className="p-4 bg-gradient-to-r from-emerald-100 via-teal-50 to-emerald-100 rounded-2xl border-2 border-emerald-300 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl">🎉</span>
+                          <div>
+                            <span className="text-[11px] font-black uppercase text-emerald-800 tracking-wider block">
+                              Kesimpulan Akhir:
+                            </span>
+                            <span className="text-sm sm:text-base font-black text-emerald-950">
+                              {trick.exampleProblem.question.replace(' = ... ?', '').replace(' = ...', '')} = {trick.exampleProblem.result}
+                            </span>
+                          </div>
+                        </div>
+                        <span className="text-xs font-black text-emerald-900 bg-white/90 px-3.5 py-1.5 rounded-xl border border-emerald-300 shadow-sm">
+                          ✨ Terpecahkan dalam 3 Detik!
+                        </span>
                       </div>
                     </div>
-
-                    {/* Active Step Highlight Card */}
-                    {trick.exampleProblem.visualSteps[currentStep] && (
-                      <div className="p-4 bg-white rounded-2xl border-2 border-amber-300 shadow-sm space-y-2 animate-pop">
-                        <div className="flex items-center justify-between">
-                          <span
-                            className={`text-[11px] font-black uppercase px-2.5 py-0.5 rounded-full ${
-                              trick.exampleProblem.visualSteps[currentStep].badgeColor ??
-                              'bg-amber-100 text-amber-900'
-                            }`}
-                          >
-                            {trick.exampleProblem.visualSteps[currentStep].title}
-                          </span>
-                          <span className="text-[11px] font-bold text-slate-400">
-                            Langkah {currentStep + 1} dari{' '}
-                            {trick.exampleProblem.visualSteps.length}
-                          </span>
-                        </div>
-                        <p className="text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed">
-                          {trick.exampleProblem.visualSteps[currentStep].explanation}
-                        </p>
-                        <div className="p-3 bg-slate-900 text-amber-300 rounded-xl font-mono text-xs sm:text-sm font-black text-center shadow-inner">
-                          {trick.exampleProblem.visualSteps[currentStep].mathVisual}
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   {/* Mini Interactive Practice for This Trick */}
