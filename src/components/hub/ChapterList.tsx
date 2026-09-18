@@ -11,6 +11,7 @@ import {
   Clock,
   BookOpen,
   Zap,
+  Globe,
 } from 'lucide-react';
 
 interface ChapterListProps {
@@ -20,6 +21,7 @@ interface ChapterListProps {
   onOpenParentPortal: () => void;
   onOpenBimbelModule: () => void;
   onOpenSpeedMath: () => void;
+  onOpenEnglish: () => void;
   playClick: () => void;
   equipped: { hat?: string; glasses?: string; snack?: string };
   screenTimeRemaining?: number;
@@ -32,6 +34,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   onOpenParentPortal,
   onOpenBimbelModule,
   onOpenSpeedMath,
+  onOpenEnglish,
   playClick,
   equipped,
   screenTimeRemaining,
@@ -108,6 +111,18 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <button
             onClick={() => {
               playClick();
+              onOpenEnglish();
+            }}
+            title="English Zone 🇬🇧 (Basic, Intermediate, Expert)"
+            className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>English Zone 🇬🇧</span>
+          </button>
+
+          <button
+            onClick={() => {
+              playClick();
               onOpenPetRoom();
             }}
             title="Buka Kamar Mimi"
@@ -163,6 +178,16 @@ export const ChapterList: React.FC<ChapterListProps> = ({
               <BookOpen className="w-4 h-4 text-indigo-600" />
               <span>Modul Bimbel Lengkap ➔</span>
             </button>
+            <button
+              onClick={() => {
+                playClick();
+                onOpenEnglish();
+              }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black shadow-sm btn-tactile border border-emerald-700"
+            >
+              <Globe className="w-4 h-4" />
+              <span>English Zone (Tenses & Quiz) 🇬🇧</span>
+            </button>
           </div>
         </div>
 
@@ -170,14 +195,14 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <Mascot
             size="md"
             mood="happy"
-            speechText="Ayo belajar matematika bareng Mimi!"
+            speechText="Ayo belajar matematika & bahasa Inggris bareng Mimi!"
             equipped={equipped}
           />
         </div>
       </div>
 
       {/* Speed Math Highlight Banner */}
-      <div className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 rounded-3xl p-4 sm:p-5 border-4 border-amber-300 shadow-md mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-950">
+      <div className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 rounded-3xl p-4 sm:p-5 border-4 border-amber-300 shadow-md mb-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-950">
         <div className="flex items-center gap-3">
           <span className="text-3xl p-2.5 bg-white/90 rounded-2xl shadow-sm animate-bounce">
             ⚡
@@ -206,6 +231,39 @@ export const ChapterList: React.FC<ChapterListProps> = ({
         >
           <Zap className="w-4 h-4 fill-amber-400 text-amber-400" />
           <span>Mulai Tantangan ⚡</span>
+        </button>
+      </div>
+
+      {/* English Zone Highlight Banner */}
+      <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 rounded-3xl p-4 sm:p-5 border-4 border-emerald-300 shadow-md mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl p-2.5 bg-white/20 backdrop-blur-sm rounded-2xl shadow-sm">
+            🇬🇧
+          </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-black">
+                English Zone: Basic, Intermediate & Expert!
+              </h3>
+              <span className="text-[10px] font-black uppercase bg-emerald-950/80 text-emerald-200 px-2 py-0.5 rounded-full">
+                Tenses & 30 Soal Kuis
+              </span>
+            </div>
+            <p className="text-xs font-bold text-emerald-50 mt-0.5">
+              Kuasai Simple Present, Present Continuous, & Past Tense dengan audio pronunciation & Mesin Waktu visual!
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenEnglish();
+          }}
+          className="w-full sm:w-auto px-5 py-2.5 bg-white hover:bg-emerald-50 text-emerald-950 rounded-2xl text-xs font-black shadow-md btn-tactile flex items-center justify-center gap-1.5 flex-shrink-0"
+        >
+          <Globe className="w-4 h-4 text-emerald-600" />
+          <span>Buka English Zone 🇬🇧</span>
         </button>
       </div>
 

@@ -10,9 +10,10 @@ import { AnalyticsDashboard } from './components/parent/AnalyticsDashboard';
 import { ScreenBreakModal } from './components/parent/ScreenBreakModal';
 import { BimbelModuleView } from './components/bimbel/BimbelModuleView';
 import { SpeedMathView } from './components/speedmath/SpeedMathView';
+import { EnglishView } from './components/english/EnglishView';
 import type { Lesson } from './types';
 
-type Screen = 'hub' | 'lesson' | 'pet-room' | 'parent-dashboard' | 'bimbel-module' | 'speed-math';
+type Screen = 'hub' | 'lesson' | 'pet-room' | 'parent-dashboard' | 'bimbel-module' | 'speed-math' | 'english-module';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('hub');
@@ -113,6 +114,7 @@ export default function App() {
             onOpenParentPortal={() => setShowParentGate(true)}
             onOpenBimbelModule={() => setCurrentScreen('bimbel-module')}
             onOpenSpeedMath={() => setCurrentScreen('speed-math')}
+            onOpenEnglish={() => setCurrentScreen('english-module')}
             playClick={playClick}
             equipped={progress.equippedAccessories}
             screenTimeRemaining={
@@ -201,6 +203,27 @@ export default function App() {
             equipped={progress.equippedAccessories}
             onFinishQuizRewards={(stars, coins) => {
               addReward(stars, coins, 'speed-math-quiz');
+            }}
+          />
+        )}
+
+        {currentScreen === 'english-module' && (
+          <EnglishView
+            onBack={() => {
+              stopSpeech();
+              setCurrentScreen('hub');
+            }}
+            playClick={playClick}
+            playCorrect={playCorrect}
+            playWrong={playWrong}
+            playCelebration={playCelebration}
+            playCoin={playCoin}
+            speak={speak}
+            stopSpeech={stopSpeech}
+            isSpeaking={isSpeaking}
+            equipped={progress.equippedAccessories}
+            onFinishQuizRewards={(stars, coins) => {
+              addReward(stars, coins, 'english-module-quiz');
             }}
           />
         )}

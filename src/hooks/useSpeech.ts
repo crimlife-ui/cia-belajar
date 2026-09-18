@@ -10,7 +10,7 @@ export function useSpeech(enabled: boolean = true) {
     }
   }, []);
 
-  const speak = useCallback((text: string) => {
+  const speak = useCallback((text: string, lang: 'id-ID' | 'en-US' = 'id-ID') => {
     if (!enabled || !isSupported || !('speechSynthesis' in window)) return;
 
     window.speechSynthesis.cancel(); // Cancel any ongoing speech
@@ -18,15 +18,16 @@ export function useSpeech(enabled: boolean = true) {
     const cleanText = text.replace(/[_*#]/g, '');
     const utterance = new SpeechSynthesisUtterance(cleanText);
 
-    utterance.lang = 'id-ID';
-    utterance.rate = 0.9; // Friendly, clear pacing for kids
-    utterance.pitch = 1.1; // Slightly friendly higher tone
+    utterance.lang = lang;
+    utterance.rate = lang === 'en-US' ? 0.85 : 0.9; // Friendly, clear pacing for kids
+    utterance.pitch = 1.05; // Friendly tone
 
-    // Try finding an Indonesian voice
+    // Try finding matching voice for language
     const voices = window.speechSynthesis.getVoices();
-    const idVoice = voices.find(v => v.lang.startsWith('id'));
-    if (idVoice) {
-      utterance.voice = idVoice;
+    const prefix = lang === 'en-US' ? 'en' : 'id';
+    const voice = voices.find(v => v.lang.toLowerCase().startsWith(prefix));
+    if (voice) {
+      utterance.voice = voice;
     }
 
     utterance.onstart = () => setIsSpeaking(true);
