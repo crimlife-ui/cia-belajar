@@ -2,17 +2,27 @@ import React, { useState } from 'react';
 import { Plus, Minus, RotateCcw } from 'lucide-react';
 
 interface DienesBlocksProps {
-  initialValue?: { hundreds: number; tens: number; ones: number };
+  initialValue?: { thousands?: number; hundreds?: number; tens?: number; ones?: number };
 }
 
 export const DienesBlocks: React.FC<DienesBlocksProps> = ({ initialValue }) => {
-  const [hundreds, setHundreds] = useState(initialValue?.hundreds ?? 2);
-  const [tens, setTens] = useState(initialValue?.tens ?? 3);
-  const [ones, setOnes] = useState(initialValue?.ones ?? 5);
+  const [thousands, setThousands] = useState(
+    initialValue ? (initialValue.thousands ?? 0) : 1
+  );
+  const [hundreds, setHundreds] = useState(
+    initialValue ? (initialValue.hundreds ?? 0) : 2
+  );
+  const [tens, setTens] = useState(
+    initialValue ? (initialValue.tens ?? 0) : 3
+  );
+  const [ones, setOnes] = useState(
+    initialValue ? (initialValue.ones ?? 0) : 5
+  );
 
-  const total = hundreds * 100 + tens * 10 + ones;
+  const total = thousands * 1000 + hundreds * 100 + tens * 10 + ones;
 
   const reset = () => {
+    setThousands(initialValue?.thousands ?? 0);
     setHundreds(initialValue?.hundreds ?? 0);
     setTens(initialValue?.tens ?? 0);
     setOnes(initialValue?.ones ?? 0);
@@ -36,16 +46,54 @@ export const DienesBlocks: React.FC<DienesBlocksProps> = ({ initialValue }) => {
 
       {/* Value Summary Display */}
       <div className="bg-emerald-50 rounded-2xl p-3 border-2 border-emerald-200 mb-5 text-center">
-        <div className="text-sm font-semibold text-emerald-700 mb-1">
-          {hundreds} Ratusan ({hundreds * 100}) + {tens} Puluhan ({tens * 10}) + {ones} Satuan ({ones})
+        <div className="text-xs sm:text-sm font-semibold text-emerald-700 mb-1 flex flex-wrap justify-center gap-x-2">
+          {thousands > 0 && <span>{thousands} Ribuan ({thousands * 1000}) +</span>}
+          <span>{hundreds} Ratusan ({hundreds * 100}) +</span>
+          <span>{tens} Puluhan ({tens * 10}) +</span>
+          <span>{ones} Satuan ({ones})</span>
         </div>
         <div className="text-3xl font-black text-emerald-600 tracking-wider">
-          = {total}
+          = {total.toLocaleString('id-ID')}
         </div>
       </div>
 
-      {/* Grid of 3 Columns: Ratusan, Puluhan, Satuan */}
-      <div className="grid grid-cols-3 gap-3">
+      {/* Grid of 4 Columns: Ribuan, Ratusan, Puluhan, Satuan */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* Ribuan Column */}
+        <div className="bg-purple-50/80 rounded-2xl p-3 border-2 border-purple-200 flex flex-col items-center">
+          <span className="text-xs font-bold uppercase text-purple-700 mb-1">Ribuan (1.000)</span>
+          <div className="flex items-center gap-2 my-2">
+            <button
+              onClick={() => setThousands(th => Math.max(0, th - 1))}
+              className="w-8 h-8 rounded-full bg-purple-200 hover:bg-purple-300 active:scale-95 flex items-center justify-center font-bold text-purple-800 transition-transform"
+              title="Kurang 1.000"
+            >
+              <Minus className="w-4 h-4" />
+            </button>
+            <span className="text-xl font-black w-6 text-center text-purple-900">{thousands}</span>
+            <button
+              onClick={() => setThousands(th => Math.min(10, th + 1))}
+              className="w-8 h-8 rounded-full bg-purple-600 hover:bg-purple-700 active:scale-95 flex items-center justify-center font-bold text-white transition-transform"
+              title="Tambah 1.000"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+          </div>
+          {/* Visual Thousands Big Cubes */}
+          <div className="w-full min-h-[90px] max-h-[140px] overflow-y-auto flex flex-wrap justify-center gap-1.5 p-1 bg-white rounded-xl border border-purple-100">
+            {Array.from({ length: thousands }).map((_, i) => (
+              <div
+                key={i}
+                title="Kubus Besar 1.000"
+                className="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-purple-800 rounded-lg shadow flex items-center justify-center text-[10px] font-black text-white animate-pop select-none"
+              >
+                1k
+              </div>
+            ))}
+            {thousands === 0 && <span className="text-xs text-slate-400 my-auto">Kosong</span>}
+          </div>
+        </div>
+
         {/* Ratusan Column */}
         <div className="bg-emerald-50/70 rounded-2xl p-3 border-2 border-emerald-100 flex flex-col items-center">
           <span className="text-xs font-bold uppercase text-emerald-700 mb-1">Ratusan (100)</span>

@@ -49,8 +49,8 @@ export const BIMBEL_MODULES: BimbelChapterModule[] = [
   {
     chapterId: 'bab-1',
     chapterNumber: 1,
-    title: 'Bilangan Cacah sampai 1.000',
-    subtitle: 'Modul Bimbingan Belajar: Nilai Tempat, Operasi Hitung Susun, dan Perkalian',
+    title: 'Bilangan Cacah sampai 10.000',
+    subtitle: 'Modul Bimbingan Belajar: Nilai Tempat Ribuan, Operasi Hitung Susun, dan Bilangan Cacah hingga 10.000',
     themeColor: {
       bg: 'bg-emerald-50',
       border: 'border-emerald-300',
@@ -59,129 +59,134 @@ export const BIMBEL_MODULES: BimbelChapterModule[] = [
       badge: 'bg-emerald-100 text-emerald-800',
     },
     overview:
-      'Pada bab ini, anak dibimbing untuk memahami bilangan cacah hingga 1.000 secara konkret hingga simbolik, menguasai konsep nilai tempat ratusan-puluhan-satuan, membandingkan angka, teknik penjumlahan menyimpan, pengurangan meminjam, serta fondasi perkalian dan pembagian.',
+      'Pada bab ini, anak dibimbing untuk memahami bilangan cacah hingga 10.000 secara konkret hingga simbolik, menguasai konsep nilai tempat ribuan-ratusan-puluhan-satuan, membaca dan menulis lambang bilangan 4 digit, membandingkan angka, teknik penjumlahan bersusun menyimpan, pengurangan bersusun meminjam, serta fondasi perkalian dan pembagian terkait bilangan ribuan.',
     learningCompetencies: [
-      'Membaca dan menulis lambang bilangan cacah sampai 1.000 dengan benar.',
-      'Menentukan nilai tempat (ratusan, puluhan, satuan) dari suatu bilangan 3 digit.',
-      'Membandingkan dua bilangan menggunakan tanda (<, =, >) dan mengurutkannya.',
-      'Melakukan penjumlahan bersusun dengan teknik menyimpan hingga 1.000.',
-      'Melakukan pengurangan bersusun dengan teknik meminjam hingga 1.000.',
-      'Memahami perkalian sebagai penjumlahan berulang dan pembagian sebagai pengurangan berulang.',
+      'Membaca dan menulis lambang bilangan cacah sampai 10.000 dengan benar.',
+      'Menentukan nilai tempat (ribuan, ratusan, puluhan, satuan) dari suatu bilangan 4 digit dan menuliskan bentuk panjangnya.',
+      'Membandingkan dua bilangan 4 digit menggunakan tanda (<, =, >) dan mengurutkannya.',
+      'Melakukan penjumlahan bersusun dengan teknik menyimpan hingga 10.000.',
+      'Melakukan pengurangan bersusun dengan teknik meminjam hingga 10.000.',
+      'Memahami perkalian dan pembagian terkait bilangan ribuan serta menyelesaikan soal cerita sehari-hari.',
     ],
     sections: [
       {
         id: 'b1-s1',
-        title: '1. Mengenal Bilangan & Nilai Tempat (Ratusan, Puluhan, Satuan)',
+        title: '1. Mengenal Bilangan & Nilai Tempat (Ribuan, Ratusan, Puluhan, Satuan)',
         badge: 'Konsep Fondasi',
         content:
-          'Setiap angka pada bilangan 3 angka memiliki nilai yang berbeda tergantung pada tempat posisinya. Posisi paling kanan adalah Satuan, posisi tengah adalah Puluhan, dan posisi paling kiri adalah Ratusan.',
+          'Setiap angka pada bilangan 4 digit memiliki nilai yang berbeda tergantung pada tempat posisinya. Posisi paling kanan adalah Satuan, berikutnya Puluhan, Ratusan, dan posisi paling kiri adalah Ribuan. Bilangan 10.000 adalah bilangan 5 digit terkecil yang nilainya setara dengan 10 buah ribuan.',
         subsections: [
           {
-            subtitle: 'Struktur Rumah Angka 3 Digit',
+            subtitle: 'Struktur Rumah Angka 4 Digit',
             description:
-              'Mari kita bedah bilangan 475 sebagai contoh nyata penempatan nilai tempat:',
+              'Mari kita bedah bilangan 4.752 sebagai contoh nyata penempatan nilai tempat:',
             tableData: {
               headers: ['Posisi', 'Nama Tempat', 'Angka', 'Nilai Sebenarnya', 'Bentuk Balok Dienes'],
               rows: [
-                ['Paling Kiri', 'Ratusan', '4', '400', '4 lempeng besar (4 × 100)'],
-                ['Tengah', 'Puluhan', '7', '70', '7 batang panjang (7 × 10)'],
-                ['Paling Kanan', 'Satuan', '5', '5', '5 kubus kecil lepas (5 × 1)'],
+                ['Paling Kiri', 'Ribuan', '4', '4.000', '4 kubus besar (4 × 1.000)'],
+                ['Digit ke-2', 'Ratusan', '7', '700', '7 lempeng besar (7 × 100)'],
+                ['Digit ke-3', 'Puluhan', '5', '50', '5 batang panjang (5 × 10)'],
+                ['Paling Kanan', 'Satuan', '2', '2', '2 kubus kecil lepas (2 × 1)'],
               ],
             },
-            formulaBox: 'Bentuk Panjang: 475 = 400 + 70 + 5 (Dibaca: Empat ratus tujuh puluh lima)',
+            formulaBox: 'Bentuk Panjang: 4.752 = 4.000 + 700 + 50 + 2 (Dibaca: Empat ribu tujuh ratus lima puluh dua)',
           },
           {
-            subtitle: 'Aturan Membaca Bilangan',
+            subtitle: 'Aturan Membaca Bilangan hingga 10.000',
             description:
-              'Perhatikan aturan khusus pada bilangan belasan dan puluhan yang sering membuat anak tertukar:',
+              'Perhatikan aturan khusus pada bilangan ribuan yang sering membuat anak tertukar:',
             bulletPoints: [
-              'Jika angka puluhan bernilai 1 (misal 14), dibaca "Empat belas", bukan "Sepuluh empat".',
-              'Jika ada angka 0 di tengah (misal 508), dibaca "Lima ratus delapan" (puluhannya tidak perlu dibaca).',
-              'Jika angka 100, dibaca "Seratus", bukan "Satu ratus".',
+              'Jika angka ribuan bernilai 1 (misal 1.250), dibaca "Seribu dua ratus lima puluh", bukan "Satu ribu...".',
+              'Jika ada angka 0 di tengah (misal 3.045), dibaca "Tiga ribu empat puluh lima" (ratusan nol tidak dibaca).',
+              'Jika ada angka 0 berturut-turut (misal 7.008), dibaca "Tujuh ribu delapan".',
+              'Angka 10.000 dibaca "Sepuluh ribu" (terdiri dari 1 puluh ribuan atau 10 ribuan).',
             ],
           },
         ],
         bimbelTips: [
-          '🎯 Tips Kilat Bimbel: Ingat kata kunci "R-P-S" (Ratusan, Puluhan, Satuan) dari arah kiri ke kanan!',
-          '🧱 Balok Dienes: 1 Lempeng = 10 Batang = 100 Kubus satuan.',
+          '🎯 Tips Kilat Bimbel: Ingat kata kunci "Ri-Ra-Pu-Sa" (Ribuan, Ratusan, Puluhan, Satuan) dari arah kiri ke kanan!',
+          '🧱 Balok Dienes: 1 Kubus Besar Ribuan = 10 Lempeng Ratusan = 100 Batang Puluhan = 1.000 Kubus Satuan.',
         ],
         workedExamples: [
           {
             question:
-              'Sebuah perpustakaan sekolah memiliki buku bernomor 629. Berapakah nilai tempat dari angka 2, dan bagaimana bentuk panjangnya?',
-            conceptApplied: 'Penguraian Nilai Tempat Bilangan Cacah',
+              'Sebuah perpustakaan sekolah memiliki buku bernomor registrasi 6.295. Berapakah nilai tempat dari angka 6 dan angka 9, serta bagaimana bentuk panjangnya?',
+            conceptApplied: 'Penguraian Nilai Tempat Bilangan Cacah 4 Digit',
             stepByStep: [
-              'Identifikasi posisi setiap digit pada bilangan 629: Angka 6 di posisi Ratusan, Angka 2 di posisi Puluhan, Angka 9 di posisi Satuan.',
-              'Karena angka 2 berada di tempat puluhan, maka nilainya adalah 2 × 10 = 20.',
-              'Bentuk panjang dari 629 diuraikan menjadi: 600 + 20 + 9.',
+              'Identifikasi posisi setiap digit pada 6.295: Angka 6 di posisi Ribuan, Angka 2 di posisi Ratusan, Angka 9 di posisi Puluhan, Angka 5 di posisi Satuan.',
+              'Karena angka 6 berada di tempat ribuan, nilainya adalah 6 × 1.000 = 6.000.',
+              'Karena angka 9 berada di tempat puluhan, nilainya adalah 9 × 10 = 90.',
+              'Bentuk panjang dari 6.295 diuraikan menjadi: 6.000 + 200 + 90 + 5.',
             ],
-            finalAnswer: 'Angka 2 menempati nilai PULUHAN (bernilai 20). Bentuk panjang: 600 + 20 + 9.',
+            finalAnswer: 'Angka 6 bernilai 6.000 (RIBUAN) dan angka 9 bernilai 90 (PULUHAN). Bentuk panjang: 6.000 + 200 + 90 + 5.',
           },
         ],
         manipulative: 'dienes',
-        manipulativeInitialValue: { hundreds: 4, tens: 7, ones: 5 },
+        manipulativeInitialValue: { thousands: 4, hundreds: 7, tens: 5, ones: 2 },
       },
       {
         id: 'b1-s2',
-        title: '2. Membandingkan dan Mengurutkan Bilangan Ratusan',
+        title: '2. Membandingkan dan Mengurutkan Bilangan 4 Digit',
         badge: 'Teknik Komparasi',
         content:
-          'Untuk membandingkan dua bilangan yang terdiri dari 3 angka, jangan langsung menebak. Ikuti prosedur perbandingan sistematis dari nilai tempat tertinggi.',
+          'Untuk membandingkan dua bilangan yang terdiri dari 4 angka, jangan langsung menebak. Ikuti prosedur perbandingan sistematis dari nilai tempat tertinggi (Ribuan).',
         subsections: [
           {
-            subtitle: 'Langkah Sistematis Membandingkan Dua Angka',
-            description: 'Ikuti 3 tahapan berikut saat membandingkan bilangan:',
+            subtitle: 'Langkah Sistematis Membandingkan Dua Bilangan Ribuan',
+            description: 'Ikuti 4 tahapan berikut saat membandingkan bilangan 4 digit:',
             bulletPoints: [
-              'Tahap 1: Bandingkan angka RATUSAN-nya terlebih dahulu. Jika berbeda, angka dengan ratusan lebih besar langsung menang.',
-              'Tahap 2: Jika angka ratusannya SAMA, bandingkan angka PULUHAN-nya.',
-              'Tahap 3: Jika angka puluhannya juga SAMA, bandingkan angka SATUAN paling belakang.',
+              'Tahap 1: Bandingkan angka RIBUAN-nya terlebih dahulu. Jika berbeda, angka dengan ribuan lebih besar langsung menang.',
+              'Tahap 2: Jika angka ribuannya SAMA, bandingkan angka RATUSAN-nya.',
+              'Tahap 3: Jika angka ratusannya juga SAMA, bandingkan angka PULUHAN-nya.',
+              'Tahap 4: Jika angka puluhannya juga SAMA, barulah bandingkan angka SATUAN paling belakang.',
             ],
             formulaBox: 'Simbol Matematika: < (Lebih kecil dari) | > (Lebih besar dari) | = (Sama dengan)',
           },
         ],
         bimbelTips: [
           '🐊 Trik Mulut Buaya: Bayangkan tanda < dan > adalah mulut buaya lapar yang selalu membuka dan mencaplok angka yang LEBIH BESAR!',
-          'Contoh: 350 < 420 (mulut buaya mengarah ke 420 yang lebih besar).',
+          'Contoh: 3.450 < 3.820 (mulut buaya mengarah ke 3.820 yang lebih besar).',
         ],
         workedExamples: [
           {
-            question: 'Urutkan bilangan-bilangan berikut dari yang TERKECIL ke TERBESAR: 542, 389, 524, 410',
+            question: 'Urutkan bilangan-bilangan berikut dari yang TERKECIL ke TERBESAR: 5.420, 3.890, 5.240, 4.100',
             conceptApplied: 'Urutan Nilai Tempat Terendah ke Tertinggi',
             stepByStep: [
-              'Langkah 1: Periksa angka ratusan dari tiap bilangan: 389 (ratusan 3), 410 (ratusan 4), 542 (ratusan 5), 524 (ratusan 5).',
-              'Langkah 2: Angka 389 memiliki ratusan paling kecil (3) ➔ Letakkan di urutan ke-1.',
-              'Langkah 3: Angka 410 memiliki ratusan 4 ➔ Letakkan di urutan ke-2.',
-              'Langkah 4: Bandingkan 542 dan 524. Ratusannya sama (5), kita lihat puluhannya: 524 puluhannya 2, sedangkan 542 puluhannya 4. Maka 524 lebih kecil dari 542.',
+              'Langkah 1: Periksa angka ribuan dari tiap bilangan: 3.890 (ribuan 3), 4.100 (ribuan 4), 5.420 (ribuan 5), 5.240 (ribuan 5).',
+              'Langkah 2: Angka 3.890 memiliki ribuan paling kecil (3) ➔ Letakkan di urutan ke-1.',
+              'Langkah 3: Angka 4.100 memiliki ribuan 4 ➔ Letakkan di urutan ke-2.',
+              'Langkah 4: Bandingkan 5.420 dan 5.240. Ribuannya sama (5), kita lihat ratusannya: 5.240 ratusannya 2, sedangkan 5.420 ratusannya 4. Maka 5.240 lebih kecil dari 5.420.',
             ],
-            finalAnswer: 'Urutan dari terkecil: 389, 410, 524, 542.',
+            finalAnswer: 'Urutan dari terkecil: 3.890, 4.100, 5.240, 5.420.',
           },
         ],
       },
       {
         id: 'b1-s3',
-        title: '3. Penjumlahan & Pengurangan Bersusun (Menyimpan & Meminjam)',
+        title: '3. Penjumlahan & Pengurangan Bersusun (Menyimpan & Meminjam sampai 10.000)',
         badge: 'Operasi Inti',
         content:
-          'Penjumlahan dan pengurangan bersusun pendek adalah metode paling efisien untuk menghitung angka ratusan tanpa membuat kesalahan hitung.',
+          'Penjumlahan dan pengurangan bersusun pendek adalah metode paling efisien untuk menghitung angka ribuan hingga 10.000 tanpa membuat kesalahan hitung.',
         subsections: [
           {
             subtitle: 'A. Penjumlahan Bersusun dengan Teknik Menyimpan',
             description:
-              'Aturan mutlak: Selalu mulai hitungan dari kolom paling kanan (SATUAN).',
+              'Aturan mutlak: Selalu mulai hitungan dari kolom paling kanan (SATUAN) lurus ke kiri.',
             bulletPoints: [
               'Jika hasil penjumlahan satuan ≥ 10, tulis angka satuan di bawah, lalu simpan angka puluhan (angka 1) kecil di atas kolom puluhan.',
-              'Saat menjumlahkan kolom puluhan, WAJIB menambahkan angka 1 simpanan tadi.',
+              'Saat menjumlahkan kolom berikutnya, WAJIB menambahkan angka 1 simpanan tadi.',
             ],
-            formulaBox: 'Contoh: 367 + 258\n• Satuan: 7 + 8 = 15 (Tulis 5, Simpan 1)\n• Puluhan: 1 (simpanan) + 6 + 5 = 12 (Tulis 2, Simpan 1)\n• Ratusan: 1 (simpanan) + 3 + 2 = 6\n➔ Hasil = 625',
+            formulaBox: 'Contoh: 3.468 + 2.754\n• Satuan: 8 + 4 = 12 (Tulis 2, Simpan 1)\n• Puluhan: 1 (simpanan) + 6 + 5 = 12 (Tulis 2, Simpan 1)\n• Ratusan: 1 (simpanan) + 4 + 7 = 12 (Tulis 2, Simpan 1)\n• Ribuan: 1 (simpanan) + 3 + 2 = 6\n➔ Hasil = 6.222',
           },
           {
             subtitle: 'B. Pengurangan Bersusun dengan Teknik Meminjam',
             description:
               'Jika angka atas lebih kecil dari angka bawah pada kolom yang sama, lakukan teknik pinjam ke tetangga kirinya.',
             bulletPoints: [
-              'Jika satuan atas < satuan bawah: Pinjam 1 puluhan (bernilai 10) dari kolom puluhan di sebelahnya.',
-              'Angka puluhan yang dipinjam berkurang 1, sedangkan satuan kita bertambah 10.',
+              'Jika angka atas < angka bawah: Pinjam 1 dari kolom di sebelah kirinya (bernilai 10 bagi kolom ini).',
+              'Angka yang dipinjam berkurang 1, sedangkan angka kita bertambah 10.',
             ],
+            formulaBox: 'Contoh: 5.320 - 2.175\n• Satuan: 0 - 5 (pinjam 1 dari puluhan 2 ➔ 10 - 5 = 5)\n• Puluhan: sisa 1 - 7 (pinjam 1 dari ratusan 3 ➔ 11 - 7 = 4)\n• Ratusan: sisa 2 - 1 = 1\n• Ribuan: 5 - 2 = 3\n➔ Hasil = 3.145',
           },
         ],
         bimbelTips: [
@@ -189,69 +194,75 @@ export const BIMBEL_MODULES: BimbelChapterModule[] = [
         ],
         workedExamples: [
           {
-            question: 'Hitunglah pengurangan bersusun berikut: 532 - 178 = ...',
-            conceptApplied: 'Pengurangan Bersusun Dua Kali Meminjam',
+            question: 'Hitunglah pengurangan bersusun berikut: 7.250 - 3.685 = ...',
+            conceptApplied: 'Pengurangan Bersusun Ribuan dengan Teknik Meminjam',
             stepByStep: [
-              'Kolom Satuan: 2 - 8 (tidak bisa karena 2 < 8). Pinjam 1 puluhan dari 3. Angka 3 menjadi 2, sedangkan angka 2 menjadi 12 (10 + 2). Hitung: 12 - 8 = 4.',
-              'Kolom Puluhan: Angka 3 tadi sudah menjadi 2. Hitung 2 - 7 (tidak bisa karena 2 < 7). Pinjam 1 ratusan dari 5. Angka 5 menjadi 4, sedangkan angka 2 menjadi 12. Hitung: 12 - 7 = 5.',
-              'Kolom Ratusan: Angka 5 sudah menjadi 4. Hitung: 4 - 1 = 3.',
-              'Gabungkan hasilnya: 354.',
+              'Kolom Satuan: 0 - 5 (tidak bisa). Pinjam 1 dari puluhan 5. Angka 5 jadi 4, angka 0 jadi 10. Hitung: 10 - 5 = 5.',
+              'Kolom Puluhan: Angka 5 sisa 4. Hitung 4 - 8 (tidak bisa). Pinjam 1 dari ratusan 2. Angka 2 jadi 1, angka 4 jadi 14. Hitung: 14 - 8 = 6.',
+              'Kolom Ratusan: Angka 2 sisa 1. Hitung 1 - 6 (tidak bisa). Pinjam 1 dari ribuan 7. Angka 7 jadi 6, angka 1 jadi 11. Hitung: 11 - 6 = 5.',
+              'Kolom Ribuan: Angka 7 sisa 6. Hitung: 6 - 3 = 3.',
+              'Gabungkan hasilnya: 3.565.',
             ],
-            finalAnswer: '532 - 178 = 354',
+            finalAnswer: '7.250 - 3.685 = 3.565',
           },
         ],
       },
       {
         id: 'b1-s4',
-        title: '4. Konsep Perkalian & Pembagian Dasar',
+        title: '4. Perkalian & Pembagian Terkait Bilangan Ribuan',
         badge: 'Pengantar Aritmatika',
         content:
-          'Perkalian dan pembagian bukanlah hafalan semata, melainkan konsep pengelompokan yang sangat teratur.',
+          'Perkalian dan pembagian bilangan ribuan menjadi sangat mudah jika anak memahami trik pengelompokan dan manipulasi angka nol.',
         subsections: [
           {
-            subtitle: 'Perkalian = Penjumlahan Berulang',
+            subtitle: 'Trik Perkalian Angka Nol (Kelipatan Ribuan)',
             description:
-              'Rumus dasar: A × B artinya ada A kelompok yang masing-masing berisi B benda.',
+              'Rumus praktis mengalikan bilangan yang memiliki angka nol di belakangnya:',
             bulletPoints: [
-              '3 × 4 artinya: 4 + 4 + 4 = 12 (Ada 3 kelompok angka 4).',
-              'Beda arti: 3 × 4 ≠ 4 × 3 dalam konsep pengelompokan (walau hasilnya sama-sama 12). 3 × 4 = 4 + 4 + 4, sedangkan 4 × 3 = 3 + 3 + 3 + 3.',
+              'Kalikan angka dasarnya terlebih dahulu, lalu tambahkan jumlah angka nol di belakang hasilnya.',
+              'Contoh: 4 × 2.000 ➔ 4 × 2 = 8, tambahkan tiga angka 0 ➔ 8.000.',
+              'Contoh: 5 × 2.000 ➔ 5 × 2 = 10, tambahkan tiga angka 0 ➔ 10.000 (Sepuluh ribu).',
             ],
           },
           {
-            subtitle: 'Pembagian = Pengurangan Berulang Sampai Habis',
+            subtitle: 'Pembagian Bilangan Ribuan (Membagi Adil)',
             description:
-              'A ÷ B artinya: kurangkan A dengan B secara terus-menerus hingga hasilnya menjadi 0. Berapa kali pengurangan dilakukan, itulah jawabannya.',
+              'Membagi bilangan ribuan dapat disederhanakan dengan membagi angka depan:',
             bulletPoints: [
-              'Contoh: 15 ÷ 5 ➔ 15 - 5 - 5 - 5 = 0 (Terjadi 3 kali pengurangan dengan angka 5).',
-              'Maka 15 ÷ 5 = 3.',
+              'Contoh: 8.000 ÷ 4 ➔ (8 ÷ 4) ribu = 2.000.',
+              'Contoh: 9.000 ÷ 3 ➔ (9 ÷ 3) ribu = 3.000.',
+              'Contoh: 10.000 ÷ 2 = 5.000 (Sepuluh ribu dibagi 2 sama dengan lima ribu).',
             ],
           },
         ],
         bimbelTips: [
-          '⚡ Sifat Istimewa: Angka berapa pun jika dikali 0 hasilnya 0. Angka berapa pun jika dikali 1 hasilnya angka itu sendiri.',
+          '⚡ Sifat Istimewa: Angka berapa pun jika dikali 1.000 hasilnya cukup tambahkan tiga nol di belakangnya! Contoh: 8 × 1.000 = 8.000.',
         ],
         workedExamples: [
           {
             question:
-              'Paman membawa 4 kantong plastik. Setiap kantong berisi 6 buah mangga. Berapa jumlah seluruh mangga yang dibawa Paman?',
-            conceptApplied: 'Penerapan Konsep Perkalian Soal Cerita',
+              'Paman membeli 5 dus buku untuk disumbangkan. Setiap dus berisi buku dengan total harga Rp 2.000. Berapa total biaya yang dibayar Paman?',
+            conceptApplied: 'Penerapan Perkalian Bilangan Ribuan',
             stepByStep: [
-              'Terdapat 4 kelompok (kantong).',
-              'Setiap kelompok berisi 6 mangga.',
-              'Bentuk matematika: 4 × 6 = 6 + 6 + 6 + 6.',
-              'Hitung bertahap: 6 + 6 = 12; 12 + 6 = 18; 18 + 6 = 24.',
+              'Terdapat 5 kelompok dus.',
+              'Setiap dus bernilai Rp 2.000.',
+              'Bentuk matematika: 5 × 2.000.',
+              'Hitung angka depan: 5 × 2 = 10.',
+              'Tambahkan tiga angka nol di belakang: 10.000.',
             ],
-            finalAnswer: 'Jumlah seluruh mangga adalah 24 buah.',
+            finalAnswer: 'Total biaya buku adalah Rp 10.000.',
           },
         ],
       },
     ],
     examSummaryPoints: [
-      'Nilai Tempat 3 Angka berurutan dari kiri: Ratusan, Puluhan, Satuan.',
-      'Bentuk panjang dari bilangan 782 adalah 700 + 80 + 2.',
-      'Membandingkan dua bilangan selalu dimulai dari digit Ratusan paling kiri.',
+      'Nilai Tempat 4 Angka berurutan dari kiri: Ribuan, Ratusan, Puluhan, Satuan (Ri-Ra-Pu-Sa).',
+      'Bilangan 10.000 adalah bilangan 5 digit yang setara dengan 10 buah ribuan atau 1 puluh ribuan.',
+      'Bentuk panjang dari bilangan 7.825 adalah 7.000 + 800 + 20 + 5.',
+      'Membandingkan dua bilangan 4 digit selalu dimulai dari digit RIBUAN paling kiri.',
       'Penjumlahan bersusun selalu dimulai dari SATUAN. Jika hasil ≥ 10, simpan puluhannya di kolom sebelah kiri.',
-      'Perkalian A × B adalah penjumlahan berulang angka B sebanyak A kali.',
+      'Pengurangan bersusun meminjam: angka yang dipinjam berkurang 1, sedangkan angka yang meminjam bertambah 10.',
+      'Perkalian ribuan dapat diselesaikan dengan trik: kalikan angka depan lalu tambahkan tiga angka nol.',
     ],
   },
 
