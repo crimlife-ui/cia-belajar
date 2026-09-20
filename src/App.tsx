@@ -12,9 +12,10 @@ import { ScreenBreakModal } from './components/parent/ScreenBreakModal';
 import { BimbelModuleView } from './components/bimbel/BimbelModuleView';
 import { SpeedMathView } from './components/speedmath/SpeedMathView';
 import { EnglishView } from './components/english/EnglishView';
+import { ExamView } from './components/exam/ExamView';
 import type { Lesson } from './types';
 
-type Screen = 'hub' | 'lesson' | 'pet-room' | 'parent-dashboard' | 'bimbel-module' | 'speed-math' | 'english-module';
+type Screen = 'hub' | 'lesson' | 'pet-room' | 'parent-dashboard' | 'bimbel-module' | 'speed-math' | 'english-module' | 'exam';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('hub');
@@ -119,6 +120,7 @@ export default function App() {
             onOpenBimbelModule={() => setCurrentScreen('bimbel-module')}
             onOpenSpeedMath={() => setCurrentScreen('speed-math')}
             onOpenEnglish={() => setCurrentScreen('english-module')}
+            onOpenExam={() => setCurrentScreen('exam')}
             playClick={playClick}
             equipped={progress.equippedAccessories}
             screenTimeRemaining={
@@ -229,6 +231,27 @@ export default function App() {
             equipped={progress.equippedAccessories}
             onFinishQuizRewards={(stars, coins) => {
               addReward(stars, coins, 'english-module-quiz');
+            }}
+          />
+        )}
+
+        {currentScreen === 'exam' && (
+          <ExamView
+            onBack={() => {
+              stopSpeech();
+              setCurrentScreen('hub');
+            }}
+            playClick={playClick}
+            playCorrect={playCorrect}
+            playWrong={playWrong}
+            playCelebration={playCelebration}
+            playCoin={playCoin}
+            speak={speak}
+            stopSpeech={stopSpeech}
+            isSpeaking={isSpeaking}
+            equipped={progress.equippedAccessories}
+            onFinishExamRewards={(stars, coins) => {
+              addReward(stars, coins, 'exam-simulation');
             }}
           />
         )}

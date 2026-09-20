@@ -13,6 +13,7 @@ import {
   Zap,
   Globe,
   Sun,
+  GraduationCap,
 } from 'lucide-react';
 
 interface ChapterListProps {
@@ -23,6 +24,7 @@ interface ChapterListProps {
   onOpenBimbelModule: () => void;
   onOpenSpeedMath: () => void;
   onOpenEnglish: () => void;
+  onOpenExam: () => void;
   playClick: () => void;
   equipped: { hat?: string; glasses?: string; snack?: string };
   screenTimeRemaining?: number;
@@ -37,6 +39,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   onOpenBimbelModule,
   onOpenSpeedMath,
   onOpenEnglish,
+  onOpenExam,
   playClick,
   equipped,
   screenTimeRemaining,
@@ -136,6 +139,18 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <button
             onClick={() => {
               playClick();
+              onOpenExam();
+            }}
+            title="Ruang Ulangan & Try Out (Pilihan 20 hingga 100 Soal + Canvas Kertas Cakar)"
+            className="flex items-center gap-1.5 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
+          >
+            <GraduationCap className="w-3.5 h-3.5" />
+            <span>Ruang Ulangan 📝</span>
+          </button>
+
+          <button
+            onClick={() => {
+              playClick();
               onOpenPetRoom();
             }}
             title="Buka Kamar Mimi"
@@ -180,6 +195,16 @@ export const ChapterList: React.FC<ChapterListProps> = ({
             >
               <Zap className="w-4 h-4 fill-amber-950" />
               <span>Arena Hitung Cepat (+, -, ×, ÷) ⚡</span>
+            </button>
+            <button
+              onClick={() => {
+                playClick();
+                onOpenExam();
+              }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-black shadow-sm btn-tactile border border-rose-600"
+            >
+              <GraduationCap className="w-4 h-4" />
+              <span>Ruang Ulangan (20–100 Soal + Cakar) 📝</span>
             </button>
             <button
               onClick={() => {
