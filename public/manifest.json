@@ -1,0 +1,32 @@
+{
+  "name": "Cia Belajar - Matematika & English Adventure",
+  "short_name": "Cia Belajar",
+  "description": "Aplikasi Belajar Matematika SD Kurikulum Merdeka, Hitung Cepat, English Zone, & Ruang Ulangan untuk Cia",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fffbeb",
+  "theme_color": "#f59e0b",
+  "categories": ["education", "kids", "games"],
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

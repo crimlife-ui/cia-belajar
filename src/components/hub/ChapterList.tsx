@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Chapter, Lesson, UserProgress } from '../../types';
 import { CURRICULUM } from '../../data/curriculum';
 import { Mascot } from '../mascot/Mascot';
@@ -14,6 +14,10 @@ import {
   Globe,
   Sun,
   GraduationCap,
+  Download,
+  X,
+  Smartphone,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface ChapterListProps {
@@ -46,6 +50,47 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   isWakeLocked,
 }) => {
   const [selectedChapter, setSelectedChapter] = useState<Chapter>(CURRICULUM[0]);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isInstalled, setIsInstalled] = useState<boolean>(false);
+  const [showInstallGuide, setShowInstallGuide] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check if already in standalone/installed mode
+    if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
+      setIsInstalled(true);
+    }
+
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    window.addEventListener('appinstalled', () => {
+      setIsInstalled(true);
+      setDeferredPrompt(null);
+    });
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallApp = async () => {
+    playClick();
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+        setIsInstalled(true);
+      }
+    } else {
+      // Show instructional modal on iOS Safari or when browser has installed it
+      setShowInstallGuide(true);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-4 text-slate-800">
@@ -159,6 +204,17 @@ export const ChapterList: React.FC<ChapterListProps> = ({
             <Coins className="w-3.5 h-3.5 fill-amber-900 text-amber-900" />
             <span>{progress.coins}</span>
           </button>
+
+          {!isInstalled && (
+            <button
+              onClick={handleInstallApp}
+              title="Pasang / Install Aplikasi di HP, Tablet, atau Laptop (Bisa Diakses Seperti Aplikasi Asli)"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-md btn-tactile animate-pulse"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Install App 📲</span>
+            </button>
+          )}
 
           <button
             onClick={() => {
@@ -415,6 +471,74 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           })}
         </div>
       </div>
+
+      {/* PWA Install Guide Modal */}
+      {showInstallGuide && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-pop">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 border-4 border-amber-300 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="p-2 bg-emerald-100 text-emerald-700 rounded-2xl">
+                  <Smartphone className="w-5 h-5" />
+                </span>
+                <div>
+                  <h3 className="font-black text-base text-slate-900">
+                    Pasang Aplikasi Cia Belajar
+                  </h3>
+                  <span className="text-[11px] font-bold text-slate-500">
+                    Bisa dibuka tanpa perlu ketik alamat web lagi!
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowInstallGuide(false)}
+                className="p-1 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs text-slate-700 font-semibold bg-amber-50 p-4 rounded-2xl border border-amber-200">
+              <p className="font-black text-amber-950 text-sm flex items-center gap-1.5">
+                <span>📱</span>
+                <span>Cara Pasang di HP / Tablet / Laptop:</span>
+              </p>
+
+              <div className="space-y-2 pt-1">
+                <div className="flex items-start gap-2 bg-white p-2.5 rounded-xl border border-amber-200">
+                  <span className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+                    1
+                  </span>
+                  <p>
+                    <strong>Di Chrome / Edge (Android & PC):</strong> Klik menu titik tiga (⋮) di pojok kanan atas, lalu pilih <strong>"Install aplikasi"</strong> atau <strong>"Tambahkan ke layar utama"</strong>.
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-2 bg-white p-2.5 rounded-xl border border-amber-200">
+                  <span className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+                    2
+                  </span>
+                  <p>
+                    <strong>Di Safari (iPhone / iPad):</strong> Tekan tombol Bagikan / Share (ikon kotak dengan panah ke atas <span className="inline-block border px-1 rounded bg-slate-100 font-sans">↑</span>), gulir ke bawah dan pilih <strong>"Add to Home Screen (Tambah ke Layar Utama)"</strong>.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-emerald-800 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 font-bold text-[11px]">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Setelah terpasang, ikon Cia Belajar akan langsung muncul di layar utama seperti aplikasi Play Store / App Store!</span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowInstallGuide(false)}
+              className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-black text-xs shadow-md btn-tactile"
+            >
+              Saya Mengerti 👍
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

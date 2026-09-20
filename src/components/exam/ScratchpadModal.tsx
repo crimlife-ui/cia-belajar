@@ -60,7 +60,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
   const [strokeSize, setStrokeSize] = useState<number>(3);
   const [showGrid, setShowGrid] = useState<boolean>(true);
   const [isTransparent, setIsTransparent] = useState<boolean>(false);
-  const [isMaximized, setIsMaximized] = useState<boolean>(false);
+  const [isMaximized, setIsMaximized] = useState<boolean>(true);
 
   // Persistent strokes history
   const strokesRef = useRef<Stroke[]>([]);
@@ -244,14 +244,18 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/50 backdrop-blur-xs animate-pop">
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs animate-pop ${
+        isMaximized ? 'p-0' : 'p-2 sm:p-4'
+      }`}
+    >
       <div
-        className={`flex flex-col bg-white rounded-3xl shadow-2xl border-4 border-amber-300 overflow-hidden transition-all duration-200 ${
-          isTransparent ? 'opacity-85' : 'opacity-100'
+        className={`flex flex-col bg-white shadow-2xl overflow-hidden transition-all duration-200 ${
+          isTransparent ? 'opacity-90' : 'opacity-100'
         } ${
           isMaximized
-            ? 'w-full h-full max-w-none max-h-none rounded-none'
-            : 'w-full max-w-3xl h-[85vh] max-h-[750px]'
+            ? 'w-full h-full max-w-none max-h-none rounded-none border-0'
+            : 'w-full max-w-4xl h-[90vh] max-h-[800px] rounded-3xl border-4 border-amber-300'
         }`}
       >
         {/* Modal Top Header Bar */}

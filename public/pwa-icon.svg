@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#7c2d12" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)"/>
+
+  <!-- Inner border ring -->
+  <rect x="16" y="16" width="480" height="480" rx="100" fill="none" stroke="#fed7aa" stroke-width="8" opacity="0.4"/>
+
+  <!-- Mimi Cat Face / Learning Shield -->
+  <g filter="url(#shadow)">
+    <!-- Ears -->
+    <polygon points="140,210 180,95 240,180" fill="#fbbf24" stroke="#d97706" stroke-width="8" stroke-linejoin="round"/>
+    <polygon points="160,190 185,125 220,175" fill="#f472b6"/>
+
+    <polygon points="372,210 332,95 272,180" fill="#fbbf24" stroke="#d97706" stroke-width="8" stroke-linejoin="round"/>
+    <polygon points="352,190 327,125 292,175" fill="#f472b6"/>
+
+    <!-- Head -->
+    <ellipse cx="256" cy="260" rx="145" ry="125" fill="#fef3c7" stroke="#f59e0b" stroke-width="10"/>
+
+    <!-- Graduation Hat -->
+    <polygon points="256,120 380,165 256,205 132,165" fill="#4338ca"/>
+    <polygon points="256,120 380,165 256,205 132,165" fill="none" stroke="#312e81" stroke-width="6"/>
+    <rect x="220" y="195" width="72" height="30" rx="6" fill="#3730a3"/>
+    <!-- Tassel -->
+    <path d="M380,165 Q400,200 395,240" fill="none" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="395" cy="245" r="8" fill="#fbbf24"/>
+
+    <!-- Cheeks (Blush) -->
+    <ellipse cx="170" cy="295" rx="20" ry="12" fill="#fda4af" opacity="0.8"/>
+    <ellipse cx="342" cy="295" rx="20" ry="12" fill="#fda4af" opacity="0.8"/>
+
+    <!-- Eyes (Happy curved eyes) -->
+    <path d="M 180 250 Q 205 230 230 250" fill="none" stroke="#1e293b" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 282 250 Q 307 230 332 250" fill="none" stroke="#1e293b" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- Nose -->
+    <polygon points="256,275 244,263 268,263" fill="#f43f5e"/>
+
+    <!-- Mouth -->
+    <path d="M 244 278 Q 234 292 220 286" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 268 278 Q 278 292 292 286" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Whiskers -->
+    <line x1="120" y1="260" x2="160" y2="268" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+    <line x1="115" y1="285" x2="160" y2="285" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+
+    <line x1="392" y1="260" x2="352" y2="268" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+    <line x1="397" y1="285" x2="352" y2="285" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Math & English Symbols Floating -->
+  <g fill="#ffffff" font-family="Nunito, sans-serif" font-weight="900" font-size="34">
+    <!-- Plus -->
+    <circle cx="95" cy="115" r="32" fill="#10b981" filter="url(#shadow)"/>
+    <text x="95" y="127" text-anchor="middle" fill="#ffffff" font-size="38">+</text>
+
+    <!-- Times -->
+    <circle cx="415" cy="115" r="32" fill="#6366f1" filter="url(#shadow)"/>
+    <text x="415" y="126" text-anchor="middle" fill="#ffffff" font-size="34">×</text>
+
+    <!-- Star / ABC -->
+    <circle cx="85" cy="415" r="32" fill="#ec4899" filter="url(#shadow)"/>
+    <text x="85" y="426" text-anchor="middle" fill="#ffffff" font-size="24">ABC</text>
+
+    <!-- Divide -->
+    <circle cx="425" cy="415" r="32" fill="#f59e0b" filter="url(#shadow)"/>
+    <text x="425" y="426" text-anchor="middle" fill="#ffffff" font-size="34">÷</text>
+  </g>
+
+  <!-- App Title Banner -->
+  <rect x="96" y="390" width="320" height="65" rx="24" fill="#ffffff" filter="url(#shadow)"/>
+  <text x="256" y="434" text-anchor="middle" fill="#0f172a" font-family="Nunito, sans-serif" font-weight="900" font-size="28" letter-spacing="1">CIA BELAJAR</text>
+</svg>
