@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { ExamQuestion } from '../../data/examBank';
-import { generateExamQuestions } from '../../data/examBank';
+import type { ExamQuestion, ExamCategory } from '../../data/examBank';
+import { generateExamQuestions, EXAM_CATEGORIES } from '../../data/examBank';
 import { ScratchpadModal } from './ScratchpadModal';
 import { Mascot } from '../mascot/Mascot';
 import {
@@ -59,6 +59,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
   const [stage, setStage] = useState<ExamStage>('setup');
 
   // Setup options
+  const [selectedCategory, setSelectedCategory] = useState<ExamCategory>('all');
   const [selectedCount, setSelectedCount] = useState<number>(20);
   const [selectedTimerMins, setSelectedTimerMins] = useState<number>(0);
 
@@ -120,7 +121,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
   // Start Exam
   const handleStartExam = () => {
     playClick();
-    const generated = generateExamQuestions(selectedCount);
+    const generated = generateExamQuestions(selectedCount, selectedCategory);
     setQuestions(generated);
     setCurrentIndex(0);
     setAnswers({});
@@ -247,14 +248,75 @@ export const ExamView: React.FC<ExamViewProps> = ({
 
         {/* Configuration Card */}
         <div className="bg-white rounded-3xl p-6 border-2 border-amber-200 shadow-sm space-y-6">
-          {/* 1. Pilih Jumlah Soal (20 - 100) */}
+          {/* 1. Pilih Kategori Ujian Khusus */}
           <div>
             <label className="text-sm font-black text-slate-800 flex items-center justify-between mb-3">
               <span className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
                   1
                 </span>
-                Pilih Jumlah Soal Ulangan:
+                Pilih Jenis / Kategori Ujian:
+              </span>
+              <span className="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                {EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.badge}
+              </span>
+            </label>
+
+            {/* Category Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
+              {EXAM_CATEGORIES.map(cat => {
+                const isSelected = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      playClick();
+                      setSelectedCategory(cat.id);
+                    }}
+                    className={`p-3 rounded-2xl border-2 text-left transition-all btn-tactile flex flex-col justify-between ${
+                      isSelected
+                        ? 'bg-amber-100/70 border-amber-500 shadow-md scale-[1.02]'
+                        : 'bg-slate-50 border-slate-200 hover:bg-amber-50/50 hover:border-amber-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-2xl">{cat.icon}</span>
+                      {isSelected && (
+                        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="font-black text-xs text-slate-900 leading-snug">
+                        {cat.name}
+                      </h4>
+                      <span className="text-[10px] font-bold text-slate-500 block mt-0.5">
+                        {cat.badge}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Selected Category Description Banner */}
+            <div className="bg-amber-50/70 rounded-2xl p-3 border border-amber-200 text-xs font-semibold text-amber-900 flex items-center gap-2">
+              <span className="text-lg">
+                {EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.icon}
+              </span>
+              <span>
+                {EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.description}
+              </span>
+            </div>
+          </div>
+
+          {/* 2. Pilih Jumlah Soal (20 - 100) */}
+          <div>
+            <label className="text-sm font-black text-slate-800 flex items-center justify-between mb-3">
+              <span className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
+                  2
+                </span>
+                Pilih Jumlah Soal:
               </span>
               <span className="text-amber-600 font-extrabold text-base">
                 {selectedCount} Soal
@@ -297,11 +359,11 @@ export const ExamView: React.FC<ExamViewProps> = ({
             </div>
           </div>
 
-          {/* 2. Pilih Mode Waktu / Timer */}
+          {/* 3. Pilih Mode Waktu / Timer */}
           <div>
             <label className="text-sm font-black text-slate-800 flex items-center gap-2 mb-3">
               <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
-                2
+                3
               </span>
               Pilih Batasan Waktu:
             </label>
@@ -326,26 +388,14 @@ export const ExamView: React.FC<ExamViewProps> = ({
             </div>
           </div>
 
-          {/* Cakupan Materi Card */}
-          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200">
-            <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <span>📚</span> Materi yang Diujikan (Lintas Bab):
-            </h4>
-            <ul className="text-xs text-slate-600 space-y-1">
-              <li>• <strong>Bab 1:</strong> Bilangan Cacah sampai 10.000 & Hitung Susun</li>
-              <li>• <strong>Bab 2:</strong> Kalimat Matematika & Pola Bilangan Loncat</li>
-              <li>• <strong>Bab 3:</strong> Pengukuran Panjang, Berat, dan Waktu</li>
-              <li>• <strong>Bab 4:</strong> Pecahan Sederhana & Sifat Bangun Datar</li>
-              <li>• <strong>Bab 5:</strong> Penyajian Data & Diagram Gambar (Piktogram)</li>
-            </ul>
-          </div>
-
           {/* Start Button */}
           <button
             onClick={handleStartExam}
             className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-lg rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-2 btn-tactile transition-all"
           >
-            <span>Mulai Kerjakan Ulangan ({selectedCount} Soal)</span>
+            <span>
+              Mulai Ujian {EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.name} ({selectedCount} Soal)
+            </span>
             <Sparkles className="w-5 h-5 fill-white" />
           </button>
         </div>
@@ -395,6 +445,12 @@ export const ExamView: React.FC<ExamViewProps> = ({
               <span>📝</span>
               <span className="font-extrabold">Buku Pencakar</span>
             </button>
+          </div>
+
+          {/* Active Category Badge */}
+          <div className="hidden md:flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl text-xs font-black text-amber-900 shadow-xs">
+            <span>{EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.icon}</span>
+            <span>{EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.name}</span>
           </div>
 
           {/* Center Timer / Elapsed */}
@@ -697,8 +753,9 @@ export const ExamView: React.FC<ExamViewProps> = ({
 
         {/* Score Card Hero */}
         <div className="bg-gradient-to-br from-amber-400 via-orange-400 to-amber-500 rounded-3xl p-6 text-white shadow-xl mb-6 text-center">
-          <div className="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-black mb-2">
-            🎉 Hasil Evaluasi Ulangan Matematika
+          <div className="inline-flex items-center gap-1.5 bg-white/20 px-3.5 py-1 rounded-full text-xs font-black mb-2">
+            <span>{EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.icon}</span>
+            <span>Evaluasi: {EXAM_CATEGORIES.find(c => c.id === selectedCategory)?.name}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black mb-1">
             {finalScore >= 80 ? 'Luar Biasa, Hebat Sekali! 🌟' : finalScore >= 60 ? 'Bagus Sekali, Terus Berlatih! 💪' : 'Semangat, Coba Lagi Ya! 🌈'}

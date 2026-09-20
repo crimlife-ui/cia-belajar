@@ -12,6 +12,92 @@ export interface ExamQuestion {
   isMarkedDoubtful?: boolean;
 }
 
+export type ExamCategory =
+  | 'all'
+  | 'addition'
+  | 'subtraction'
+  | 'multiplication'
+  | 'division'
+  | 'arithmetic'
+  | 'measurement'
+  | 'geometry_fraction';
+
+export interface ExamCategoryMeta {
+  id: ExamCategory;
+  name: string;
+  badge: string;
+  icon: string;
+  description: string;
+  color: string;
+}
+
+export const EXAM_CATEGORIES: ExamCategoryMeta[] = [
+  {
+    id: 'all',
+    name: 'Semua Materi (Campuran Lengkap)',
+    badge: 'Try Out Umum',
+    icon: '🎓',
+    description: 'Ujian komprehensif mencakup semua materi Kurikulum Merdeka Kelas 3 SD (Bab 1 s/d Bab 5).',
+    color: 'from-amber-500 to-orange-500',
+  },
+  {
+    id: 'addition',
+    name: 'Khusus Penjumlahan (+)',
+    badge: 'Fokus Tambah',
+    icon: '➕',
+    description: 'Penjumlahan 2 digit, 3 digit, susun ribuan hingga 10.000, teknik menyimpan, & soal cerita.',
+    color: 'from-emerald-500 to-teal-600',
+  },
+  {
+    id: 'subtraction',
+    name: 'Khusus Pengurangan (-)',
+    badge: 'Fokus Kurang',
+    icon: '➖',
+    description: 'Pengurangan bersusun meminjam, selisih angka ribuan, pengurangan kelipatan, & soal cerita.',
+    color: 'from-rose-500 to-red-600',
+  },
+  {
+    id: 'multiplication',
+    name: 'Khusus Perkalian (×)',
+    badge: 'Fokus Kali',
+    icon: '✖️',
+    description: 'Tabel perkalian dasar 1–10, perkalian puluhan/ribuan, penjumlahan berulang, & soal cerita.',
+    color: 'from-indigo-500 to-blue-600',
+  },
+  {
+    id: 'division',
+    name: 'Khusus Pembagian (÷)',
+    badge: 'Fokus Bagi',
+    icon: '➗',
+    description: 'Pembagian dasar tabel, pembagian ratusan/ribuan, pengurangan berulang, & pembagian adil.',
+    color: 'from-purple-500 to-pink-600',
+  },
+  {
+    id: 'arithmetic',
+    name: 'Operasi Campuran (+, -, ×, ÷)',
+    badge: '4 Operasi Hitung',
+    icon: '⚡',
+    description: 'Kombinasi seimbang antara penjumlahan, pengurangan, perkalian, dan pembagian.',
+    color: 'from-amber-500 to-yellow-500',
+  },
+  {
+    id: 'measurement',
+    name: 'Pengukuran (Panjang, Berat, Waktu)',
+    badge: 'Ukuran & Jam',
+    icon: '📏',
+    description: 'Konversi km-m-cm, kg-gram, jam analog, selisih durasi waktu, & soal cerita pengukuran.',
+    color: 'from-cyan-500 to-blue-600',
+  },
+  {
+    id: 'geometry_fraction',
+    name: 'Pecahan & Bangun Datar',
+    badge: 'Geometri & Pecahan',
+    icon: '🍕',
+    description: 'Mengenal pecahan sederhana, membandingkan pecahan, ciri bangun datar, & jenis sudut.',
+    color: 'from-violet-500 to-indigo-600',
+  },
+];
+
 // Helper: Shuffle array randomly
 function shuffle<T>(array: T[]): T[] {
   const arr = [...array];
@@ -32,116 +118,57 @@ function randInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Generators per topic
 type QuestionGenerator = (index: number) => ExamQuestion;
 
-// =================== TOPIC 1: BAB 1 - BILANGAN CACAH SAMPAI 10.000 ===================
-const bab1Generators: QuestionGenerator[] = [
-  // 1. Nilai tempat ribuan
+// =========================================================================
+// 1. ADDITION GENERATORS (KHUSUS PENJUMLAHAN)
+// =========================================================================
+export const additionGenerators: QuestionGenerator[] = [
+  // A1: 2-digit addition with carry
   (idx) => {
-    const th = randInt(2, 9);
-    const h = randInt(1, 9);
-    const t = randInt(1, 9);
-    const o = randInt(1, 9);
-    const num = th * 1000 + h * 100 + t * 10 + o;
-    const places = [
-      { name: 'RIBUAN', val: th, answerVal: `${th}` },
-      { name: 'RATUSAN', val: h, answerVal: `${h}` },
-      { name: 'PULUHAN', val: t, answerVal: `${t}` },
-      { name: 'SATUAN', val: o, answerVal: `${o}` },
-    ];
-    const picked = places[randInt(0, 3)];
-    const correct = picked.answerVal;
-    const distractors = Array.from(new Set([`${th}`, `${h}`, `${t}`, `${o}`, `${randInt(1, 9)}`]))
-      .filter(x => x !== correct)
-      .slice(0, 3);
-    while (distractors.length < 3) distractors.push(`${(parseInt(correct) + distractors.length + 1) % 10}`);
+    const a = randInt(25, 75);
+    const b = randInt(18, 59);
+    const sum = a + b;
+    const correct = `${sum}`;
+    const wrong1 = `${sum + 10}`;
+    const wrong2 = `${sum - 10}`;
+    const wrong3 = `${sum + 2}`;
 
     return {
-      id: `b1-place-${idx}-${num}`,
+      id: `add-2d-${idx}-${a}`,
       number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Nilai Tempat',
-      question: `Pada bilangan ${formatId(num)}, angka berapakah yang menempati nilai tempat ${picked.name}?`,
-      options: shuffle([correct, ...distractors]),
-      correctAnswer: correct,
-      explanation: `Bilangan ${formatId(num)} tersusun atas ${th} ribuan (${formatId(th * 1000)}), ${h} ratusan (${h * 100}), ${t} puluhan (${t * 10}), dan ${o} satuan (${o}). Jadi nilai tempat ${picked.name} ditempati oleh angka ${picked.answerVal}.`,
-    };
-  },
-
-  // 2. Dekomposisi bentuk panjang
-  (idx) => {
-    const th = randInt(1, 8);
-    const h = randInt(1, 9);
-    const t = randInt(1, 9);
-    const o = randInt(1, 9);
-    const num = th * 1000 + h * 100 + t * 10 + o;
-    const correct = `${formatId(th * 1000)} + ${h * 100} + ${t * 10} + ${o}`;
-    const wrong1 = `${formatId(th * 100)} + ${h * 100} + ${t * 10} + ${o}`;
-    const wrong2 = `${formatId(th * 1000)} + ${h * 10} + ${t * 100} + ${o}`;
-    const wrong3 = `${formatId(th * 1000)} + ${h * 100} + ${t} + ${o * 10}`;
-
-    return {
-      id: `b1-decomp-${idx}-${num}`,
-      number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Bentuk Panjang',
-      question: `Bentuk panjang (dekomposisi) dari bilangan ${formatId(num)} adalah...`,
+      chapterTitle: 'Khusus Penjumlahan (+)',
+      category: 'Penjumlahan 2 Digit',
+      question: `Berapakah hasil dari ${a} + ${b}?`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Uraikan nilai setiap digit sesuai tempatnya: ${th} ribuan (${formatId(th * 1000)}) + ${h} ratusan (${h * 100}) + ${t} puluhan (${t * 10}) + ${o} satuan (${o}) = ${correct}.`,
+      explanation: `Hitung satuan: ${a % 10} + ${b % 10} = ${(a % 10) + (b % 10)}. Hitung puluhan: ${Math.floor(a / 10)} + ${Math.floor(b / 10)} (ditambah simpanan jika ada). Hasil akhir: ${a} + ${b} = ${correct}.`,
     };
   },
 
-  // 3. Membaca bilangan dengan nol di tengah
+  // A2: 3-digit addition with carry
   (idx) => {
-    const th = randInt(2, 9);
-    const ones = randInt(1, 9);
-    const num = th * 1000 + ones;
-    const wordsTh = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
-    const wordsOnes = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan'];
-
-    const correct = `${wordsTh[th]} ribu ${wordsOnes[ones]}`;
-    const wrong1 = `${wordsTh[th]} ratus ${wordsOnes[ones]}`;
-    const wrong2 = `${wordsTh[th]} ribu nol ratus ${wordsOnes[ones]}`;
-    const wrong3 = `${wordsTh[th]} ribu ${wordsOnes[ones]} puluh`;
+    const a = randInt(150, 480);
+    const b = randInt(160, 490);
+    const sum = a + b;
+    const correct = `${sum}`;
+    const wrong1 = `${sum + 10}`;
+    const wrong2 = `${sum - 100}`;
+    const wrong3 = `${sum + 100}`;
 
     return {
-      id: `b1-read-${idx}-${num}`,
+      id: `add-3d-${idx}-${a}`,
       number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Membaca Bilangan',
-      question: `Lambang bilangan ${formatId(num)} dibaca...`,
+      chapterTitle: 'Khusus Penjumlahan (+)',
+      category: 'Penjumlahan Ratusan',
+      question: `Hitunglah penjumlahan bersusun: ${a} + ${b} = ...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Karena angka ratusan dan puluhan bernilai nol (0), maka tidak perlu diucapkan. ${formatId(num)} dibaca "${correct}".`,
+      explanation: `Susun kedua bilangan lurus ke bawah: satuan lurus satuan, puluhan lurus puluhan, ratusan lurus ratusan. ${a} + ${b} = ${correct}.`,
     };
   },
 
-  // 4. Membandingkan dua bilangan 4 digit
-  (idx) => {
-    const th = randInt(2, 8);
-    const num1 = th * 1000 + randInt(200, 400);
-    const num2 = th * 1000 + randInt(500, 800);
-    const isNum1Smaller = num1 < num2;
-    const correct = isNum1Smaller ? '< (lebih kecil)' : '> (lebih besar)';
-    const wrong1 = isNum1Smaller ? '> (lebih besar)' : '< (lebih kecil)';
-    const wrong2 = '= (sama dengan)';
-    const wrong3 = '>= (lebih dari)';
-
-    return {
-      id: `b1-comp-${idx}-${num1}`,
-      number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Membandingkan Bilangan',
-      question: `Tanda perbandingan yang tepat untuk: ${formatId(num1)} ... ${formatId(num2)} adalah...`,
-      options: [correct, wrong1, wrong2, wrong3],
-      correctAnswer: correct,
-      explanation: `Angka ribuan keduanya sama (${formatId(th * 1000)}). Lihat ratusannya: ${formatId(num1)} ratusannya lebih ${isNum1Smaller ? 'kecil' : 'besar'} dibanding ${formatId(num2)}. Maka ${formatId(num1)} ${isNum1Smaller ? '<' : '>'} ${formatId(num2)}.`,
-    };
-  },
-
-  // 5. Penjumlahan susun menyimpan sampai 10.000
+  // A3: 4-digit addition up to 10.000
   (idx) => {
     const a = randInt(1500, 4500);
     const b = randInt(1200, 4800);
@@ -152,40 +179,272 @@ const bab1Generators: QuestionGenerator[] = [
     const wrong3 = formatId(sum + 100);
 
     return {
-      id: `b1-add-${idx}-${a}`,
+      id: `add-4d-${idx}-${a}`,
       number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Penjumlahan Susun',
+      chapterTitle: 'Khusus Penjumlahan (+)',
+      category: 'Penjumlahan Ribuan',
       question: `Hasil dari penjumlahan bersusun ${formatId(a)} + ${formatId(b)} adalah...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Jumlahkan dari digit satuan lurus ke kiri: ${formatId(a)} + ${formatId(b)} = ${correct}. Jika hasil kolom ≥ 10, simpan 1 di atas kolom sebelah kirinya.`,
+      explanation: `Jumlahkan dari kolom satuan lurus ke kiri: ${formatId(a)} + ${formatId(b)} = ${correct}. Ingat untuk menambahkan angka 1 simpanan jika hasil kolom ≥ 10.`,
     };
   },
 
-  // 6. Pengurangan susun meminjam sampai 10.000
+  // A4: 3-number addition
   (idx) => {
-    const diff = randInt(1200, 3500);
-    const b = randInt(1500, 4500);
+    const a = randInt(120, 300);
+    const b = randInt(110, 250);
+    const c = randInt(80, 200);
+    const sum = a + b + c;
+    const correct = `${sum}`;
+    const wrong1 = `${sum + 10}`;
+    const wrong2 = `${sum - 10}`;
+    const wrong3 = `${sum + 20}`;
+
+    return {
+      id: `add-3num-${idx}-${a}`,
+      number: idx,
+      chapterTitle: 'Khusus Penjumlahan (+)',
+      category: 'Penjumlahan Tiga Bilangan',
+      question: `Berapakah hasil dari ${a} + ${b} + ${c}?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Jumlahkan bertahap: ${a} + ${b} = ${a + b}, lalu (${a + b}) + ${c} = ${correct}.`,
+    };
+  },
+
+  // A5: Word problem (Soal Cerita Penjumlahan)
+  (idx) => {
+    const items = ['butir telur', 'buah mangga', 'buku tulis', 'bibit pohon jati', 'kelereng'][randInt(0, 4)];
+    const day1 = randInt(1250, 3200);
+    const day2 = randInt(1100, 3100);
+    const total = day1 + day2;
+    const correct = `${formatId(total)} ${items}`;
+    const wrong1 = `${formatId(total + 100)} ${items}`;
+    const wrong2 = `${formatId(total - 100)} ${items}`;
+    const wrong3 = `${formatId(total + 10)} ${items}`;
+
+    return {
+      id: `add-word-${idx}-${day1}`,
+      number: idx,
+      chapterTitle: 'Khusus Penjumlahan (+)',
+      category: 'Soal Cerita Penjumlahan',
+      question: `Paman memanen ${formatId(day1)} ${items} pada hari Sabtu, dan memanen lagi ${formatId(day2)} ${items} pada hari Minggu. Berapa total ${items} yang dipanen Paman seluruhnya?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Jumlahkan hasil panen kedua hari: ${formatId(day1)} + ${formatId(day2)} = ${correct}.`,
+    };
+  },
+
+  // A6: Missing addend (Kotak misteri penjumlahan)
+  (idx) => {
+    const known = randInt(250, 600);
+    const mystery = randInt(150, 400);
+    const total = known + mystery;
+    const correct = `${mystery}`;
+    const wrong1 = `${mystery + 10}`;
+    const wrong2 = `${mystery - 10}`;
+    const wrong3 = `${total + known}`;
+
+    return {
+      id: `add-box-${idx}-${total}`,
+      number: idx,
+      chapterTitle: 'Khusus Penjumlahan (+)',
+      category: 'Mencari Angka Penjumlahan',
+      question: `Isilah nilai ⬜ pada persamaan berikut: ${known} + ⬜ = ${total}`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Untuk mencari angka penambah yang hilang: ⬜ = ${total} - ${known} = ${correct}.`,
+    };
+  },
+];
+
+// =========================================================================
+// 2. SUBTRACTION GENERATORS (KHUSUS PENGURANGAN)
+// =========================================================================
+export const subtractionGenerators: QuestionGenerator[] = [
+  // S1: 2-digit subtraction with borrow
+  (idx) => {
+    const b = randInt(25, 48);
+    const diff = randInt(18, 45);
     const a = b + diff; // ensures a > b
+    const correct = `${diff}`;
+    const wrong1 = `${diff + 10}`;
+    const wrong2 = `${diff - 10}`;
+    const wrong3 = `${diff + 2}`;
+
+    return {
+      id: `sub-2d-${idx}-${a}`,
+      number: idx,
+      chapterTitle: 'Khusus Pengurangan (-)',
+      category: 'Pengurangan 2 Digit',
+      question: `Berapakah hasil dari ${a} - ${b}?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Gunakan teknik meminjam jika satuan atas lebih kecil dari satuan bawah: ${a} - ${b} = ${correct}.`,
+    };
+  },
+
+  // S2: 3-digit subtraction with borrow
+  (idx) => {
+    const b = randInt(180, 390);
+    const diff = randInt(140, 350);
+    const a = b + diff;
+    const correct = `${diff}`;
+    const wrong1 = `${diff + 10}`;
+    const wrong2 = `${diff - 10}`;
+    const wrong3 = `${diff + 100}`;
+
+    return {
+      id: `sub-3d-${idx}-${a}`,
+      number: idx,
+      chapterTitle: 'Khusus Pengurangan (-)',
+      category: 'Pengurangan Ratusan',
+      question: `Hitunglah pengurangan bersusun: ${a} - ${b} = ...`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Kurangkan kolom demi kolom mulai dari satuan: ${a} - ${b} = ${correct}.`,
+    };
+  },
+
+  // S3: 4-digit subtraction up to 10.000
+  (idx) => {
+    const b = randInt(1500, 4200);
+    const diff = randInt(1200, 3800);
+    const a = b + diff;
     const correct = formatId(diff);
     const wrong1 = formatId(diff + 10);
     const wrong2 = formatId(diff - 10);
     const wrong3 = formatId(diff + 100);
 
     return {
-      id: `b1-sub-${idx}-${a}`,
+      id: `sub-4d-${idx}-${a}`,
       number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Pengurangan Susun',
+      chapterTitle: 'Khusus Pengurangan (-)',
+      category: 'Pengurangan Ribuan',
       question: `Hasil dari pengurangan bersusun ${formatId(a)} - ${formatId(b)} adalah...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Kurangkan dari digit satuan ke ribuan: ${formatId(a)} - ${formatId(b)} = ${correct}. Gunakan teknik meminjam jika angka atas lebih kecil dari angka bawah.`,
+      explanation: `Kurangkan digit satuan ke ribuan: ${formatId(a)} - ${formatId(b)} = ${correct}. Pinjam 1 dari tetangga sebelah kiri jika angka atas lebih kecil.`,
     };
   },
 
-  // 7. Perkalian kelipatan ribuan
+  // S4: Subtraction from round thousands (1.000, 5.000, 10.000)
+  (idx) => {
+    const roundTotal = [1000, 2000, 5000, 10000][randInt(0, 3)];
+    const subtracted = randInt(150, 480) * (roundTotal > 2000 ? 10 : 1);
+    const diff = roundTotal - subtracted;
+    const correct = formatId(diff);
+    const wrong1 = formatId(diff + 10);
+    const wrong2 = formatId(diff - 10);
+    const wrong3 = formatId(diff + 100);
+
+    return {
+      id: `sub-round-${idx}-${roundTotal}`,
+      number: idx,
+      chapterTitle: 'Khusus Pengurangan (-)',
+      category: 'Pengurangan Angka Bulat',
+      question: `Berapakah hasil dari ${formatId(roundTotal)} - ${formatId(subtracted)}?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Gunakan trik meminjam beruntun: ${formatId(roundTotal)} - ${formatId(subtracted)} = ${correct}.`,
+    };
+  },
+
+  // S5: Word problem (Soal Cerita Pengurangan)
+  (idx) => {
+    const initial = randInt(4500, 8500);
+    const used = randInt(1200, 3200);
+    const remain = initial - used;
+    const correct = `${formatId(remain)} kg`;
+    const wrong1 = `${formatId(remain + 100)} kg`;
+    const wrong2 = `${formatId(remain - 100)} kg`;
+    const wrong3 = `${formatId(remain + 50)} kg`;
+
+    return {
+      id: `sub-word-${idx}-${initial}`,
+      number: idx,
+      chapterTitle: 'Khusus Pengurangan (-)',
+      category: 'Soal Cerita Pengurangan',
+      question: `Di sebuah gudang terdapat ${formatId(initial)} kg beras. Sebanyak ${formatId(used)} kg beras telah dikirim ke toko-toko. Berapa kg sisa beras di gudang sekarang?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Kurangkan stok awal dengan jumlah yang sudah dikirim: ${formatId(initial)} - ${formatId(used)} = ${correct}.`,
+    };
+  },
+
+  // S6: Missing subtrahend (Kotak misteri pengurangan)
+  (idx) => {
+    const total = randInt(400, 800);
+    const remain = randInt(120, 290);
+    const mystery = total - remain;
+    const correct = `${mystery}`;
+    const wrong1 = `${mystery + 20}`;
+    const wrong2 = `${mystery - 20}`;
+    const wrong3 = `${total + remain}`;
+
+    return {
+      id: `sub-box-${idx}-${total}`,
+      number: idx,
+      chapterTitle: 'Khusus Pengurangan (-)',
+      category: 'Mencari Angka Pengurang',
+      question: `Tentukan nilai ⬜ yang tepat pada persamaan: ${total} - ⬜ = ${remain}`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Untuk mencari angka pengurang: ⬜ = ${total} - ${remain} = ${correct}.`,
+    };
+  },
+];
+
+// =========================================================================
+// 3. MULTIPLICATION GENERATORS (KHUSUS PERKALIAN)
+// =========================================================================
+export const multiplicationGenerators: QuestionGenerator[] = [
+  // M1: Basic multiplication facts 1-10
+  (idx) => {
+    const a = randInt(3, 9);
+    const b = randInt(4, 9);
+    const prod = a * b;
+    const correct = `${prod}`;
+    const wrong1 = `${prod + a}`;
+    const wrong2 = `${prod - b}`;
+    const wrong3 = `${prod + 2}`;
+
+    return {
+      id: `mult-basic-${idx}-${a}x${b}`,
+      number: idx,
+      chapterTitle: 'Khusus Perkalian (×)',
+      category: 'Tabel Perkalian Dasar',
+      question: `Berapakah hasil dari ${a} × ${b}?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `${a} × ${b} berarti angka ${b} dijumlahkan sebanyak ${a} kali. Hasilnya = ${correct}.`,
+    };
+  },
+
+  // M2: 2-digit times 1-digit
+  (idx) => {
+    const a = randInt(12, 35);
+    const b = randInt(3, 6);
+    const prod = a * b;
+    const correct = `${prod}`;
+    const wrong1 = `${prod + 10}`;
+    const wrong2 = `${prod - 10}`;
+    const wrong3 = `${prod + b}`;
+
+    return {
+      id: `mult-2d1d-${idx}-${a}x${b}`,
+      number: idx,
+      chapterTitle: 'Khusus Perkalian (×)',
+      category: 'Perkalian Puluhan',
+      question: `Hitunglah hasil perkalian dari ${a} × ${b}:`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Kalikan satuan: ${(a % 10)} × ${b} = ${(a % 10) * b}. Kalikan puluhan: ${Math.floor(a / 10)}0 × ${b} = ${Math.floor(a / 10) * 10 * b}. Jumlahkan: ${correct}.`,
+    };
+  },
+
+  // M3: Multiplication by round thousands
   (idx) => {
     const mult = randInt(2, 5);
     const base = randInt(1, 4) * 1000;
@@ -196,141 +455,181 @@ const bab1Generators: QuestionGenerator[] = [
     const wrong3 = formatId(res / 10);
 
     return {
-      id: `b1-mult-${idx}-${base}`,
+      id: `mult-th-${idx}-${base}`,
       number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
-      category: 'Perkalian Ribuan',
-      question: `Berapakah hasil perkalian dari ${mult} × ${formatId(base)}?`,
+      chapterTitle: 'Khusus Perkalian (×)',
+      category: 'Perkalian Kelipatan Ribuan',
+      question: `Berapakah hasil dari ${mult} × ${formatId(base)}?`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Gunakan trik nol: kalikan angka depan ${mult} × ${base / 1000} = ${mult * (base / 1000)}, lalu tambahkan 3 angka nol di belakangnya ➔ ${correct}.`,
+      explanation: `Trik angka nol: kalikan angka depan ${mult} × ${base / 1000} = ${mult * (base / 1000)}, lalu tambahkan 3 angka nol di belakangnya ➔ ${correct}.`,
     };
   },
 
-  // 8. Pembagian ribuan adil
+  // M4: Repeated addition concept
+  (idx) => {
+    const a = randInt(3, 6);
+    const b = randInt(4, 8);
+    const correct = Array(a).fill(b).join(' + ');
+    const wrong1 = Array(b).fill(a).join(' + ');
+    const wrong2 = `${a} + ${b}`;
+    const wrong3 = `${a} × ${b}`;
+
+    return {
+      id: `mult-concept-${idx}-${a}x${b}`,
+      number: idx,
+      chapterTitle: 'Khusus Perkalian (×)',
+      category: 'Konsep Perkalian',
+      question: `Bentuk penjumlahan berulang yang tepat dari ${a} × ${b} adalah...`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `${a} × ${b} artinya ada ${a} kelompok yang masing-masing berisi ${b}. Jadi angka ${b} dijumlahkan sebanyak ${a} kali (${correct}).`,
+    };
+  },
+
+  // M5: Word problem (Soal Cerita Perkalian)
+  (idx) => {
+    const boxes = randInt(4, 8);
+    const itemsPerBox = randInt(5, 12);
+    const total = boxes * itemsPerBox;
+    const correct = `${total} buah`;
+    const wrong1 = `${total + itemsPerBox} buah`;
+    const wrong2 = `${total - itemsPerBox} buah`;
+    const wrong3 = `${boxes + itemsPerBox} buah`;
+
+    return {
+      id: `mult-word-${idx}-${boxes}`,
+      number: idx,
+      chapterTitle: 'Khusus Perkalian (×)',
+      category: 'Soal Cerita Perkalian',
+      question: `Ibu membeli ${boxes} kotak donat. Setiap kotak berisi ${itemsPerBox} buah donat. Berapa total seluruh donat yang dibeli Ibu?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Ada ${boxes} kotak × ${itemsPerBox} buah donat per kotak = ${boxes * itemsPerBox} buah donat (${correct}).`,
+    };
+  },
+];
+
+// =========================================================================
+// 4. DIVISION GENERATORS (KHUSUS PEMBAGIAN)
+// =========================================================================
+export const divisionGenerators: QuestionGenerator[] = [
+  // D1: Basic division facts
+  (idx) => {
+    const divisor = randInt(3, 9);
+    const quotient = randInt(3, 9);
+    const dividend = divisor * quotient;
+    const correct = `${quotient}`;
+    const wrong1 = `${quotient + 1}`;
+    const wrong2 = `${quotient - 1}`;
+    const wrong3 = `${divisor}`;
+
+    return {
+      id: `div-basic-${idx}-${dividend}`,
+      number: idx,
+      chapterTitle: 'Khusus Pembagian (÷)',
+      category: 'Tabel Pembagian Dasar',
+      question: `Berapakah hasil dari ${dividend} ÷ ${divisor}?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Cari perkalian kebalikannya: ${divisor} × berapa yang menghasilkan ${dividend}? Karena ${divisor} × ${quotient} = ${dividend}, maka ${dividend} ÷ ${divisor} = ${correct}.`,
+    };
+  },
+
+  // D2: Division of round hundreds and thousands
   (idx) => {
     const divisor = randInt(2, 4);
-    const res = randInt(1, 3) * 1000;
-    const dividend = divisor * res;
-    const correct = formatId(res);
-    const wrong1 = formatId(res + 500);
-    const wrong2 = formatId(res - 500);
-    const wrong3 = formatId(res * 2);
+    const quotient = randInt(1, 3) * 1000;
+    const dividend = divisor * quotient;
+    const correct = formatId(quotient);
+    const wrong1 = formatId(quotient + 500);
+    const wrong2 = formatId(quotient - 500);
+    const wrong3 = formatId(quotient * 2);
 
     return {
-      id: `b1-div-${idx}-${dividend}`,
+      id: `div-th-${idx}-${dividend}`,
       number: idx,
-      chapterTitle: 'Bab 1: Bilangan Cacah sampai 10.000',
+      chapterTitle: 'Khusus Pembagian (÷)',
       category: 'Pembagian Ribuan',
-      question: `Kakek membagikan uang Rp ${formatId(dividend)} sama rata kepada ${divisor} cucunya. Berapa rupiah yang didapat masing-masing cucu?`,
-      options: shuffle([`Rp ${correct}`, `Rp ${wrong1}`, `Rp ${wrong2}`, `Rp ${wrong3}`]),
-      correctAnswer: `Rp ${correct}`,
-      explanation: `Rp ${formatId(dividend)} ÷ ${divisor} = Rp (${dividend / 1000} ÷ ${divisor}) ribu = Rp ${correct}.`,
+      question: `Berapakah hasil pembagian dari ${formatId(dividend)} ÷ ${divisor}?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Bagi angka depannya terlebih dahulu: ${dividend / 1000} ÷ ${divisor} = ${quotient / 1000}, lalu tempelkan tiga angka nol ➔ ${correct}.`,
+    };
+  },
+
+  // D3: 2-digit divided by 1-digit without remainder
+  (idx) => {
+    const divisor = randInt(2, 5);
+    const quotient = randInt(12, 24);
+    const dividend = divisor * quotient;
+    const correct = `${quotient}`;
+    const wrong1 = `${quotient + 2}`;
+    const wrong2 = `${quotient - 2}`;
+    const wrong3 = `${quotient + 5}`;
+
+    return {
+      id: `div-2d1d-${idx}-${dividend}`,
+      number: idx,
+      chapterTitle: 'Khusus Pembagian (÷)',
+      category: 'Pembagian Puluhan',
+      question: `Hitunglah hasil dari ${dividend} ÷ ${divisor}:`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `${dividend} ÷ ${divisor} = ${correct} (karena ${divisor} × ${correct} = ${dividend}).`,
+    };
+  },
+
+  // D4: Division as repeated subtraction
+  (idx) => {
+    const divisor = randInt(3, 6);
+    const quotient = randInt(3, 5);
+    const dividend = divisor * quotient;
+    const correct = `${quotient} kali`;
+    const wrong1 = `${quotient + 1} kali`;
+    const wrong2 = `${divisor} kali`;
+    const wrong3 = `${quotient - 1} kali`;
+
+    return {
+      id: `div-concept-${idx}-${dividend}`,
+      number: idx,
+      chapterTitle: 'Khusus Pembagian (÷)',
+      category: 'Konsep Pembagian',
+      question: `Operasi pembagian ${dividend} ÷ ${divisor} artinya angka ${dividend} dikurangkan dengan ${divisor} secara terus-menerus hingga habis sebanyak...`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Pembagian adalah pengurangan berulang sampai habis (hasil 0). Angka ${dividend} dikurangi ${divisor} sebanyak ${quotient} kali.`,
+    };
+  },
+
+  // D5: Word problem (Soal Cerita Pembagian)
+  (idx) => {
+    const people = randInt(3, 6);
+    const perPerson = randInt(4, 9);
+    const total = people * perPerson;
+    const correct = `${perPerson} butir`;
+    const wrong1 = `${perPerson + 1} butir`;
+    const wrong2 = `${perPerson - 1} butir`;
+    const wrong3 = `${people} butir`;
+
+    return {
+      id: `div-word-${idx}-${total}`,
+      number: idx,
+      chapterTitle: 'Khusus Pembagian (÷)',
+      category: 'Soal Cerita Pembagian',
+      question: `Cia memiliki ${total} butir kelereng. Kelereng tersebut dibagikan sama rata kepada ${people} orang temannya. Berapa butir kelereng yang didapat tiap teman?`,
+      options: shuffle([correct, wrong1, wrong2, wrong3]),
+      correctAnswer: correct,
+      explanation: `Bagikan sama rata: ${total} ÷ ${people} = ${correct}. Setiap anak mendapat ${perPerson} butir kelereng.`,
     };
   },
 ];
 
-// =================== TOPIC 2: BAB 2 - KALIMAT MATEMATIKA & POLA BILANGAN ===================
-const bab2Generators: QuestionGenerator[] = [
-  // 1. Kotak misteri penjumlahan
-  (idx) => {
-    const known = randInt(120, 450);
-    const mystery = randInt(50, 300);
-    const total = known + mystery;
-    const correct = `${mystery}`;
-    const wrong1 = `${mystery + 10}`;
-    const wrong2 = `${mystery - 10}`;
-    const wrong3 = `${total + known}`;
-
-    return {
-      id: `b2-box-add-${idx}-${total}`,
-      number: idx,
-      chapterTitle: 'Bab 2: Kalimat Matematika & Pola Bilangan',
-      category: 'Kotak Misteri',
-      question: `Tentukan nilai ⬜ yang tepat pada kalimat matematika: ${known} + ⬜ = ${total}`,
-      options: shuffle([correct, wrong1, wrong2, wrong3]),
-      correctAnswer: correct,
-      explanation: `Untuk mencari angka misteri penjumlahan, kurangkan hasil akhir dengan angka yang sudah diketahui: ⬜ = ${total} - ${known} = ${correct}.`,
-    };
-  },
-
-  // 2. Kotak misteri pengurangan
-  (idx) => {
-    const total = randInt(300, 700);
-    const result = randInt(100, 250);
-    const mystery = total - result;
-    const correct = `${mystery}`;
-    const wrong1 = `${mystery + 20}`;
-    const wrong2 = `${mystery - 20}`;
-    const wrong3 = `${total + result}`;
-
-    return {
-      id: `b2-box-sub-${idx}-${total}`,
-      number: idx,
-      chapterTitle: 'Bab 2: Kalimat Matematika & Pola Bilangan',
-      category: 'Kotak Misteri',
-      question: `Tentukan nilai ⬜ yang memenuhi persamaan: ${total} - ⬜ = ${result}`,
-      options: shuffle([correct, wrong1, wrong2, wrong3]),
-      correctAnswer: correct,
-      explanation: `Untuk mencari angka pengurang: ⬜ = ${total} - ${result} = ${correct}.`,
-    };
-  },
-
-  // 3. Pola bilangan loncat membesar
-  (idx) => {
-    const step = [3, 4, 5, 10, 25, 50][randInt(0, 5)];
-    const start = randInt(10, 100);
-    const n1 = start;
-    const n2 = n1 + step;
-    const n3 = n2 + step;
-    const n4 = n3 + step; // target
-    const n5 = n4 + step; // target 2
-    const correct = `${n4}, ${n5}`;
-    const wrong1 = `${n4 + 2}, ${n5 + 4}`;
-    const wrong2 = `${n4 - 1}, ${n5}`;
-    const wrong3 = `${n4 + step}, ${n5 + step}`;
-
-    return {
-      id: `b2-pat-inc-${idx}-${start}`,
-      number: idx,
-      chapterTitle: 'Bab 2: Kalimat Matematika & Pola Bilangan',
-      category: 'Pola Bilangan',
-      question: `Perhatikan barisan bilangan: ${n1}, ${n2}, ${n3}, ..., ... Dua bilangan berikutnya adalah...`,
-      options: shuffle([correct, wrong1, wrong2, wrong3]),
-      correctAnswer: correct,
-      explanation: `Aturan pola ini adalah bertambah ${step} (+${step}) di setiap langkah. Suku ke-4 = ${n3} + ${step} = ${n4}, dan suku ke-5 = ${n4} + ${step} = ${n5}.`,
-    };
-  },
-
-  // 4. Pola bilangan loncat mengecil
-  (idx) => {
-    const step = [5, 10, 20, 50][randInt(0, 3)];
-    const start = randInt(200, 500);
-    const n1 = start;
-    const n2 = n1 - step;
-    const n3 = n2 - step;
-    const n4 = n3 - step;
-    const correct = `${n4}`;
-    const wrong1 = `${n4 + step}`;
-    const wrong2 = `${n4 - 5}`;
-    const wrong3 = `${n4 + 10}`;
-
-    return {
-      id: `b2-pat-dec-${idx}-${start}`,
-      number: idx,
-      chapterTitle: 'Bab 2: Kalimat Matematika & Pola Bilangan',
-      category: 'Pola Bilangan',
-      question: `Lengkapi bilangan selanjutnya pada pola mengecil berikut: ${n1}, ${n2}, ${n3}, ...`,
-      options: shuffle([correct, wrong1, wrong2, wrong3]),
-      correctAnswer: correct,
-      explanation: `Setiap bilangan berkurang ${step} (-${step}). Maka bilangan berikutnya adalah ${n3} - ${step} = ${correct}.`,
-    };
-  },
-];
-
-// =================== TOPIC 3: BAB 3 - PENGUKURAN PANJANG, BERAT, & WAKTU ===================
-const bab3Generators: QuestionGenerator[] = [
-  // 1. Konversi meter ke cm
+// =========================================================================
+// 5. MEASUREMENT GENERATORS (PENGUKURAN PANJANG, BERAT, WAKTU)
+// =========================================================================
+export const measurementGenerators: QuestionGenerator[] = [
+  // M1: Meter to cm
   (idx) => {
     const m = randInt(2, 9);
     const cmExtra = randInt(1, 9) * 10;
@@ -341,18 +640,18 @@ const bab3Generators: QuestionGenerator[] = [
     const wrong3 = `${m * 1000 + cmExtra} cm`;
 
     return {
-      id: `b3-length-mcm-${idx}-${m}`,
+      id: `meas-mcm-${idx}-${m}`,
       number: idx,
-      chapterTitle: 'Bab 3: Pengukuran Panjang, Berat, & Waktu',
-      category: 'Pengukuran Panjang',
+      chapterTitle: 'Pengukuran (Panjang, Berat, Waktu)',
+      category: 'Panjang (m & cm)',
       question: `Panjang pita hiasan kelas adalah ${m} meter ${cmExtra} cm. Panjang pita tersebut sama dengan...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Ingat bahwa 1 meter = 100 cm. Maka ${m} m = ${m * 100} cm. Total panjang = ${m * 100} cm + ${cmExtra} cm = ${correct}.`,
+      explanation: `1 meter = 100 cm. Maka ${m} m = ${m * 100} cm. Total panjang = ${m * 100} + ${cmExtra} = ${correct}.`,
     };
   },
 
-  // 2. Konversi km ke meter
+  // M2: Km to meter
   (idx) => {
     const km = randInt(2, 6);
     const m = randInt(1, 9) * 50;
@@ -363,18 +662,18 @@ const bab3Generators: QuestionGenerator[] = [
     const wrong3 = `${formatId(totalM - 500)} meter`;
 
     return {
-      id: `b3-dist-km-${idx}-${km}`,
+      id: `meas-kmm-${idx}-${km}`,
       number: idx,
-      chapterTitle: 'Bab 3: Pengukuran Panjang, Berat, & Waktu',
-      category: 'Pengukuran Panjang',
-      question: `Jarak dari rumah Cia ke sekolah adalah ${km} km ${m} m. Berapa meter jarak rumah Cia ke sekolah?`,
+      chapterTitle: 'Pengukuran (Panjang, Berat, Waktu)',
+      category: 'Jarak (km & m)',
+      question: `Jarak dari rumah Cia ke taman kota adalah ${km} km ${m} m. Jarak tersebut setara dengan...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `1 kilometer = 1.000 meter. Maka ${km} km = ${formatId(km * 1000)} m. Jarak total = ${formatId(km * 1000)} + ${m} = ${correct}.`,
+      explanation: `1 kilometer = 1.000 meter. Maka ${km} km = ${formatId(km * 1000)} m. Total jarak = ${formatId(km * 1000)} + ${m} = ${correct}.`,
     };
   },
 
-  // 3. Konversi kg ke gram
+  // M3: Kg to gram
   (idx) => {
     const kg = randInt(2, 7);
     const gExtra = randInt(1, 5) * 100;
@@ -385,18 +684,18 @@ const bab3Generators: QuestionGenerator[] = [
     const wrong3 = `${formatId(kg * 10000 + gExtra)} gram`;
 
     return {
-      id: `b3-weight-kg-${idx}-${kg}`,
+      id: `meas-kgg-${idx}-${kg}`,
       number: idx,
-      chapterTitle: 'Bab 3: Pengukuran Panjang, Berat, & Waktu',
-      category: 'Pengukuran Berat',
-      question: `Ibu membeli semangka dengan berat ${kg} kg ${gExtra} gram. Berat semangka dalam satuan gram adalah...`,
+      chapterTitle: 'Pengukuran (Panjang, Berat, Waktu)',
+      category: 'Berat (kg & gram)',
+      question: `Ibu membeli gula pasir seberat ${kg} kg ${gExtra} gram. Berat gula dalam satuan gram adalah...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
       explanation: `1 kg = 1.000 gram. Maka ${kg} kg = ${formatId(kg * 1000)} gram. Total berat = ${formatId(kg * 1000)} + ${gExtra} = ${correct}.`,
     };
   },
 
-  // 4. Membaca jam / lama waktu
+  // M4: Reading clock duration
   (idx) => {
     const startHour = randInt(7, 10);
     const durationHours = randInt(1, 3);
@@ -407,21 +706,23 @@ const bab3Generators: QuestionGenerator[] = [
     const wrong3 = `${durationHours + 2} jam`;
 
     return {
-      id: `b3-time-dur-${idx}-${startHour}`,
+      id: `meas-time-${idx}-${startHour}`,
       number: idx,
-      chapterTitle: 'Bab 3: Pengukuran Panjang, Berat, & Waktu',
-      category: 'Pengukuran Waktu',
+      chapterTitle: 'Pengukuran (Panjang, Berat, Waktu)',
+      category: 'Waktu & Durasi',
       question: `Cia mulai belajar pukul 0${startHour}.00 dan selesai pada pukul ${endHour < 10 ? '0' + endHour : endHour}.00. Berapa lama Cia belajar?`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Lama waktu = Jam selesai - Jam mulai = ${endHour}.00 - 0${startHour}.00 = ${correct} (${durationHours * 60} menit).`,
+      explanation: `Durasi = Jam selesai - Jam mulai = ${endHour}.00 - 0${startHour}.00 = ${correct} (${durationHours * 60} menit).`,
     };
   },
 ];
 
-// =================== TOPIC 4: BAB 4 - PECAHAN & BANGUN DATAR ===================
-const bab4Generators: QuestionGenerator[] = [
-  // 1. Pecahan bagian kue / pizza
+// =========================================================================
+// 6. GEOMETRY & FRACTION GENERATORS (PECAHAN & BANGUN DATAR)
+// =========================================================================
+export const geometryFractionGenerators: QuestionGenerator[] = [
+  // GF1: Fraction of cake / pizza
   (idx) => {
     const parts = [2, 4, 6, 8][randInt(0, 3)];
     const taken = 1;
@@ -431,18 +732,18 @@ const bab4Generators: QuestionGenerator[] = [
     const wrong3 = `${taken}/${parts - 1}`;
 
     return {
-      id: `b4-frac-pizza-${idx}-${parts}`,
+      id: `gf-frac-part-${idx}-${parts}`,
       number: idx,
-      chapterTitle: 'Bab 4: Pecahan & Bangun Datar',
+      chapterTitle: 'Pecahan & Bangun Datar',
       category: 'Pecahan Sederhana',
-      question: `Sebuah kue dipotong menjadi ${parts} bagian sama besar. Mimi memakan ${taken} potong kue. Nilai pecahan dari bagian yang dimakan Mimi adalah...`,
+      question: `Sebuah pizza dipotong menjadi ${parts} bagian sama besar. Cia memakan ${taken} potong pizza. Pecahan yang menyatakan pizza yang dimakan Cia adalah...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Pecahan menyatakan bagian dari keseluruhan. 1 potong dari ${parts} bagian yang sama ditulis sebagai ${correct}.`,
+      explanation: `Pecahan menyatakan bagian dari keseluruhan. 1 potong dari ${parts} bagian sama besar bernilai ${correct}.`,
     };
   },
 
-  // 2. Membandingkan pecahan penyebut sama
+  // GF2: Comparing fractions with same denominator
   (idx) => {
     const denom = randInt(5, 9);
     const num1 = randInt(2, denom - 2);
@@ -453,23 +754,23 @@ const bab4Generators: QuestionGenerator[] = [
     const wrong3 = '>= (lebih dari)';
 
     return {
-      id: `b4-frac-comp-${idx}-${denom}`,
+      id: `gf-frac-comp-${idx}-${denom}`,
       number: idx,
-      chapterTitle: 'Bab 4: Pecahan & Bangun Datar',
+      chapterTitle: 'Pecahan & Bangun Datar',
       category: 'Membandingkan Pecahan',
-      question: `Bandingkan kedua pecahan berikut: ${num1}/${denom} ... ${num2}/${denom}. Tanda perbandingan yang tepat adalah...`,
+      question: `Bandingkan nilai pecahan: ${num1}/${denom} ... ${num2}/${denom}. Tanda yang tepat adalah...`,
       options: [correct, wrong1, wrong2, wrong3],
       correctAnswer: correct,
-      explanation: `Jika penyebut kedua pecahan sama (${denom}), cukup bandingkan pembilangnya: karena ${num1} < ${num2}, maka ${num1}/${denom} < ${num2}/${denom}.`,
+      explanation: `Karena penyebutnya sama (${denom}), cukup bandingkan pembilang: ${num1} < ${num2}, sehingga ${num1}/${denom} < ${num2}/${denom}.`,
     };
   },
 
-  // 3. Ciri bangun datar (sisi dan sudut)
+  // GF3: 2D Shape properties
   (idx) => {
     const shapes = [
-      { name: 'persegi', sides: 4, corners: 4, desc: 'memiliki 4 sisi yang sama panjang dan 4 sudut siku-siku' },
-      { name: 'persegi panjang', sides: 4, corners: 4, desc: 'memiliki 2 pasang sisi sejajar sama panjang dan 4 sudut siku-siku' },
-      { name: 'segitiga', sides: 3, corners: 3, desc: 'memiliki 3 sisi dan 3 titik sudut' },
+      { name: 'persegi', desc: 'memiliki 4 sisi sama panjang dan 4 sudut siku-siku' },
+      { name: 'persegi panjang', desc: 'memiliki 2 pasang sisi sejajar sama panjang dan 4 sudut siku-siku' },
+      { name: 'segitiga', desc: 'memiliki 3 sisi dan 3 titik sudut' },
     ];
     const picked = shapes[randInt(0, 2)];
     const correct = picked.name;
@@ -477,22 +778,22 @@ const bab4Generators: QuestionGenerator[] = [
     distractors.push('lingkaran');
 
     return {
-      id: `b4-shape-props-${idx}-${picked.sides}`,
+      id: `gf-shape-${idx}`,
       number: idx,
-      chapterTitle: 'Bab 4: Pecahan & Bangun Datar',
-      category: 'Bangun Datar',
+      chapterTitle: 'Pecahan & Bangun Datar',
+      category: 'Sifat Bangun Datar',
       question: `Bangun datar yang ${picked.desc} adalah...`,
       options: shuffle([correct, ...distractors]),
       correctAnswer: correct,
-      explanation: `Sifat ${picked.desc} adalah ciri khas dari bangun ${picked.name}.`,
+      explanation: `Ciri-ciri ${picked.desc} dimiliki oleh bangun ${picked.name}.`,
     };
   },
 
-  // 4. Jenis sudut
+  // GF4: Angles
   (idx) => {
     const angles = [
-      { name: 'Sudut Siku-siku', desc: 'berukuran tepat 90 derajat (seperti pojok meja/buku)' },
-      { name: 'Sudut Lancip', desc: 'berukuran lebih kecil dari 90 derajat (lebih sempit/runcing)' },
+      { name: 'Sudut Siku-siku', desc: 'berukuran tepat 90 derajat (membentuk huruf L tegak lurus)' },
+      { name: 'Sudut Lancip', desc: 'berukuran lebih kecil dari 90 derajat (runcing/sempit)' },
       { name: 'Sudut Tumpul', desc: 'berukuran lebih besar dari 90 derajat (terbuka lebar)' },
     ];
     const picked = angles[randInt(0, 2)];
@@ -501,11 +802,11 @@ const bab4Generators: QuestionGenerator[] = [
     distractors.push('Sudut Lurus');
 
     return {
-      id: `b4-angle-type-${idx}`,
+      id: `gf-angle-${idx}`,
       number: idx,
-      chapterTitle: 'Bab 4: Pecahan & Bangun Datar',
-      category: 'Sudut',
-      question: `Sudut yang ${picked.desc} dinamakan...`,
+      chapterTitle: 'Pecahan & Bangun Datar',
+      category: 'Jenis Sudut',
+      question: `Sudut yang ${picked.desc} disebut...`,
       options: shuffle([correct, ...distractors]),
       correctAnswer: correct,
       explanation: `${picked.name} adalah sudut yang ${picked.desc}.`,
@@ -513,103 +814,117 @@ const bab4Generators: QuestionGenerator[] = [
   },
 ];
 
-// =================== TOPIC 5: BAB 5 - PENYAJIAN DATA & PIKTOGRAM ===================
-const bab5Generators: QuestionGenerator[] = [
-  // 1. Membaca piktogram dengan legenda simbol
+// =========================================================================
+// 7. GENERAL CURRICULUM GENERATORS (DATA, PATTERNS, ETC.)
+// =========================================================================
+export const generalGenerators: QuestionGenerator[] = [
+  // G1: Data pictograph
   (idx) => {
     const scale = [2, 5, 10][randInt(0, 2)];
-    const iconsCount = randInt(3, 7);
-    const fruit = ['Apel', 'Jeruk', 'Mangga', 'Pisang'][randInt(0, 3)];
-    const total = iconsCount * scale;
+    const count = randInt(3, 7);
+    const total = count * scale;
     const correct = `${total} buah`;
-    const wrong1 = `${iconsCount} buah`;
+    const wrong1 = `${count} buah`;
     const wrong2 = `${total + scale} buah`;
     const wrong3 = `${total - scale} buah`;
 
     return {
-      id: `b5-picto-read-${idx}-${total}`,
+      id: `gen-picto-${idx}-${total}`,
       number: idx,
-      chapterTitle: 'Bab 5: Penyajian Data & Piktogram',
-      category: 'Diagram Gambar (Piktogram)',
-      question: `Pada diagram gambar, ada ${iconsCount} simbol bintang ⭐ yang melambangkan penjualan buah ${fruit}. Jika 1 simbol ⭐ mewakili ${scale} buah, berapa banyak buah ${fruit} yang terjual?`,
+      chapterTitle: 'Penyajian Data & Piktogram',
+      category: 'Diagram Gambar',
+      question: `Pada diagram gambar, 1 simbol ⭐ mewakili ${scale} buah apel. Jika terdapat ${count} simbol ⭐, berapa total buah apel yang ada?`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Setiap simbol bernilai ${scale} buah. Karena ada ${iconsCount} simbol, hitung perkalian: ${iconsCount} × ${scale} = ${correct}.`,
+      explanation: `Setiap simbol bernilai ${scale}. Hitung: ${count} × ${scale} = ${correct}.`,
     };
   },
 
-  // 2. Selisih data tertinggi dan terendah
+  // G2: Number pattern
   (idx) => {
-    const high = randInt(15, 30);
-    const low = randInt(5, 12);
-    const diff = high - low;
-    const correct = `${diff} orang`;
-    const wrong1 = `${high} orang`;
-    const wrong2 = `${diff + 2} orang`;
-    const wrong3 = `${high + low} orang`;
+    const step = [5, 10, 25, 50][randInt(0, 3)];
+    const start = randInt(20, 100);
+    const n1 = start;
+    const n2 = n1 + step;
+    const n3 = n2 + step;
+    const n4 = n3 + step;
+    const correct = `${n4}`;
+    const wrong1 = `${n4 + step}`;
+    const wrong2 = `${n4 - 5}`;
+    const wrong3 = `${n4 + 10}`;
 
     return {
-      id: `b5-data-diff-${idx}-${diff}`,
+      id: `gen-pat-${idx}-${start}`,
       number: idx,
-      chapterTitle: 'Bab 5: Penyajian Data & Piktogram',
-      category: 'Membaca Data',
-      question: `Data hobi siswa kelas 3: Membaca = ${high} orang, Menari = ${low} orang. Selisih jumlah siswa yang hobi membaca dan menari adalah...`,
+      chapterTitle: 'Pola Bilangan',
+      category: 'Pola Loncat',
+      question: `Perhatikan pola bilangan: ${n1}, ${n2}, ${n3}, ... Bilangan berikutnya adalah...`,
       options: shuffle([correct, wrong1, wrong2, wrong3]),
       correctAnswer: correct,
-      explanation: `Selisih dicari dengan mengurangkan data terbesar dengan data terkecil: ${high} - ${low} = ${correct}.`,
+      explanation: `Pola bilangan ini bertambah ${step} (+${step}) di setiap langkah. Suku berikutnya = ${n3} + ${step} = ${correct}.`,
     };
   },
-
-  // 3. Membaca tabel turus
-  (idx) => {
-    const correct = '14';
-    const wrong1 = '12';
-    const wrong2 = '15';
-    const wrong3 = '10';
-
-    return {
-      id: `b5-tally-${idx}`,
-      number: idx,
-      chapterTitle: 'Bab 5: Penyajian Data & Piktogram',
-      category: 'Tabel Turus',
-      question: 'Sebuah turus data tertulis: (IIII/) (IIII/) (IIII). Bilangan yang menyatakan banyaknya data turus tersebut adalah...',
-      options: shuffle([correct, wrong1, wrong2, wrong3]),
-      correctAnswer: correct,
-      explanation: 'Satu ikat turus (IIII/) bernilai 5. Dua ikat turus bernilai 5 + 5 = 10. Ditambah 4 batang lepas = 10 + 4 = 14.',
-    };
-  },
-];
-
-// All generator pools by chapter
-const allGenerators = [
-  ...bab1Generators,
-  ...bab2Generators,
-  ...bab3Generators,
-  ...bab4Generators,
-  ...bab5Generators,
 ];
 
 /**
- * Generate N exam questions (20 to 100) balanced across all 5 chapters
+ * Generate exam questions based on selected category and count
  */
-export function generateExamQuestions(count: number = 20): ExamQuestion[] {
+export function generateExamQuestions(
+  count: number = 20,
+  category: ExamCategory = 'all'
+): ExamQuestion[] {
   const safeCount = Math.max(20, Math.min(100, count));
   const questions: ExamQuestion[] = [];
 
-  // Distribute questions evenly across chapters
-  const pools = [
-    bab1Generators,
-    bab2Generators,
-    bab3Generators,
-    bab4Generators,
-    bab5Generators,
-  ];
+  let activePools: QuestionGenerator[][] = [];
+
+  switch (category) {
+    case 'addition':
+      activePools = [additionGenerators];
+      break;
+    case 'subtraction':
+      activePools = [subtractionGenerators];
+      break;
+    case 'multiplication':
+      activePools = [multiplicationGenerators];
+      break;
+    case 'division':
+      activePools = [divisionGenerators];
+      break;
+    case 'arithmetic':
+      // 4 operations combined
+      activePools = [
+        additionGenerators,
+        subtractionGenerators,
+        multiplicationGenerators,
+        divisionGenerators,
+      ];
+      break;
+    case 'measurement':
+      activePools = [measurementGenerators];
+      break;
+    case 'geometry_fraction':
+      activePools = [geometryFractionGenerators];
+      break;
+    case 'all':
+    default:
+      // Mix of everything across chapters
+      activePools = [
+        additionGenerators,
+        subtractionGenerators,
+        multiplicationGenerators,
+        divisionGenerators,
+        measurementGenerators,
+        geometryFractionGenerators,
+        generalGenerators,
+      ];
+      break;
+  }
 
   for (let i = 1; i <= safeCount; i++) {
-    // Pick pool in round-robin fashion or weighted
-    const poolIndex = (i - 1) % pools.length;
-    const pool = pools[poolIndex];
-    const generator = pool[randInt(0, pool.length - 1)] || allGenerators[randInt(0, allGenerators.length - 1)];
+    const poolIndex = (i - 1) % activePools.length;
+    const currentPool = activePools[poolIndex];
+    const generator = currentPool[randInt(0, currentPool.length - 1)];
 
     const q = generator(i);
     q.number = i;
