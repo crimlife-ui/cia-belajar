@@ -805,6 +805,7 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
 
   // 2 Digit (Dividen 10 - 99)
   2: [
+    // 2.1 Tabel pembagian dasar (Pembagi 1 digit)
     (idx) => {
       const divisor = randInt(3, 9);
       const quotient = randInt(3, 9);
@@ -824,6 +825,50 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
         explanation: `Cari perkalian kebalikannya: ${divisor} × berapa yang menghasilkan ${dividend}? Karena ${divisor} × ${quotient} = ${dividend}, maka ${dividend} ÷ ${divisor} = ${correct}.`,
       };
     },
+    // 2.2 Pembagian Puluhan dengan Pembagi 2 Digit (Hasil 1 digit)
+    (idx) => {
+      const pairs = [
+        { div: 48, by: 12, q: 4 },
+        { div: 60, by: 12, q: 5 },
+        { div: 72, by: 12, q: 6 },
+        { div: 84, by: 12, q: 7 },
+        { div: 96, by: 12, q: 8 },
+        { div: 60, by: 15, q: 4 },
+        { div: 75, by: 15, q: 5 },
+        { div: 90, by: 15, q: 6 },
+        { div: 64, by: 16, q: 4 },
+        { div: 80, by: 16, q: 5 },
+        { div: 96, by: 16, q: 6 },
+        { div: 72, by: 18, q: 4 },
+        { div: 90, by: 18, q: 5 },
+        { div: 60, by: 20, q: 3 },
+        { div: 80, by: 20, q: 4 },
+        { div: 50, by: 25, q: 2 },
+        { div: 75, by: 25, q: 3 },
+        { div: 70, by: 14, q: 5 },
+        { div: 72, by: 24, q: 3 },
+        { div: 96, by: 24, q: 4 },
+        { div: 50, by: 10, q: 5 },
+        { div: 70, by: 10, q: 7 },
+        { div: 90, by: 10, q: 9 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = `${pick.q}`;
+      const wrong1 = `${pick.q + 1}`;
+      const wrong2 = `${pick.q > 1 ? pick.q - 1 : pick.q + 3}`;
+      const wrong3 = `${pick.q + 2}`;
+      return {
+        id: `div-2d-div2d-${idx}-${pick.div}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Pembagian Dibagi 2 Digit',
+        question: `Berapakah hasil dari ${pick.div} ÷ ${pick.by}?`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Cari kelipatan pembagi: ${pick.by} × ${pick.q} = ${pick.div}. Jadi ${pick.div} ÷ ${pick.by} = ${correct}.`,
+      };
+    },
+    // 2.3 Pembagian puluhan dibagi 1 digit (hasil puluhan)
     (idx) => {
       const divisor = randInt(2, 5);
       const quotient = randInt(12, 24);
@@ -836,39 +881,124 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
         id: `div-2d1d-${idx}-${dividend}`,
         number: idx,
         chapterTitle: 'Khusus Pembagian (÷)',
-        category: 'Pembagian Puluhan Puluhan',
+        category: 'Pembagian Puluhan Bersusun',
         question: `Hitunglah hasil dari ${dividend} ÷ ${divisor}:`,
         options: shuffle([correct, wrong1, wrong2, wrong3]),
         correctAnswer: correct,
         explanation: `${dividend} ÷ ${divisor} = ${correct} (karena ${divisor} × ${correct} = ${dividend}).`,
       };
     },
+    // 2.4 Soal Cerita Pembagian Puluhan dengan Pembagi 2 Digit
     (idx) => {
-      const people = randInt(3, 6);
-      const perPerson = randInt(4, 9);
-      const total = people * perPerson;
-      const correct = `${perPerson} butir`;
-      const wrong1 = `${perPerson + 1} butir`;
-      const wrong2 = `${perPerson - 1} butir`;
-      const wrong3 = `${perPerson + 2} butir`;
+      const scenarios = [
+        { total: 60, by: 15, unit: 'anak', item: 'buah jeruk', res: 4, resUnit: 'buah' },
+        { total: 75, by: 15, unit: 'wadah', item: 'butir telur', res: 5, resUnit: 'butir' },
+        { total: 96, by: 12, unit: 'kotak', item: 'pensil warna', res: 8, resUnit: 'batang' },
+        { total: 80, by: 20, unit: 'kelompok', item: 'buku bacaan', res: 4, resUnit: 'buku' },
+        { total: 75, by: 25, unit: 'kantong', item: 'permen cokelat', res: 3, resUnit: 'butir' },
+        { total: 50, by: 10, unit: 'tetangga', item: 'kue bolu', res: 5, resUnit: 'kue' },
+        { total: 72, by: 24, unit: 'meja', item: 'gelas minuman', res: 3, resUnit: 'gelas' },
+      ];
+      const sc = scenarios[randInt(0, scenarios.length - 1)];
+      const correct = `${sc.res} ${sc.resUnit}`;
+      const wrong1 = `${sc.res + 1} ${sc.resUnit}`;
+      const wrong2 = `${sc.res > 1 ? sc.res - 1 : sc.res + 3} ${sc.resUnit}`;
+      const wrong3 = `${sc.res + 2} ${sc.resUnit}`;
       return {
-        id: `div-word-${idx}-${total}`,
+        id: `div-word-2d-${idx}-${sc.total}`,
         number: idx,
         chapterTitle: 'Khusus Pembagian (÷)',
-        category: 'Soal Cerita Pembagian',
-        question: `Cia memiliki ${total} butir permen. Permen tersebut dibagikan sama rata kepada ${people} orang temannya. Berapa butir permen yang didapat tiap teman?`,
+        category: 'Soal Cerita Pembagian 2 Digit',
+        question: `Ibu memiliki ${sc.total} ${sc.item} yang dibagikan sama rata ke dalam ${sc.by} ${sc.unit}. Berapa ${sc.resUnit} yang didapat tiap ${sc.unit}?`,
         options: shuffle([correct, wrong1, wrong2, wrong3]),
         correctAnswer: correct,
-        explanation: `Bagikan sama rata: ${total} ÷ ${people} = ${correct}. Setiap anak mendapat ${perPerson} butir permen.`,
+        explanation: `Bagi total item dengan pembagi: ${sc.total} ÷ ${sc.by} = ${correct}.`,
       };
     },
   ],
 
   // 3 Digit (Dividen 100 - 999)
   3: [
+    // 3.1 Pembagian Ratusan dengan Pembagi 2 Digit (Kelipatan Puluhan: 10, 20, 30, 40, 50)
     (idx) => {
-      const divisor = randInt(2, 6);
-      const quotient = randInt(15, 60);
+      const pairs = [
+        { div: 200, by: 10, q: 20 },
+        { div: 350, by: 10, q: 35 },
+        { div: 480, by: 10, q: 48 },
+        { div: 360, by: 20, q: 18 },
+        { div: 400, by: 20, q: 20 },
+        { div: 480, by: 20, q: 24 },
+        { div: 500, by: 20, q: 25 },
+        { div: 600, by: 20, q: 30 },
+        { div: 720, by: 20, q: 36 },
+        { div: 840, by: 20, q: 42 },
+        { div: 450, by: 30, q: 15 },
+        { div: 600, by: 30, q: 20 },
+        { div: 900, by: 30, q: 30 },
+        { div: 800, by: 40, q: 20 },
+        { div: 750, by: 50, q: 15 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = `${pick.q}`;
+      const wrong1 = `${pick.q + 5}`;
+      const wrong2 = `${pick.q > 5 ? pick.q - 5 : pick.q + 15}`;
+      const wrong3 = `${pick.q + 10}`;
+      return {
+        id: `div-3d-tens-${idx}-${pick.div}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Pembagian 3 Digit ÷ Puluhan',
+        question: `Berapakah hasil pembagian dari ${pick.div} ÷ ${pick.by}?`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Trik angka nol: coret satu angka nol pada kedua bilangan: ${pick.div} ÷ ${pick.by} = ${pick.div / 10} ÷ ${pick.by / 10} = ${correct}.`,
+      };
+    },
+    // 3.2 Pembagian Ratusan dengan Pembagi 2 Digit Umum (12, 14, 15, 16, 18, 24, 25)
+    (idx) => {
+      const pairs = [
+        { div: 144, by: 12, q: 12 },
+        { div: 180, by: 12, q: 15 },
+        { div: 240, by: 12, q: 20 },
+        { div: 288, by: 12, q: 24 },
+        { div: 196, by: 14, q: 14 },
+        { div: 225, by: 15, q: 15 },
+        { div: 300, by: 15, q: 20 },
+        { div: 360, by: 15, q: 24 },
+        { div: 450, by: 15, q: 30 },
+        { div: 240, by: 16, q: 15 },
+        { div: 320, by: 16, q: 20 },
+        { div: 480, by: 16, q: 30 },
+        { div: 360, by: 24, q: 15 },
+        { div: 480, by: 24, q: 20 },
+        { div: 720, by: 24, q: 30 },
+        { div: 250, by: 25, q: 10 },
+        { div: 325, by: 25, q: 13 },
+        { div: 375, by: 25, q: 15 },
+        { div: 500, by: 25, q: 20 },
+        { div: 625, by: 25, q: 25 },
+        { div: 750, by: 25, q: 30 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = `${pick.q}`;
+      const wrong1 = `${pick.q + 2}`;
+      const wrong2 = `${pick.q > 2 ? pick.q - 2 : pick.q + 4}`;
+      const wrong3 = `${pick.q + 5}`;
+      return {
+        id: `div-3d-poro2d-${idx}-${pick.div}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Porogapit Ratusan ÷ 2 Digit',
+        question: `Hitunglah hasil dari ${pick.div} ÷ ${pick.by}:`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Gunakan porogapit bersusun: ${pick.div} ÷ ${pick.by} = ${correct} (karena ${pick.by} × ${correct} = ${pick.div}).`,
+      };
+    },
+    // 3.3 Pembagian Ratusan dengan Pembagi 1 Digit (Porogapit Bersusun)
+    (idx) => {
+      const divisor = randInt(3, 9);
+      const quotient = randInt(25, 110);
       const dividend = divisor * quotient;
       const correct = `${quotient}`;
       const wrong1 = `${quotient + 5}`;
@@ -878,53 +1008,223 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
         id: `div-3d-${idx}-${dividend}`,
         number: idx,
         chapterTitle: 'Khusus Pembagian (÷)',
-        category: 'Pembagian 3 Digit (Ratusan)',
+        category: 'Pembagian 3 Digit Bersusun',
         question: `Berapakah hasil pembagian dari ${dividend} ÷ ${divisor}?`,
         options: shuffle([correct, wrong1, wrong2, wrong3]),
         correctAnswer: correct,
-        explanation: `Gunakan bagi kurung atau porogapit: ${dividend} ÷ ${divisor} = ${correct}.`,
+        explanation: `Gunakan porogapit bertahap: bagi ratusan, puluhan, lalu satuan ➔ ${dividend} ÷ ${divisor} = ${correct}.`,
       };
     },
+    // 3.4 Soal Cerita Ratusan dengan Pembagi 2 Digit
     (idx) => {
-      const divisor = randInt(2, 5);
-      const quotient = randInt(2, 8) * 100;
-      const dividend = divisor * quotient;
-      const correct = `${quotient}`;
-      const wrong1 = `${quotient + 50}`;
-      const wrong2 = `${quotient - 50}`;
-      const wrong3 = `${quotient * 2}`;
+      const scenarios = [
+        { total: 240, by: 12, unit: 'rak buku', item: 'buku cerita', res: 20, resUnit: 'buku' },
+        { total: 375, by: 25, unit: 'anak panti', item: 'kue kotak', res: 15, resUnit: 'kotak' },
+        { total: 450, by: 15, unit: 'kelompok tani', item: 'bibit cabai', res: 30, resUnit: 'bibit' },
+        { total: 360, by: 24, unit: 'kotak pensil', item: 'batang pensil', res: 15, resUnit: 'batang' },
+        { total: 500, by: 20, unit: 'kantong plastik', item: 'butir kelereng', res: 25, resUnit: 'butir' },
+        { total: 600, by: 25, unit: 'keranjang', item: 'buah mangga', res: 24, resUnit: 'buah' },
+      ];
+      const sc = scenarios[randInt(0, scenarios.length - 1)];
+      const correct = `${sc.res} ${sc.resUnit}`;
+      const wrong1 = `${sc.res + 5} ${sc.resUnit}`;
+      const wrong2 = `${sc.res > 5 ? sc.res - 5 : sc.res + 10} ${sc.resUnit}`;
+      const wrong3 = `${sc.res + 2} ${sc.resUnit}`;
       return {
-        id: `div-3d-round-${idx}-${dividend}`,
+        id: `div-word-3d-${idx}-${sc.total}`,
         number: idx,
         chapterTitle: 'Khusus Pembagian (÷)',
-        category: 'Pembagian Kelipatan Ratusan',
-        question: `Berapakah hasil dari ${dividend} ÷ ${divisor}?`,
+        category: 'Soal Cerita Pembagian Ratusan',
+        question: `Tersedia ${sc.total} ${sc.item} yang akan dimasukkan ke dalam ${sc.by} ${sc.unit} sama banyak. Berapa ${sc.resUnit} isi masing-masing ${sc.unit}?`,
         options: shuffle([correct, wrong1, wrong2, wrong3]),
         correctAnswer: correct,
-        explanation: `Bagi angka depannya: ${dividend / 100} ÷ ${divisor} = ${quotient / 100}, lalu tambahkan dua angka nol ➔ ${correct}.`,
+        explanation: `Bagi seluruh ${sc.item} dengan jumlah ${sc.unit}: ${sc.total} ÷ ${sc.by} = ${correct}.`,
       };
     },
   ],
 
   // 4 Digit (Dividen 1000 - 9999)
   4: [
+    // 4.1 Pembagian Ribuan dengan Pembagi 2 Digit (Kelipatan Puluhan: 10, 20, 30, 40, 50)
     (idx) => {
-      const divisor = randInt(2, 4);
-      const quotient = randInt(1, 3) * 1000;
-      const dividend = divisor * quotient;
-      const correct = formatId(quotient);
-      const wrong1 = formatId(quotient + 500);
-      const wrong2 = formatId(quotient - 500);
-      const wrong3 = formatId(quotient * 2);
+      const pairs = [
+        { div: 1200, by: 20, q: 60 },
+        { div: 1500, by: 30, q: 50 },
+        { div: 1800, by: 20, q: 90 },
+        { div: 2000, by: 40, q: 50 },
+        { div: 2400, by: 20, q: 120 },
+        { div: 2400, by: 30, q: 80 },
+        { div: 3000, by: 50, q: 60 },
+        { div: 3200, by: 40, q: 80 },
+        { div: 3600, by: 30, q: 120 },
+        { div: 4000, by: 20, q: 200 },
+        { div: 4200, by: 30, q: 140 },
+        { div: 4500, by: 30, q: 150 },
+        { div: 4800, by: 40, q: 120 },
+        { div: 5000, by: 50, q: 100 },
+        { div: 6000, by: 20, q: 300 },
+        { div: 6000, by: 30, q: 200 },
+        { div: 7200, by: 30, q: 240 },
+        { div: 8000, by: 40, q: 200 },
+        { div: 8400, by: 20, q: 420 },
+        { div: 9000, by: 30, q: 300 },
+        { div: 9600, by: 30, q: 320 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = `${pick.q}`;
+      const wrong1 = `${pick.q + 10}`;
+      const wrong2 = `${pick.q > 10 ? pick.q - 10 : pick.q + 30}`;
+      const wrong3 = `${pick.q + 20}`;
       return {
-        id: `div-4d-th-${idx}-${dividend}`,
+        id: `div-4d-tens-${idx}-${pick.div}`,
         number: idx,
         chapterTitle: 'Khusus Pembagian (÷)',
-        category: 'Pembagian Ribuan',
-        question: `Berapakah hasil pembagian dari ${formatId(dividend)} ÷ ${divisor}?`,
+        category: 'Pembagian Ribuan ÷ Puluhan (2 Digit)',
+        question: `Berapakah hasil dari ${formatId(pick.div)} ÷ ${pick.by}?`,
         options: shuffle([correct, wrong1, wrong2, wrong3]),
         correctAnswer: correct,
-        explanation: `Bagi angka depannya terlebih dahulu: ${dividend / 1000} ÷ ${divisor} = ${quotient / 1000}, lalu tempelkan tiga angka nol ➔ ${correct}.`,
+        explanation: `Trik angka nol: coret satu angka 0 di kedua bilangan: ${formatId(pick.div)} ÷ ${pick.by} = ${pick.div / 10} ÷ ${pick.by / 10} = ${correct}.`,
+      };
+    },
+    // 4.2 Pembagian Ribuan dengan Pembagi 2 Digit (12, 14, 15, 16, 18, 24, 25, 35, 50)
+    (idx) => {
+      const pairs = [
+        { div: 1200, by: 12, q: 100 },
+        { div: 1440, by: 12, q: 120 },
+        { div: 1500, by: 25, q: 60 },
+        { div: 1680, by: 14, q: 120 },
+        { div: 1800, by: 15, q: 120 },
+        { div: 2250, by: 25, q: 90 },
+        { div: 2400, by: 12, q: 200 },
+        { div: 2400, by: 16, q: 150 },
+        { div: 2500, by: 25, q: 100 },
+        { div: 2750, by: 25, q: 110 },
+        { div: 3000, by: 25, q: 120 },
+        { div: 3600, by: 12, q: 300 },
+        { div: 3600, by: 15, q: 240 },
+        { div: 3750, by: 25, q: 150 },
+        { div: 4500, by: 15, q: 300 },
+        { div: 4800, by: 24, q: 200 },
+        { div: 5000, by: 25, q: 200 },
+        { div: 6250, by: 25, q: 250 },
+        { div: 7200, by: 24, q: 300 },
+        { div: 7500, by: 25, q: 300 },
+        { div: 8400, by: 12, q: 700 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = `${pick.q}`;
+      const wrong1 = `${pick.q + 20}`;
+      const wrong2 = `${pick.q > 20 ? pick.q - 20 : pick.q + 40}`;
+      const wrong3 = `${pick.q + 10}`;
+      return {
+        id: `div-4d-poro2d-${idx}-${pick.div}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Porogapit Ribuan ÷ 2 Digit',
+        question: `Berapakah hasil pembagian dari ${formatId(pick.div)} ÷ ${pick.by}?`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Gunakan porogapit: ${formatId(pick.div)} ÷ ${pick.by} = ${correct} (karena ${pick.by} × ${correct} = ${formatId(pick.div)}).`,
+      };
+    },
+    // 4.3 Pembagian Ribuan Porogapit Presisi (Ratusan dan Puluhan)
+    (idx) => {
+      const pairs = [
+        { div: 1344, by: 12, q: 112 },
+        { div: 1452, by: 12, q: 121 },
+        { div: 1625, by: 25, q: 65 },
+        { div: 1875, by: 25, q: 75 },
+        { div: 2160, by: 18, q: 120 },
+        { div: 2448, by: 12, q: 204 },
+        { div: 2550, by: 25, q: 102 },
+        { div: 3120, by: 24, q: 130 },
+        { div: 3450, by: 15, q: 230 },
+        { div: 3636, by: 18, q: 202 },
+        { div: 4545, by: 15, q: 303 },
+        { div: 5250, by: 25, q: 210 },
+        { div: 6360, by: 12, q: 530 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = `${pick.q}`;
+      const wrong1 = `${pick.q + 10}`;
+      const wrong2 = `${pick.q > 10 ? pick.q - 10 : pick.q + 25}`;
+      const wrong3 = `${pick.q + 5}`;
+      return {
+        id: `div-4d-precise-${idx}-${pick.div}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Porogapit Ribuan Bersusun Presisi',
+        question: `Hitunglah hasil dari ${formatId(pick.div)} ÷ ${pick.by} = ...`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Hitung dengan porogapit langkah demi langkah: ${formatId(pick.div)} ÷ ${pick.by} = ${correct}.`,
+      };
+    },
+    // 4.4 Pembagian Ribuan dengan Pembagi 1 Digit yang Bervariasi (3, 5, 6, 7, 8, 9)
+    (idx) => {
+      const pairs = [
+        { div: 1400, by: 7, q: 200 },
+        { div: 1800, by: 9, q: 200 },
+        { div: 2100, by: 7, q: 300 },
+        { div: 2400, by: 6, q: 400 },
+        { div: 2700, by: 9, q: 300 },
+        { div: 2800, by: 7, q: 400 },
+        { div: 3200, by: 8, q: 400 },
+        { div: 3500, by: 5, q: 700 },
+        { div: 3600, by: 6, q: 600 },
+        { div: 4000, by: 8, q: 500 },
+        { div: 4200, by: 6, q: 700 },
+        { div: 4500, by: 9, q: 500 },
+        { div: 4800, by: 6, q: 800 },
+        { div: 5400, by: 6, q: 900 },
+        { div: 5600, by: 8, q: 700 },
+        { div: 6300, by: 9, q: 700 },
+        { div: 6400, by: 8, q: 800 },
+        { div: 7200, by: 8, q: 900 },
+        { div: 8100, by: 9, q: 900 },
+      ];
+      const pick = pairs[randInt(0, pairs.length - 1)];
+      const correct = formatId(pick.q);
+      const wrong1 = formatId(pick.q + 100);
+      const wrong2 = formatId(pick.q > 100 ? pick.q - 100 : pick.q + 200);
+      const wrong3 = formatId(pick.q + 50);
+      return {
+        id: `div-4d-single-${idx}-${pick.div}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Pembagian Ribuan (1 Digit)',
+        question: `Berapakah hasil dari ${formatId(pick.div)} ÷ ${pick.by}?`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Bagi angka depannya: ${pick.div / 100} ÷ ${pick.by} = ${pick.q / 100}, lalu tambahkan dua angka nol di belakangnya ➔ ${correct}.`,
+      };
+    },
+    // 4.5 Soal Cerita Pembagian Ribuan dengan Pembagi 2 Digit
+    (idx) => {
+      const scenarios = [
+        { total: 2400, by: 24, unit: 'kardus', item: 'bungkus roti', res: 100, resUnit: 'kardus' },
+        { total: 1500, by: 25, unit: 'sekolah', item: 'buku tulis', res: 60, resUnit: 'buku' },
+        { total: 3600, by: 30, unit: 'baki telur', item: 'butir telur', res: 120, resUnit: 'baki' },
+        { total: 5000, by: 50, unit: 'posko', item: 'kg beras', res: 100, resUnit: 'kg' },
+        { total: 1800, by: 15, unit: 'keranjang', item: 'buah jeruk', res: 120, resUnit: 'buah' },
+        { total: 2500, by: 25, unit: 'karung', item: 'potong seragam', res: 100, resUnit: 'potong' },
+        { total: 4800, by: 20, unit: 'toko cabang', item: 'botol minyak', res: 240, resUnit: 'botol' },
+        { total: 3200, by: 40, unit: 'kelompok kerja', item: 'bibit pohon', res: 80, resUnit: 'bibit' },
+      ];
+      const sc = scenarios[randInt(0, scenarios.length - 1)];
+      const correct = `${formatId(sc.res)} ${sc.resUnit}`;
+      const wrong1 = `${formatId(sc.res + 20)} ${sc.resUnit}`;
+      const wrong2 = `${formatId(sc.res > 20 ? sc.res - 20 : sc.res + 40)} ${sc.resUnit}`;
+      const wrong3 = `${formatId(sc.res + 10)} ${sc.resUnit}`;
+      return {
+        id: `div-word-4d-${idx}-${sc.total}`,
+        number: idx,
+        chapterTitle: 'Khusus Pembagian (÷)',
+        category: 'Soal Cerita Pembagian Ribuan',
+        question: `Sebuah instansi menyalurkan ${formatId(sc.total)} ${sc.item} ke dalam ${sc.by} ${sc.unit} sama rata. Berapa banyak yang didapat tiap ${sc.unit}?`,
+        options: shuffle([correct, wrong1, wrong2, wrong3]),
+        correctAnswer: correct,
+        explanation: `Bagikan total dengan jumlah pembagi: ${formatId(sc.total)} ÷ ${sc.by} = ${correct}.`,
       };
     },
   ],
