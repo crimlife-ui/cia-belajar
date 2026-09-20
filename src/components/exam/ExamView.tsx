@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { ExamQuestion, ExamCategory } from '../../data/examBank';
-import { generateExamQuestions, EXAM_CATEGORIES } from '../../data/examBank';
+import type { ExamQuestion, ExamCategory, DigitOption } from '../../data/examBank';
+import { generateExamQuestions, EXAM_CATEGORIES, DIGIT_OPTIONS } from '../../data/examBank';
 import { ScratchpadModal } from './ScratchpadModal';
 import { Mascot } from '../mascot/Mascot';
 import {
@@ -15,6 +15,7 @@ import {
   VolumeX,
   Sparkles,
   Grid,
+  CheckSquare,
 } from 'lucide-react';
 
 interface ExamViewProps {
@@ -60,6 +61,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
 
   // Setup options
   const [selectedCategory, setSelectedCategory] = useState<ExamCategory>('all');
+  const [selectedDigits, setSelectedDigits] = useState<DigitOption[]>([1, 2, 3, 4]);
   const [selectedCount, setSelectedCount] = useState<number>(20);
   const [selectedTimerMins, setSelectedTimerMins] = useState<number>(0);
 
@@ -89,6 +91,19 @@ export const ExamView: React.FC<ExamViewProps> = ({
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [stopSpeech]);
+
+  // Toggle selected digit (multi-select, keep at least 1)
+  const toggleDigit = (d: DigitOption) => {
+    playClick();
+    setSelectedDigits(prev => {
+      if (prev.includes(d)) {
+        if (prev.length === 1) return prev; // Keep at least one
+        return prev.filter(item => item !== d);
+      } else {
+        return [...prev, d].sort((a, b) => a - b);
+      }
+    });
+  };
 
   // Timer interval during exam
   useEffect(() => {
@@ -121,7 +136,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
   // Start Exam
   const handleStartExam = () => {
     playClick();
-    const generated = generateExamQuestions(selectedCount, selectedCategory);
+    const generated = generateExamQuestions(selectedCount, selectedCategory, selectedDigits);
     setQuestions(generated);
     setCurrentIndex(0);
     setAnswers({});
@@ -309,12 +324,81 @@ export const ExamView: React.FC<ExamViewProps> = ({
             </div>
           </div>
 
-          {/* 2. Pilih Jumlah Soal (20 - 100) */}
+          {/* 2. Pilih Rentang Digit Angka (Multi-Select) */}
+          {['addition', 'subtraction', 'multiplication', 'division', 'arithmetic', 'all'].includes(selectedCategory) && (
+            <div className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 rounded-2xl p-4 border-2 border-amber-300">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+                <label className="text-sm font-black text-slate-800 flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs shadow-xs">
+                    2
+                  </span>
+                  <span>Pilihan Rentang Digit Angka:</span>
+                  <span className="text-[11px] font-bold text-amber-800 bg-white/80 px-2 py-0.5 rounded-full border border-amber-200">
+                    Bisa pilih &gt; 1 digit
+                  </span>
+                </label>
+                <div className="flex items-center gap-1 text-xs font-black text-amber-900 bg-amber-200/70 px-2.5 py-1 rounded-xl self-start sm:self-auto">
+                  <CheckSquare className="w-3.5 h-3.5 text-amber-700" />
+                  <span>
+                    {selectedDigits.length === 4
+                      ? 'Semua Digit (1 s/d 4 Digit)'
+                      : `Aktif: ${selectedDigits.map(d => `${d} Digit`).join(', ')}`}
+                  </span>
+                </div>
+              </div>
+
+              {/* Multi-Select Digit Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                {DIGIT_OPTIONS.map(opt => {
+                  const isChecked = selectedDigits.includes(opt.digit);
+                  return (
+                    <button
+                      key={opt.digit}
+                      type="button"
+                      onClick={() => toggleDigit(opt.digit)}
+                      className={`p-3 rounded-2xl border-2 text-left transition-all btn-tactile relative overflow-hidden flex flex-col justify-between ${
+                        isChecked
+                          ? 'bg-white border-amber-500 shadow-md ring-2 ring-amber-400/50'
+                          : 'bg-white/60 border-slate-200 text-slate-400 hover:bg-white hover:border-slate-300 opacity-60'
+                      }`}
+                    >
+                      {isChecked && (
+                        <div className="absolute top-2 right-2 text-amber-600">
+                          <CheckSquare className="w-4 h-4 fill-amber-100" />
+                        </div>
+                      )}
+                      <div>
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <span className="text-xl">{opt.icon}</span>
+                          <span className={`text-xs font-black ${isChecked ? 'text-slate-900' : 'text-slate-500'}`}>
+                            {opt.label}
+                          </span>
+                        </div>
+                        <span className={`text-[11px] font-extrabold block ${isChecked ? 'text-amber-700' : 'text-slate-400'}`}>
+                          {opt.name} ({opt.rangeText})
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-semibold text-slate-500 block mt-2 bg-slate-50 px-1.5 py-0.5 rounded-lg border border-slate-100">
+                        {opt.example}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <p className="text-[11px] font-bold text-amber-800/80 mt-2.5 flex items-center gap-1">
+                <span>💡</span>
+                <span>Klik pada kotak untuk mencentang atau menghapus pilihan digit yang diinginkan.</span>
+              </p>
+            </div>
+          )}
+
+          {/* 3. Pilih Jumlah Soal (20 - 100) */}
           <div>
             <label className="text-sm font-black text-slate-800 flex items-center justify-between mb-3">
               <span className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
-                  2
+                  {['addition', 'subtraction', 'multiplication', 'division', 'arithmetic', 'all'].includes(selectedCategory) ? '3' : '2'}
                 </span>
                 Pilih Jumlah Soal:
               </span>
@@ -359,11 +443,11 @@ export const ExamView: React.FC<ExamViewProps> = ({
             </div>
           </div>
 
-          {/* 3. Pilih Mode Waktu / Timer */}
+          {/* Pilih Mode Waktu / Timer */}
           <div>
             <label className="text-sm font-black text-slate-800 flex items-center gap-2 mb-3">
               <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
-                3
+                {['addition', 'subtraction', 'multiplication', 'division', 'arithmetic', 'all'].includes(selectedCategory) ? '4' : '3'}
               </span>
               Pilih Batasan Waktu:
             </label>
@@ -495,6 +579,11 @@ export const ExamView: React.FC<ExamViewProps> = ({
               <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-lg">
                 {currentQ.chapterTitle}
               </span>
+              {currentQ.category && (
+                <span className="text-[11px] font-black text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-lg border border-amber-200">
+                  {currentQ.category}
+                </span>
+              )}
             </div>
 
             <button
