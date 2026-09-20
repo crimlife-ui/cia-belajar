@@ -12,6 +12,7 @@ import {
   BookOpen,
   Zap,
   Globe,
+  Sun,
 } from 'lucide-react';
 
 interface ChapterListProps {
@@ -25,6 +26,7 @@ interface ChapterListProps {
   playClick: () => void;
   equipped: { hat?: string; glasses?: string; snack?: string };
   screenTimeRemaining?: number;
+  isWakeLocked?: boolean;
 }
 
 export const ChapterList: React.FC<ChapterListProps> = ({
@@ -38,6 +40,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   playClick,
   equipped,
   screenTimeRemaining,
+  isWakeLocked,
 }) => {
   const [selectedChapter, setSelectedChapter] = useState<Chapter>(CURRICULUM[0]);
 
@@ -56,8 +59,18 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           </div>
         </div>
 
-        {/* Stats: Streak, Stars, Coins & Timer */}
+        {/* Stats: Streak, Stars, Coins & Timer & WakeLock */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {isWakeLocked && (
+            <div
+              title="Layar Tetap Menyala (Layar Tidak Terkunci Otomatis Saat Cia Belajar)"
+              className="flex items-center gap-1 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-2xl text-xs font-black text-amber-700 select-none shadow-xs"
+            >
+              <Sun className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
+              <span className="hidden sm:inline">Layar Aktif</span>
+            </div>
+          )}
+
           {screenTimeRemaining !== undefined && (
             <div
               title="Sisa Waktu Belajar"

@@ -10,6 +10,7 @@ import {
   RotateCcw,
   Sparkles,
   BookOpen,
+  Sun,
 } from 'lucide-react';
 
 interface AnalyticsDashboardProps {
@@ -161,7 +162,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
           </div>
         </div>
 
-        {/* Audio Toggles */}
+        {/* Audio & Screen Wake Toggles */}
         <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
           <button
             onClick={() => {
@@ -191,6 +192,22 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
             </span>
             <span className={`px-2 py-0.5 rounded-full text-[10px] ${settings.voiceNarrationEnabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500'}`}>
               {settings.voiceNarrationEnabled ? 'Aktif' : 'Mati'}
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              playClick();
+              onUpdateSettings({ ...settings, keepAwakeEnabled: !(settings.keepAwakeEnabled ?? true) });
+            }}
+            className="flex items-center justify-between p-3 rounded-2xl border border-amber-200 bg-amber-50/60 text-xs font-extrabold text-slate-700 col-span-2"
+          >
+            <span className="flex items-center gap-2">
+              <Sun className="w-4 h-4 text-amber-500 fill-amber-400" />
+              Layar Tetap Menyala (Anti Kunci Layar / Sleep)
+            </span>
+            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black ${(settings.keepAwakeEnabled ?? true) ? 'bg-amber-200 text-amber-800' : 'bg-slate-200 text-slate-500'}`}>
+              {(settings.keepAwakeEnabled ?? true) ? '☀️ Selalu Aktif' : 'Mati'}
             </span>
           </button>
         </div>

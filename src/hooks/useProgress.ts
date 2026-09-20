@@ -24,6 +24,7 @@ const INITIAL_PARENT_SETTINGS: ParentSettings = {
   soundEnabled: true,
   voiceNarrationEnabled: true,
   timerActive: false,
+  keepAwakeEnabled: true,
 };
 
 export function useProgress() {
@@ -38,7 +39,13 @@ export function useProgress() {
   const [parentSettings, setParentSettings] = useState<ParentSettings>(() => {
     try {
       const saved = localStorage.getItem('cia_math_parent_settings');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...parsed,
+          keepAwakeEnabled: parsed.keepAwakeEnabled ?? true,
+        };
+      }
     } catch {}
     return INITIAL_PARENT_SETTINGS;
   });

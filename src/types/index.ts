@@ -85,4 +85,5 @@ export interface ParentSettings {
   soundEnabled: boolean;
   voiceNarrationEnabled: boolean;
   timerActive: boolean;
+  keepAwakeEnabled?: boolean; // Mencegah layar mati/terkunci saat aplikasi berjalan
 }

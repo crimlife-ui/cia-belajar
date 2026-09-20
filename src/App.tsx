@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useProgress } from './hooks/useProgress';
 import { useAudio } from './hooks/useAudio';
 import { useSpeech } from './hooks/useSpeech';
+import { useWakeLock } from './hooks/useWakeLock';
 import { ChapterList } from './components/hub/ChapterList';
 import { LessonView } from './components/lesson/LessonView';
 import { PetRoom } from './components/mascot/PetRoom';
@@ -37,6 +38,9 @@ export default function App() {
   );
 
   const { speak, stop: stopSpeech, isSpeaking } = useSpeech(parentSettings.voiceNarrationEnabled);
+
+  // Screen Wake Lock: Mencegah layar mati / terkunci saat aplikasi aktif berjalan
+  const { isLocked: isWakeLocked } = useWakeLock(parentSettings.keepAwakeEnabled ?? true);
 
   // Screen Time Timer logic
   const [secondsRemaining, setSecondsRemaining] = useState<number>(() => {
@@ -122,6 +126,7 @@ export default function App() {
                 ? secondsRemaining
                 : undefined
             }
+            isWakeLocked={isWakeLocked}
           />
         )}
 
