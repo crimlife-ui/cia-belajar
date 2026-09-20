@@ -144,9 +144,59 @@ export const EXAM_CATEGORIES: ExamCategoryMeta[] = [
   },
 ];
 
-// Helper: Shuffle array randomly
+// Helper: Shuffle array randomly while guaranteeing 4 unique options
 function shuffle<T>(array: T[]): T[] {
-  const arr = [...array];
+  // Deduplicate using Set while preserving string/value uniqueness
+  const uniqueSet = new Set<string>();
+  const uniqueArr: T[] = [];
+
+  for (const item of array) {
+    const key = String(item).trim();
+    if (!uniqueSet.has(key)) {
+      uniqueSet.add(key);
+      uniqueArr.push(item);
+    }
+  }
+
+  // If there are duplicates, generate reasonable unique numeric or text fallback alternatives
+  let offset = 1;
+  while (uniqueArr.length < 4 && uniqueArr.length > 0) {
+    const first = uniqueArr[0];
+    const firstStr = String(first).trim();
+
+    // Check if item has trailing unit (e.g. "12 kg", "20 buah", "5 kali")
+    const unitMatch = firstStr.match(/^([0-9.,]+)\s*([a-zA-Z%]+)?$/);
+    if (unitMatch) {
+      const numPart = parseInt(unitMatch[1].replace(/\./g, ''), 10);
+      const unit = unitMatch[2] ? ` ${unitMatch[2]}` : '';
+      if (!isNaN(numPart)) {
+        const candidate1 = `${numPart + offset}${unit}`;
+        const candidate2 = `${Math.max(1, numPart - offset)}${unit}`;
+        if (!uniqueSet.has(candidate1)) {
+          uniqueSet.add(candidate1);
+          uniqueArr.push(candidate1 as unknown as T);
+        } else if (!uniqueSet.has(candidate2)) {
+          uniqueSet.add(candidate2);
+          uniqueArr.push(candidate2 as unknown as T);
+        }
+      } else {
+        const candidate = `${firstStr} (${uniqueArr.length + 1})`;
+        if (!uniqueSet.has(candidate)) {
+          uniqueSet.add(candidate);
+          uniqueArr.push(candidate as unknown as T);
+        }
+      }
+    } else {
+      const candidate = `${firstStr} (${uniqueArr.length + 1})`;
+      if (!uniqueSet.has(candidate)) {
+        uniqueSet.add(candidate);
+        uniqueArr.push(candidate as unknown as T);
+      }
+    }
+    offset++;
+  }
+
+  const arr = [...uniqueArr];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -193,12 +243,12 @@ export const additionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
     },
     (idx) => {
       const a = randInt(1, 9);
-      const total = randInt(a + 1, 15);
+      const total = randInt(a + 2, 16);
       const mystery = total - a;
       const correct = `${mystery}`;
       const wrong1 = `${mystery + 1}`;
-      const wrong2 = `${Math.max(1, mystery - 1)}`;
-      const wrong3 = `${total}`;
+      const wrong2 = `${mystery > 1 ? mystery - 1 : mystery + 3}`;
+      const wrong3 = `${mystery + 2}`;
       return {
         id: `add-1d-box-${idx}-${total}`,
         number: idx,
@@ -412,8 +462,8 @@ export const subtractionGeneratorsByDigit: Record<DigitOption, QuestionGenerator
       const mystery = total - remain;
       const correct = `${mystery}`;
       const wrong1 = `${mystery + 1}`;
-      const wrong2 = `${Math.max(1, mystery - 1)}`;
-      const wrong3 = `${total}`;
+      const wrong2 = `${mystery > 1 ? mystery - 1 : mystery + 3}`;
+      const wrong3 = `${mystery + 2}`;
       return {
         id: `sub-1d-box-${idx}`,
         number: idx,
@@ -719,8 +769,8 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
       const dividend = divisor * quotient;
       const correct = `${quotient}`;
       const wrong1 = `${quotient + 1}`;
-      const wrong2 = `${Math.max(1, quotient - 1)}`;
-      const wrong3 = `${divisor}`;
+      const wrong2 = `${quotient > 1 ? quotient - 1 : quotient + 3}`;
+      const wrong3 = `${quotient + 2}`;
       return {
         id: `div-1d-${idx}-${dividend}`,
         number: idx,
@@ -738,7 +788,7 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
       const dividend = divisor * quotient;
       const correct = `${quotient} kali`;
       const wrong1 = `${quotient + 1} kali`;
-      const wrong2 = `${divisor} kali`;
+      const wrong2 = `${quotient > 1 ? quotient - 1 : quotient + 3} kali`;
       const wrong3 = `${quotient + 2} kali`;
       return {
         id: `div-1d-concept-${idx}`,
@@ -762,7 +812,7 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
       const correct = `${quotient}`;
       const wrong1 = `${quotient + 1}`;
       const wrong2 = `${quotient - 1}`;
-      const wrong3 = `${divisor}`;
+      const wrong3 = `${quotient + 2}`;
       return {
         id: `div-2d-basic-${idx}-${dividend}`,
         number: idx,
@@ -800,7 +850,7 @@ export const divisionGeneratorsByDigit: Record<DigitOption, QuestionGenerator[]>
       const correct = `${perPerson} butir`;
       const wrong1 = `${perPerson + 1} butir`;
       const wrong2 = `${perPerson - 1} butir`;
-      const wrong3 = `${people} butir`;
+      const wrong3 = `${perPerson + 2} butir`;
       return {
         id: `div-word-${idx}-${total}`,
         number: idx,
@@ -1217,6 +1267,34 @@ export function generateExamQuestions(
 
     const q = generator(i);
     q.number = i;
+
+    // Safety: ensure options have NO duplicates and include correctAnswer
+    const optionSet = new Set<string>();
+    const cleanOptions: string[] = [];
+    for (const opt of q.options) {
+      const clean = opt.trim();
+      if (!optionSet.has(clean)) {
+        optionSet.add(clean);
+        cleanOptions.push(clean);
+      }
+    }
+    // Ensure correct answer is in options
+    if (!optionSet.has(q.correctAnswer.trim())) {
+      cleanOptions[0] = q.correctAnswer.trim();
+      optionSet.add(q.correctAnswer.trim());
+    }
+    // Pad to 4 options if necessary
+    let pad = 1;
+    while (cleanOptions.length < 4) {
+      const fallback = `Opsi ${pad}`;
+      if (!optionSet.has(fallback)) {
+        optionSet.add(fallback);
+        cleanOptions.push(fallback);
+      }
+      pad++;
+    }
+    q.options = cleanOptions;
+
     questions.push(q);
   }
 
