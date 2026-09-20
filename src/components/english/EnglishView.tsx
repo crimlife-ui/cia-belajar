@@ -8,6 +8,7 @@ import {
   type EnglishLevelId,
 } from '../../data/englishData';
 import { Mascot } from '../mascot/Mascot';
+import { EnglishDictionaryView } from './EnglishDictionaryView';
 import {
   ArrowLeft,
   BookOpen,
@@ -18,6 +19,7 @@ import {
   Sparkles,
   Award,
   Globe,
+  BookMarked,
 } from 'lucide-react';
 
 interface EnglishViewProps {
@@ -34,6 +36,8 @@ interface EnglishViewProps {
   onFinishQuizRewards?: (stars: number, coins: number) => void;
 }
 
+type EnglishViewMode = 'study' | 'dictionary' | 'quiz';
+
 export const EnglishView: React.FC<EnglishViewProps> = ({
   onBack,
   playClick,
@@ -48,7 +52,7 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
   onFinishQuizRewards,
 }) => {
   const [selectedLevelId, setSelectedLevelId] = useState<EnglishLevelId>('basic');
-  const [viewMode, setViewMode] = useState<'study' | 'quiz'>('study');
+  const [viewMode, setViewMode] = useState<EnglishViewMode>('study');
   const [activeTopicIndex, setActiveTopicIndex] = useState(0);
 
   // Time Machine visualizer active tab
@@ -206,7 +210,7 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
         </div>
 
         {/* Mode Switcher Tabs */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => {
               playClick();
@@ -224,6 +228,22 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
           </button>
 
           <button
+            onClick={() => {
+              playClick();
+              stopSpeech();
+              setViewMode('dictionary');
+            }}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-black transition-all btn-tactile ${
+              viewMode === 'dictionary'
+                ? 'bg-emerald-600 text-white shadow-md ring-2 ring-emerald-300'
+                : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200'
+            }`}
+          >
+            <BookMarked className="w-3.5 h-3.5" />
+            <span>Kamus Cilik 📖</span>
+          </button>
+
+          <button
             onClick={handleStartQuiz}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-black transition-all btn-tactile ${
               viewMode === 'quiz'
@@ -237,8 +257,9 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
         </div>
       </div>
 
-      {/* 3 Difficulty Level Selector Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+      {/* 3 Difficulty Level Selector Cards (Only in Study & Quiz mode) */}
+      {viewMode !== 'dictionary' && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         {ENGLISH_LEVELS.map(lvl => {
           const isSelected = selectedLevelId === lvl.id;
           return (
@@ -276,7 +297,8 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
             </button>
           );
         })}
-      </div>
+        </div>
+      )}
 
       {/* ========================================================
           MODE 1: MATERI & KOSAKATA LENGKAP (STUDY MODE)
@@ -643,7 +665,19 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
       )}
 
       {/* ========================================================
-          MODE 2: KUIS TANTANGAN 10 SOAL (QUIZ ARENA)
+          MODE 2: KAMUS KOSAKATA CILIK SD KELAS 1-6 (DICTIONARY)
+      ======================================================== */}
+      {viewMode === 'dictionary' && (
+        <EnglishDictionaryView
+          playClick={playClick}
+          speak={speak}
+          stopSpeech={stopSpeech}
+          isSpeaking={isSpeaking}
+        />
+      )}
+
+      {/* ========================================================
+          MODE 3: KUIS TANTANGAN 10 SOAL (QUIZ ARENA)
       ======================================================== */}
       {viewMode === 'quiz' && (
         <div>
