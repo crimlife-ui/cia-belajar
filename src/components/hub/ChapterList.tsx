@@ -29,6 +29,8 @@ interface ChapterListProps {
   onOpenSpeedMath: () => void;
   onOpenEnglish: () => void;
   onOpenExam: () => void;
+  onOpenPkn?: () => void;
+  onOpenBahasa?: () => void;
   playClick: () => void;
   equipped: { hat?: string; glasses?: string; snack?: string };
   screenTimeRemaining?: number;
@@ -44,6 +46,8 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   onOpenSpeedMath,
   onOpenEnglish,
   onOpenExam,
+  onOpenPkn,
+  onOpenBahasa,
   playClick,
   equipped,
   screenTimeRemaining,
@@ -181,6 +185,34 @@ export const ChapterList: React.FC<ChapterListProps> = ({
             <span>English Zone 🇬🇧</span>
           </button>
 
+          {onOpenPkn && (
+            <button
+              onClick={() => {
+                playClick();
+                onOpenPkn();
+              }}
+              title="Pendidikan Pancasila & Kewarganegaraan (PKn) Kelas 3 SD"
+              className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
+            >
+              <span>🇮🇩</span>
+              <span>Modul PKn</span>
+            </button>
+          )}
+
+          {onOpenBahasa && (
+            <button
+              onClick={() => {
+                playClick();
+                onOpenBahasa();
+              }}
+              title="Bahasa Indonesia Kelas 3 SD (Buku Kawan Seiring)"
+              className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
+            >
+              <span>📚</span>
+              <span>B. Indonesia</span>
+            </button>
+          )}
+
           <button
             onClick={() => {
               playClick();
@@ -282,6 +314,30 @@ export const ChapterList: React.FC<ChapterListProps> = ({
               <Globe className="w-4 h-4" />
               <span>English Zone (Tenses & Quiz) 🇬🇧</span>
             </button>
+            {onOpenPkn && (
+              <button
+                onClick={() => {
+                  playClick();
+                  onOpenPkn();
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-black shadow-sm btn-tactile border border-rose-700"
+              >
+                <span>🇮🇩</span>
+                <span>Pendidikan Pancasila (PKn)</span>
+              </button>
+            )}
+            {onOpenBahasa && (
+              <button
+                onClick={() => {
+                  playClick();
+                  onOpenBahasa();
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black shadow-sm btn-tactile border border-blue-700"
+              >
+                <span>📚</span>
+                <span>Bahasa Indonesia (SPOK & Cerita)</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -289,10 +345,101 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <Mascot
             size="md"
             mood="happy"
-            speechText="Ayo belajar matematika & bahasa Inggris bareng Mimi!"
+            speechText="Ayo belajar matematika, PKn, bahasa Indonesia & Inggris bareng Mimi!"
             equipped={equipped}
           />
         </div>
+      </div>
+
+      {/* Showcase Grid: Semua Mata Pelajaran Kurikulum Merdeka Kelas 3 SD */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+        <button
+          onClick={() => {
+            playClick();
+            onOpenPkn?.();
+          }}
+          className="p-3.5 rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white shadow-sm border-2 border-rose-400 text-left btn-tactile group flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-2xl group-hover:scale-110 transition-transform">🇮🇩</span>
+              <span className="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-full">Baru ✨</span>
+            </div>
+            <h4 className="font-black text-xs sm:text-sm">Pendidikan Pancasila</h4>
+            <p className="text-[10px] text-rose-100 font-medium mt-0.5">
+              5 Sila, Hak & Kewajiban, Bhinneka Tunggal Ika
+            </p>
+          </div>
+          <span className="text-[10px] font-bold text-rose-200 mt-2 flex items-center gap-1">
+            Buka Modul ➔
+          </span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenBahasa?.();
+          }}
+          className="p-3.5 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-sm border-2 border-indigo-400 text-left btn-tactile group flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-2xl group-hover:scale-110 transition-transform">📚</span>
+              <span className="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-full">Baru ✨</span>
+            </div>
+            <h4 className="font-black text-xs sm:text-sm">Bahasa Indonesia</h4>
+            <p className="text-[10px] text-indigo-100 font-medium mt-0.5">
+              Struktur SPOK, Sinonim-Antonim, Pantun
+            </p>
+          </div>
+          <span className="text-[10px] font-bold text-indigo-200 mt-2 flex items-center gap-1">
+            Buka Modul ➔
+          </span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenEnglish();
+          }}
+          className="p-3.5 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white shadow-sm border-2 border-emerald-400 text-left btn-tactile group flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-2xl group-hover:scale-110 transition-transform">🇬🇧</span>
+              <span className="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-full">English</span>
+            </div>
+            <h4 className="font-black text-xs sm:text-sm">English Zone</h4>
+            <p className="text-[10px] text-emerald-100 font-medium mt-0.5">
+              Tenses, Vocabulary, Dictionary & Kuis
+            </p>
+          </div>
+          <span className="text-[10px] font-bold text-emerald-200 mt-2 flex items-center gap-1">
+            Buka Modul ➔
+          </span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenExam();
+          }}
+          className="p-3.5 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white shadow-sm border-2 border-pink-400 text-left btn-tactile group flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-2xl group-hover:scale-110 transition-transform">📝</span>
+              <span className="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-full">Ulangan</span>
+            </div>
+            <h4 className="font-black text-xs sm:text-sm">Ruang Ulangan</h4>
+            <p className="text-[10px] text-pink-100 font-medium mt-0.5">
+              20–100 Soal + Kertas Cakar Layar Penuh
+            </p>
+          </div>
+          <span className="text-[10px] font-bold text-pink-200 mt-2 flex items-center gap-1">
+            Mulai Ujian ➔
+          </span>
+        </button>
       </div>
 
       {/* Speed Math Highlight Banner */}
