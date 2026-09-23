@@ -104,15 +104,15 @@ export const ChapterList: React.FC<ChapterListProps> = ({
         <div className="flex items-center gap-2.5">
           <span className="text-3xl">🐱</span>
           <div>
-            <h1 className="font-black text-lg text-slate-900 leading-tight">Cia Math Adventure</h1>
+            <h1 className="font-black text-lg text-slate-900 leading-tight">Cia Belajar</h1>
             <span className="text-[11px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
-              Matematika Kelas 3 SD
+              Teman Pintar Kelas 3 SD • Kurikulum Merdeka
             </span>
           </div>
         </div>
 
         {/* Stats: Streak, Stars, Coins & Timer & WakeLock */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5">
           {isWakeLocked && (
             <div
               title="Layar Tetap Menyala (Layar Tidak Terkunci Otomatis Saat Cia Belajar)"
@@ -152,82 +152,6 @@ export const ChapterList: React.FC<ChapterListProps> = ({
           <button
             onClick={() => {
               playClick();
-              onOpenSpeedMath();
-            }}
-            title="Arena Hitung Cepat (+, -, ×, ÷)"
-            className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
-          >
-            <Zap className="w-3.5 h-3.5 fill-amber-950" />
-            <span>Hitung Cepat</span>
-          </button>
-
-          <button
-            onClick={() => {
-              playClick();
-              onOpenBimbelModule();
-            }}
-            title="Buku Pembahasan Materi Bimbel"
-            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Modul Bimbel</span>
-          </button>
-
-          <button
-            onClick={() => {
-              playClick();
-              onOpenEnglish();
-            }}
-            title="English Zone 🇬🇧 (Basic, Intermediate, Expert)"
-            className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
-          >
-            <Globe className="w-3.5 h-3.5" />
-            <span>English Zone 🇬🇧</span>
-          </button>
-
-          {onOpenPkn && (
-            <button
-              onClick={() => {
-                playClick();
-                onOpenPkn();
-              }}
-              title="Pendidikan Pancasila & Kewarganegaraan (PKn) Kelas 3 SD"
-              className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
-            >
-              <span>🇮🇩</span>
-              <span>Modul PKn</span>
-            </button>
-          )}
-
-          {onOpenBahasa && (
-            <button
-              onClick={() => {
-                playClick();
-                onOpenBahasa();
-              }}
-              title="Bahasa Indonesia Kelas 3 SD (Buku Kawan Seiring)"
-              className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
-            >
-              <span>📚</span>
-              <span>B. Indonesia</span>
-            </button>
-          )}
-
-          <button
-            onClick={() => {
-              playClick();
-              onOpenExam();
-            }}
-            title="Ruang Ulangan & Try Out (Pilihan 20 hingga 100 Soal + Canvas Kertas Cakar)"
-            className="flex items-center gap-1.5 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-sm btn-tactile"
-          >
-            <GraduationCap className="w-3.5 h-3.5" />
-            <span>Ruang Ulangan 📝</span>
-          </button>
-
-          <button
-            onClick={() => {
-              playClick();
               onOpenPetRoom();
             }}
             title="Buka Kamar Mimi"
@@ -241,10 +165,10 @@ export const ChapterList: React.FC<ChapterListProps> = ({
             <button
               onClick={handleInstallApp}
               title="Pasang / Install Aplikasi di HP, Tablet, atau Laptop (Bisa Diakses Seperti Aplikasi Asli)"
-              className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-3 py-1.5 rounded-2xl text-xs font-black shadow-md btn-tactile animate-pulse"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-2.5 py-1.5 rounded-2xl text-xs font-black shadow-md btn-tactile"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Install App 📲</span>
+              <span className="hidden sm:inline">Install App</span>
             </button>
           )}
 

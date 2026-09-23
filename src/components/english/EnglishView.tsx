@@ -51,7 +51,7 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
   equipped,
   onFinishQuizRewards,
 }) => {
-  const [selectedLevelId, setSelectedLevelId] = useState<EnglishLevelId>('basic');
+  const [selectedLevelId, setSelectedLevelId] = useState<EnglishLevelId>('grade3');
   const [viewMode, setViewMode] = useState<EnglishViewMode>('study');
   const [activeTopicIndex, setActiveTopicIndex] = useState(0);
 
@@ -252,16 +252,24 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
             }`}
           >
             <Award className="w-3.5 h-3.5" />
-            <span>Kuis 10 Soal</span>
+            <span>Kuis Interaktif</span>
           </button>
         </div>
       </div>
 
-      {/* 3 Difficulty Level Selector Cards (Only in Study & Quiz mode) */}
+      {/* 4 Difficulty Level Selector Cards (Only in Study & Quiz mode) */}
       {viewMode !== 'dictionary' && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-6">
         {ENGLISH_LEVELS.map(lvl => {
           const isSelected = selectedLevelId === lvl.id;
+          const badgeLabel =
+            lvl.id === 'grade3'
+              ? 'Kelas 3 SD'
+              : lvl.id === 'basic'
+              ? 'Level 1'
+              : lvl.id === 'intermediate'
+              ? 'Level 2'
+              : 'Level 3';
           return (
             <button
               key={lvl.id}
@@ -274,24 +282,24 @@ export const EnglishView: React.FC<EnglishViewProps> = ({
                   setIsQuizCompleted(false);
                 }
               }}
-              className={`p-4 rounded-3xl border-3 text-left transition-all btn-tactile relative overflow-hidden ${
+              className={`p-3 sm:p-4 rounded-3xl border-3 text-left transition-all btn-tactile relative overflow-hidden ${
                 isSelected
                   ? `${lvl.badgeColor.bg} ${lvl.badgeColor.border} ring-4 ring-indigo-300 shadow-lg scale-102`
                   : 'bg-white border-slate-200 hover:border-indigo-300 shadow-sm'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-2xl">{lvl.symbol}</span>
+                <span className="text-xl sm:text-2xl">{lvl.symbol}</span>
                 <span
-                  className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
+                  className={`text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
                     isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}
                 >
-                  {lvl.id}
+                  {badgeLabel}
                 </span>
               </div>
-              <h3 className="text-sm sm:text-base font-black text-slate-900">{lvl.name}</h3>
-              <p className="text-[11px] text-slate-600 font-semibold mt-0.5 line-clamp-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 leading-tight">{lvl.name}</h3>
+              <p className="text-[10px] sm:text-[11px] text-slate-600 font-semibold mt-0.5 line-clamp-2">
                 {lvl.tagline}
               </p>
             </button>
